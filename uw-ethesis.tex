@@ -103,9 +103,9 @@
     pdfmenubar=true,        % show Acrobat’s menu?
     pdffitwindow=false,     % window fit to page when opened
     pdfstartview={FitH},    % fits the width of the page to the window
-    pdftitle={uWaterloo\ LaTeX\ Thesis\ Template},    % title: CHANGE THIS TEXT!
-%    pdfauthor={Author},    % author: CHANGE THIS TEXT! and uncomment this line
-%    pdfsubject={Subject},  % subject: CHANGE THIS TEXT! and uncomment this line
+    pdftitle={Stylistic\ Variation\ in\ Linguistics\ using\ Disentangled\ Latent\ Spaces},    % title: CHANGE THIS TEXT!
+    pdfauthor={Vineet John},    % author: CHANGE THIS TEXT! and uncomment this line
+    pdfsubject={Natural Language Processing},  % subject: CHANGE THIS TEXT! and uncomment this line
 %    pdfkeywords={keyword1} {key2} {key3}, % list of keywords, and uncomment this line if desired
     pdfnewwindow=true,      % links in new window
     colorlinks=true,        % false: boxed links; true: colored links
@@ -219,7 +219,7 @@ description={Random vector: a location in n-dimensional Cartesian space, where e
 %----------------------------------------------------------------------
 % FRONT MATERIAL
 %----------------------------------------------------------------------
-\input{uw-ethesis-frontpgs} 
+\input{uw-ethesis-frontpgs}
 
 %----------------------------------------------------------------------
 % MAIN BODY
@@ -235,9 +235,9 @@ description={Random vector: a location in n-dimensional Cartesian space, where e
 In the beginning, there was $\pi$:
 
 \begin{equation}
-   e^{\pi i} + 1 = 0  \label{eqn_pi}
+	e^{\pi i} + 1 = 0  \label{eqn_pi}
 \end{equation}
-A \gls{computer} could compute $\pi$ all day long. In fact, subsets of digits of $\pi$'s decimal approximation would make a good source for psuedo-random vectors, \gls{rvec} . 
+A \gls{computer} could compute $\pi$ all day long. In fact, subsets of digits of $\pi$'s decimal approximation would make a good source for psuedo-random vectors, \gls{rvec} .
 
 %----------------------------------------------------------------------
 \section{State of the Art}
@@ -268,46 +268,46 @@ This would be a good place for some figures and tables.
 Some notes on figures and photographs\ldots
 
 \begin{itemize}
-\item A well-prepared PDF should be 
-  \begin{enumerate}
-    \item Of reasonable size, {\it i.e.} photos cropped and compressed.
-    \item Scalable, to allow enlargment of text and drawings. 
-  \end{enumerate} 
-\item Photos must be bit maps, and so are not scaleable by definition. TIFF and
-BMP are uncompressed formats, while JPEG is compressed. Most photos can be
-compressed without losing their illustrative value.
-\item Drawings that you make should be scalable vector graphics, \emph{not} 
-bit maps. Some scalable vector file formats are: EPS, SVG, PNG, WMF. These can
-all be converted into PNG or PDF, that pdflatex recognizes. Your drawing 
-package probably can export to one of these formats directly. Otherwise, a 
-common procedure is to print-to-file through a Postscript printer driver to 
-create a PS file, then convert that to EPS (encapsulated PS, which has a 
-bounding box to describe its exact size rather than a whole page). 
-Programs such as GSView (a Ghostscript GUI) can create both EPS and PDF from PS files.
-Appendix~\ref{AppendixA} shows how to generate properly sized Matlab plots and save them as PDF.
-\item It's important to crop your photos and draw your figures to the size that
-you want to appear in your thesis. Scaling photos with the 
-includegraphics command will cause loss of resolution. And scaling down 
-drawings may cause any text annotations to become too small.
+	\item A well-prepared PDF should be
+	      \begin{enumerate}
+		      \item Of reasonable size, {\it i.e.} photos cropped and compressed.
+		      \item Scalable, to allow enlargment of text and drawings.
+	      \end{enumerate}
+	\item Photos must be bit maps, and so are not scaleable by definition. TIFF and
+	      BMP are uncompressed formats, while JPEG is compressed. Most photos can be
+	      compressed without losing their illustrative value.
+	\item Drawings that you make should be scalable vector graphics, \emph{not}
+	      bit maps. Some scalable vector file formats are: EPS, SVG, PNG, WMF. These can
+	      all be converted into PNG or PDF, that pdflatex recognizes. Your drawing
+	      package probably can export to one of these formats directly. Otherwise, a
+	      common procedure is to print-to-file through a Postscript printer driver to
+	      create a PS file, then convert that to EPS (encapsulated PS, which has a
+	      bounding box to describe its exact size rather than a whole page).
+	      Programs such as GSView (a Ghostscript GUI) can create both EPS and PDF from PS files.
+	      Appendix~\ref{AppendixA} shows how to generate properly sized Matlab plots and save them as PDF.
+	\item It's important to crop your photos and draw your figures to the size that
+	      you want to appear in your thesis. Scaling photos with the
+	      includegraphics command will cause loss of resolution. And scaling down
+	      drawings may cause any text annotations to become too small.
 \end{itemize}
- 
-For more information on \LaTeX\, see the uWaterloo Skills for the Academic Workplace  \href{https://uwaterloo.ca/information-systems-technology/services/electronic-thesis-preparation-and-submission-support/ethesis-guide/creating-pdf-version-your-thesis/creating-pdf-files-using-latex/latex-ethesis-and-large-documents}{course notes}. 
+
+For more information on \LaTeX\, see the uWaterloo Skills for the Academic Workplace  \href{https://uwaterloo.ca/information-systems-technology/services/electronic-thesis-preparation-and-submission-support/ethesis-guide/creating-pdf-version-your-thesis/creating-pdf-files-using-latex/latex-ethesis-and-large-documents}{course notes}.
 \footnote{
-Note that while it is possible to include hyperlinks to external documents,
-it is not wise to do so, since anything you can't control may change over time. 
-It \emph{would} be appropriate and necessary to provide external links to 
-additional resources for a multimedia ``enhanced'' thesis. 
-But also note that if the \package{hyperref} package is not included, 
-as for the print-optimized option in this thesis template, any \cmmd{href} 
-commands in your logical document are no longer defined.
-A work-around employed by this thesis template is to define a dummy \cmmd{href} 
-command (which does nothing) in the preamble of the document, 
-before the \package{hyperref} package is included. 
-The dummy definition is then redifined by the
-\package{hyperref} package when it is included.
+	Note that while it is possible to include hyperlinks to external documents,
+	it is not wise to do so, since anything you can't control may change over time.
+	It \emph{would} be appropriate and necessary to provide external links to
+	additional resources for a multimedia ``enhanced'' thesis.
+	But also note that if the \package{hyperref} package is not included,
+	as for the print-optimized option in this thesis template, any \cmmd{href}
+	commands in your logical document are no longer defined.
+	A work-around employed by this thesis template is to define a dummy \cmmd{href}
+	command (which does nothing) in the preamble of the document,
+	before the \package{hyperref} package is included.
+	The dummy definition is then redifined by the
+	\package{hyperref} package when it is included.
 }
 
-The classic book by Leslie Lamport \cite{lamport.book}, author of \LaTeX , is worth a look too, and the many available add-on packages are described by 
+The classic book by Leslie Lamport \cite{lamport.book}, author of \LaTeX , is worth a look too, and the many available add-on packages are described by
 Goossens \textit{et al} \cite{goossens.book}.
 
 %----------------------------------------------------------------------
@@ -322,8 +322,8 @@ Goossens \textit{et al} \cite{goossens.book}.
 % This specifies the location of the file containing the bibliographic information.  
 % It assumes you're using BibTeX (if not, why not?).
 \cleardoublepage % This is needed if the book class is used, to place the anchor in the correct page,
-                 % because the bibliography will start on its own page.
-                 % Use \clearpage instead if the document class uses the "oneside" argument
+% because the bibliography will start on its own page.
+% Use \clearpage instead if the document class uses the "oneside" argument
 \phantomsection  % With hyperref package, enables hyperlinking from the table of contents to bibliography             
 % The following statement causes the title "References" to be used for the bibliography section:
 \renewcommand*{\bibname}{References}
@@ -354,8 +354,8 @@ Properties of Matab plots can be adjusted from the plot window via a graphical i
 
 To set the figure size and to save as PDF or other file formats, click the Export Setup button in the figure Property Editor.
 
-\section{From the Command Line} 
-All figure properties can also be manipulated from the command line. Here's an example: 
+\section{From the Command Line}
+All figure properties can also be manipulated from the command line. Here's an example:
 \begin{verbatim}
 x=[0:0.1:pi];
 hold on % Plot multiple traces on one figure
