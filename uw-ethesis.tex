@@ -204,25 +204,51 @@
 \chapter{Introduction}
 %======================================================================
 
-\section{Problem Statement}
 
 Natural Language Processing (NLP) is a sub-field of Artificial Intelligence (AI) that deals with the understanding and generation of human languages.
 
 Recently many of the statistical NLP methods are giving way to neural models to parametrize more expressive models of language. This includes machine translation, dialogue modeling, abstractive summarization, document classification etc.
 
-The problem this thesis attempts to tackle is the neural disentanglement of style and content in text to enable conditioned generation of text. This is analogous to style transfer in computer vision \cite{gatys2016image}. The formulation of the problem in the vision domain is to transfer the visual style from one image to the other, as illustrated in Figure \ref{fig:style-transfer-vision} \footnote{Images downloaded from \url{https://github.com/fzliu/style-transfer}}.
+The problem this thesis attempts to tackle is the neural disentanglement of style and content in text to enable conditioned generation of text. This is analogous to style transfer in computer vision \cite{gatys2016image}. The formulation of the problem in the vision domain is to transfer the visual style from one image to the other, as illustrated in Figure \ref{fig:style-transfer-vision} \footnote{Images downloaded from \url{https://github.com/fzliu/style-transfer}}. Stylistic transfer in text is based on a similar premise, where, given a an arbitrary body of text and a predefined style governed by a set of attributes like sentiment, emotion, tense, authorship, a new body of text can be generated such that it incorporates all of the pre-defined attributes its generation is being conditioned on.
 
-\begin{figure}[ht]
+\begin{figure}[h]
 	\centering
-	\includegraphics[width=\textwidth]{images/style-transfer-vision.png}
+	\includegraphics[width=.8\textwidth]{images/style-transfer-vision.png}
 	\caption{\label{fig:style-transfer-vision}Sample of vision style transfer. Image (a) provides the content, image (b) provides the style and image (c) is the final generated image}
 \end{figure}
 
-The problem of stylistic transfer in text is based on a similar premise, where, given a an arbitrary body of text and a predefined style governed by a set of attributes like sentiment, emotion, tense, authorship, a new body of text can be generated such that it incorporates all of the pre-defined attributes its generation is being conditioned on.
+This problem in the context of text was first introduced in 2012 \cite{xu2012paraphrasing} as a statistical model that attempted to paraphrase bodies of text in a different style using a simple replacement strategy. An few examples from this paper are shown in Table \ref{table:paraphrasing-for-style-results}. Since the overwhelming adopting of neural network based models in the language community, there have been many more works which break new ground in this area. These works will be described in detail in Section \ref{related-work-section}.
 
-This problem in the context of text was first introduced in 2012 \cite{xu2012paraphrasing} as a statistical model that attempted to paraphrase bodies of text in a different style using a simple replacement strategy. Since the overwhelming adopting of neural network based models in the language community, there have been many more works which break new ground in this area. These works will be described in detail in Section \ref{related-work-section}.
+\begin{table}[h]
+	\centering
+	\begin{tabular}{ | p{.45\linewidth} | p{.45\linewidth} | }
+		\hline
+		\textbf{Input}                                              & \textbf{Output}                                      \\
+		\hline \hline
+		i will bite thee by the ear for that jest .                 & i ’ ll bite you by the ear for that joke .           \\
+		\hline
+		what further woe conspires against mine age ?               & what ’ s true despair conspires against my old age ? \\
+		\hline
+		how doth my lady ?                                          & how is my lady ?                                     \\
+		\hline
+		hast thou slain tybalt ?                                    & have you killed tybalt ?                             \\
+		\hline
+		an i might live to see thee married once , i have my wish . & if i could live to see you married, i ’ ve my wish . \\
+		\hline
+		benvolio , who began this bloody fray ?                     & benvolio , who started this bloody fight itself ?    \\
+		\hline
+		what is your will ?                                         & what do you want ?                                   \\
+		\hline
+		call her forth to me .                                      & bring her out to me .                                \\
+		\hline
+	\end{tabular}
+	\label{table:paraphrasing-for-style-results}
+	\caption{Results of transferring authorship style from Shakespearan plays to modern english}
+\end{table}
 
-The general problem statement the thesis tackles can be stated as exploratory foray into the previous approaches used for linguistic style transfer and also provides a novel approach to solve this open problem, and juxtaposes this approach and it's experimental results against the current state-of-the-art models. 
+\section{Problem Statement}
+
+The general problem statement the thesis tackles can be stated as exploratory foray into the previous approaches used for linguistic style transfer and also provides a novel approach to solve this open problem, and juxtaposes this approach and it's experimental results against the current state-of-the-art models.
 
 %======================================================================
 \chapter{Background}
@@ -242,11 +268,11 @@ Natural Language Understanding (NLU) is another sub-field of Natural Language Pr
 
 \section{Skip-Thought Vectors}
 
-\section{Conditioned Generation of Text}
-
 %======================================================================
 \chapter{Related Work} \label{related-work-section}
 %======================================================================
+
+\section{Conditioned Generation of Text}
 
 %======================================================================
 \chapter{Challenges}
