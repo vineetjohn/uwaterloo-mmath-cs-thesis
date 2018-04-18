@@ -218,17 +218,43 @@ The problem this thesis attempts to tackle is the neural disentanglement of styl
 	\caption{\label{fig:style-transfer-vision}Sample of vision style transfer. Image (a) provides the content, image (b) provides the style and image (c) is the final generated image}
 \end{figure}
 
+The problem of stylistic transfer in text is based on a similar premise, where, given a an arbitrary body of text and a predefined style governed by a set of attributes like sentiment, emotion, tense, authorship, a new body of text can be generated such that it incorporates all of the pre-defined attributes its generation is being conditioned on.
+
+This problem in the context of text was first introduced in 2012 \cite{xu2012paraphrasing} as a statistical model that attempted to paraphrase bodies of text in a different style using a simple replacement strategy. Since the overwhelming adopting of neural network based models in the language community, there have been many more works which break new ground in this area. These works will be described in detail in Section \ref{related-work-section}.
+
+The general problem statement the thesis tackles can be stated as exploratory foray into the previous approaches used for linguistic style transfer and also provides a novel approach to solve this open problem, and juxtaposes this approach and it's experimental results against the current state-of-the-art models. 
+
 %======================================================================
-\chapter{Background and Related Work}
+\chapter{Background}
 %======================================================================
 
 \section{Natural Language Generation}
+
+Natural Language Generation (NLG) is a sub-field of Natural Language Processing that attempts to generate a sequence of words that resemble natural human languages. Traditionally, this can be done by either using production rules of a pre-defined grammar, or by performing statistical analyses of existing human-written texts to predict sequences of words based on their occurrence probabilities.
+
+\section{Natural Language Understanding}
+
+Natural Language Understanding (NLU) is another sub-field of Natural Language Processing which can be viewed as the converse of what is done in Natural Language Generation. Given a corpus of text, Natural Language Understanding is a collection of tasks that extract structured information from the text. A few examples of Natural Language Understanding tasks are sentiment analysis, emotion detection, entity-relation mapping, language comprehension etc.
 
 \section{Recurrent Neural Networks}
 
 \section{Sequence to Sequence Modeling}
 
+\section{Skip-Thought Vectors}
+
 \section{Conditioned Generation of Text}
+
+%======================================================================
+\chapter{Related Work} \label{related-work-section}
+%======================================================================
+
+%======================================================================
+\chapter{Challenges}
+%======================================================================
+
+%======================================================================
+\chapter{Methods}
+%======================================================================
 
 %======================================================================
 \chapter{Observations}
