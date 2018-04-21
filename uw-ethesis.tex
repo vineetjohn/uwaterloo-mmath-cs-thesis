@@ -264,9 +264,14 @@ Natural Language Understanding (NLU) is another sub-field of Natural Language Pr
 
 \section{Recurrent Neural Networks}
 
+Recurrent neural networks are a sub-class of artificial neural networks that can be considered a neural network equivalent to a Hidden Markov Model. Its units forms a directed graph that operates on a sequence of inputs when unrolled temporally. This makes them useful to extract features from arbitrary length sequences of input like audio or text.
+
 \section{Sequence to Sequence Modeling}
 
+This is a class of problems that models functions to map from one sequence to another. First introduced in \cite{sutskever2014sequence}, the general premise of sequence to sequence has been a flexible framework for modelling transformations made to arbitrary length sequences. In the natural language processing community, the main tasks that benefit from the encoder-decoder framework are neural machine translation, dialogue modeling, question answering for which there exists two distinct distributions of data, and the model is trained to learn the mapping from one to the other.
+
 \section{Skip-Thought Vectors}
+
 
 %======================================================================
 \chapter{Related Work} \label{related-work-section}
@@ -277,6 +282,7 @@ Natural Language Understanding (NLU) is another sub-field of Natural Language Pr
 %======================================================================
 \chapter{Challenges}
 %======================================================================
+
 
 %======================================================================
 \chapter{Methods}
