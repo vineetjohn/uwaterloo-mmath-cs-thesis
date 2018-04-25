@@ -88,6 +88,9 @@
 %\usepackage{nomencl} % For a nomenclature (optional; available from ctan.org)
 \usepackage{amsmath,amssymb,amstext} % Lots of math symbols and environments
 \usepackage[pdftex]{graphicx} % For including graphics N.B. pdftex graphics driver 
+\usepackage{natbib} % For better bibliography formatting
+\usepackage[dvipsnames]{xcolor} % Additional colors
+
 
 % Hyperlinks make it very easy to navigate an electronic document.
 % In addition, this is where you should specify the thesis title
@@ -106,11 +109,11 @@
     pdftitle={Stylistic\ Variation\ in\ Linguistics\ using\ Disentangled\ Latent\ Spaces},    % title: CHANGE THIS TEXT!
     pdfauthor={Vineet John},    % author: CHANGE THIS TEXT! and uncomment this line
     pdfsubject={Natural Language Processing},  % subject: CHANGE THIS TEXT! and uncomment this line
-%    pdfkeywords={keyword1} {key2} {key3}, % list of keywords, and uncomment this line if desired
+   	pdfkeywords={nlp} {deep-learning} {linguistic}, % list of keywords, and uncomment this line if desired
     pdfnewwindow=true,      % links in new window
     colorlinks=true,        % false: boxed links; true: colored links
     linkcolor=blue,         % color of internal links
-    citecolor=green,        % color of links to bibliography
+    citecolor=OliveGreen,        % color of links to bibliography
     filecolor=magenta,      % color of file links
     urlcolor=cyan           % color of external links
 }
@@ -209,7 +212,7 @@ Natural Language Processing (NLP) is a sub-field of Artificial Intelligence (AI)
 
 Recently many of the statistical NLP methods are giving way to neural models to parameterize more expressive models of language. This includes machine translation, dialogue modeling, abstract summarization, document classification etc.
 
-The problem this thesis attempts to tackle is the neural disentanglement of style and content in text to enable conditioned generation of text. This is analogous to style transfer in computer vision \cite{gatys2016image}. The formulation of the problem in the vision domain is to transfer the visual style from one image to the other, as illustrated in Figure \ref{fig:style-transfer-vision} \footnote{Images sourced from \url{https://github.com/fzliu/style-transfer}}. Stylistic transfer in text is based on a similar premise, where, given a an arbitrary body of text and a predefined style governed by a set of attributes like sentiment, emotion, tense, authorship, a new body of text can be generated such that it incorporates all of the pre-defined attributes its generation is being conditioned on.
+The problem this thesis attempts to tackle is the neural disentanglement of style and content in text to enable conditioned generation of text. This is analogous to style transfer in computer vision \citep{gatys2016image}. The formulation of the problem in the vision domain is to transfer the visual style from one image to the other, as illustrated in Figure \ref{fig:style-transfer-vision} \footnote{Images sourced from \url{https://github.com/fzliu/style-transfer}}. Stylistic transfer in text is based on a similar premise, where, given a an arbitrary body of text and a predefined style governed by a set of attributes like sentiment, emotion, tense, authorship, a new body of text can be generated such that it incorporates all of the pre-defined attributes its generation is being conditioned on.
 
 \begin{figure}[ht]
 	\centering
@@ -217,7 +220,7 @@ The problem this thesis attempts to tackle is the neural disentanglement of styl
 	\caption{\label{fig:style-transfer-vision}Sample of vision style transfer. Image (a) provides the content, image (b) provides the style and image (c) is the final generated image}
 \end{figure}
 
-This problem in the context of text was first introduced in 2012 \cite{xu2012paraphrasing} as a statistical model that attempted to paraphrase bodies of text in a different style using a simple replacement strategy. An few examples from this paper are shown in Table \ref{table:paraphrasing-for-style-results}. Since the overwhelming adopting of neural network based models in the language community, there have been many more works which break new ground in this area. These works will be described in detail in Section \ref{related-work-section}.
+This problem in the context of text was first introduced in 2012 \citep{xu2012paraphrasing} as a statistical model that attempted to paraphrase bodies of text in a different style using a simple replacement strategy. An few examples from this paper are shown in Table \ref{table:paraphrasing-for-style-results}. Since the overwhelming adopting of neural network based models in the language community, there have been many more works which break new ground in this area. These works will be described in detail in Section \ref{related-work-section}.
 
 \begin{table}[ht]
 	\centering
@@ -268,7 +271,7 @@ Recurrent neural networks are a sub-class of artificial neural networks that can
 
 \section{Sequence to Sequence Modeling}
 
-This is a class of problems that models functions to map from one sequence to another. First introduced in \cite{sutskever2014sequence}, the general premise of sequence to sequence has been a flexible framework for modelling transformations made to arbitrary length sequences. In the natural language processing community, the main tasks that benefit from the encoder-decoder framework are neural machine translation, dialogue modeling, question answering for which there exists two distinct distributions of data, and the model is trained to learn the mapping from one to the other.
+This is a class of problems that models functions to map from one sequence to another. First introduced in \citep{sutskever2014sequence}, the general premise of sequence to sequence has been a flexible framework for modelling transformations made to arbitrary length sequences. In the natural language processing community, the main tasks that benefit from the encoder-decoder framework are neural machine translation, dialogue modeling, question answering for which there exists two distinct distributions of data, and the model is trained to learn the mapping from one to the other.
 
 \section{Autoencoders}
 
@@ -282,7 +285,7 @@ Autoencoders are models that are parameterized to convert arbitrary data into a 
 
 By training a model to do this, two objectives can be achieved simultaneously:
 \begin{itemize}
-	\item The encoder part of the model could be used extract the most salient features of the data in a compressed representation, which is a friendlier format for downstream processing or learning algorithms. \cite{hinton2006reducing}
+	\item The encoder part of the model could be used extract the most salient features of the data in a compressed representation, which is a friendlier format for downstream processing or learning algorithms. \citep{hinton2006reducing}
 	\item The decoder part of the model could be used as a generator. Given that we can sample from the distribution of the existing latent representations learnt, or from a pre-defined prior (in a variational autoencoder), we can generate plausible novel data.
 \end{itemize}
 
@@ -291,6 +294,10 @@ In the context of natural language the encoder can be utilized as a sentence-enc
 %======================================================================
 \chapter{Related Work} \label{related-work-section}
 %======================================================================
+
+\section{Controlling Linguistic Aspects of Text Generation}
+
+In the past year, the work by \citep{hu2017toward} and \citep{ficler2017controlling} both expounded the applicability of linguistic style transfer. Both of these methods, as opposed to the historical used paraphrasing methods, utilized neural network models \citep{lecun2015deep}.
 
 
 %======================================================================
@@ -317,7 +324,7 @@ This would be a good place for some figures and tables.
 % -----------------------
 
 % The following statement selects the style to use for references.  It controls the sort order of the entries in the bibliography and also the formatting for the in-text labels.
-\bibliographystyle{plain}
+\bibliographystyle{unsrtnat}
 % This specifies the location of the file containing the bibliographic information.  
 % It assumes you're using BibTeX (if not, why not?).
 \cleardoublepage % This is needed if the book class is used, to place the anchor in the correct page,
