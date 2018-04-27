@@ -299,6 +299,13 @@ In the context of natural language the encoder can be utilized as a sentence-enc
 
 In the past year, the work by \citep{hu2017toward} and \citep{ficler2017controlling} both expounded the applicability of linguistic style transfer. Both of these methods, as opposed to the historical used paraphrasing methods, utilized neural network models \citep{lecun2015deep}.
 
+\citep{hu2017toward} use a variational autoencoder trained with the reconstruction objective and a KL-divergence minimization objective on the latent space with respect to a prior $p(z)$
+\begin{eqnarray*}
+	\mathcal{L}_{VAE}(\theta_G, \theta_E; x) &=&
+	- \mathbb{E}_{q_E(z|x)q_D(c|x)}[log p_G(x|z,c)] \\ & &
+	+ KL(q_E(z|x)||p(z))
+\end{eqnarray*}
+
 
 %======================================================================
 \chapter{Challenges}
@@ -308,6 +315,7 @@ In the past year, the work by \citep{hu2017toward} and \citep{ficler2017controll
 %======================================================================
 \chapter{Methods}
 %======================================================================
+
 
 %======================================================================
 \chapter{Observations}
