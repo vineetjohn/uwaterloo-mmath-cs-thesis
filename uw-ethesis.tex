@@ -323,6 +323,11 @@ In the past year, the work by \citep{hu2017toward} and \citep{ficler2017controll
 
 This would be a good place for some figures and tables.
 
+\section{Evaluation Metrics}
+
+\subsection{Cycle Loss}
+Cycle loss is not a good metric because while transferring from $X$ to $Y$, and back to $X'$, the variable $Y$ is not observable and if the neural network function is accidentally fitted to transform the content domain, this metric will not be able to tell the difference between an overfitted model and a good model.
+
 
 %----------------------------------------------------------------------
 % END MATERIAL
