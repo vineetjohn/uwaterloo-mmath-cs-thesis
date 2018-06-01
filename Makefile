@@ -1,5 +1,5 @@
 filename=uw-ethesis
-build-dir=build/
+build-dir=build
 
 default:
 	mkdir -p $(build-dir) && \
@@ -9,5 +9,9 @@ default:
 	pdflatex -halt-on-error -output-directory=$(build-dir) $(filename) && \
 	pdflatex -halt-on-error -output-directory=$(build-dir) $(filename)
 
+read:
+	xdg-open $(build-dir)/$(filename).pdf &> /dev/null &! 
+
 clean:
 	rm -rf ${build-dir}
+
