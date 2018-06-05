@@ -323,7 +323,7 @@ In addition to the reconstruction objective, the authors use additional discrimi
 \chapter{Challenges}
 %======================================================================
 
-\section{Quantitative evaluation of language quality}
+\section{Quantitative Evaluation of Language Quality}
 
 %======================================================================
 \chapter{Methods}
@@ -435,7 +435,7 @@ We see that the 128-dimensional content vector is not discriminative for style. 
 
 \begin{table}
 	\centering
-	\begin{tabular}{lr}
+	\begin{tabular}{| l | r |}
 		\hline
 		Random/Majority guess           & 0.5000          \\ \hline
 		Content latent space  ($\bm c$) & 0.5690          \\
@@ -470,7 +470,7 @@ Some examples of style-transfer sentence generation are illustrated in Table~\re
 
 \begin{table}[!t]
 	\centering
-	\begin{tabular}{l|rr}
+	\begin{tabular}{| l | r | r | }
 		\hline
 		\textbf{Model}                       & \textbf{Style Transfer} & \textbf{Content Preservation} \\
 		\hline
@@ -488,7 +488,7 @@ Some examples of style-transfer sentence generation are illustrated in Table~\re
 
 \begin{table}[!t]
 	\centering
-	\begin{tabular}{l|rr}
+	\begin{tabular}{| l | r | r |}
 		\hline
 		\textbf{Training Loss}                          & \textbf{Style Transfer} & \textbf{Content Preservation} \\
 		\hline
@@ -508,29 +508,28 @@ Some examples of style-transfer sentence generation are illustrated in Table~\re
 
 \begin{table}[!t]
 	\centering
-	\resizebox{\linewidth}{!}{
-		\begin{tabular}{| p{0.5\linewidth} | p{0.5\linewidth} |}
-			\hline
-			\textbf{{Original}}                                                        & \textbf{Transferred (Positive $\rightarrow$ Negative)}                    \\
-			\hline
-			\hline
-			i bought this cuisipro mister to replace my old mister last june-(number)  & i bought this a couple of times and was disappointed in this product      \\
-			\hline
-			quality is good, recevied in time and works as expected.                   & quality is good but i am returning it                                     \\
-			\hline
-			all in all, i am very happy with this headset.                             & all in all i was expecting a good product                                 \\
-			\hline
-			\hline
-			\textbf{{Original}}                                                        & \textbf{Transferred (Negative $\rightarrow$ Positive)}                    \\
-			\hline
-			\hline
-			i sent it back and requested a refund, and never got the refund.           & i sent it back and gave it a try and it works great                       \\
-			\hline
-			so i tried just one (number) piece each n still the same results.          & so i bought the two sizes and the other ones are great                    \\
-			\hline
-			i am going to buy a replacement and wish i had sent this back for a refund & i am going to go through the same time and i have been using it for years \\
-			\hline
-		\end{tabular}}
+	\begin{tabular}{| p{0.45\linewidth} | p{0.45\linewidth} |}
+		\hline
+		\textbf{{Original}}                                                        & \textbf{Transferred (Positive $\rightarrow$ Negative)}                    \\
+		\hline
+		\hline
+		i bought this cuisipro mister to replace my old mister last june-(number)  & i bought this a couple of times and was disappointed in this product      \\
+		\hline
+		quality is good, recevied in time and works as expected.                   & quality is good but i am returning it                                     \\
+		\hline
+		all in all, i am very happy with this headset.                             & all in all i was expecting a good product                                 \\
+		\hline
+		\hline
+		\textbf{{Original}}                                                        & \textbf{Transferred (Negative $\rightarrow$ Positive)}                    \\
+		\hline
+		\hline
+		i sent it back and requested a refund, and never got the refund.           & i sent it back and gave it a try and it works great                       \\
+		\hline
+		so i tried just one (number) piece each n still the same results.          & so i bought the two sizes and the other ones are great                    \\
+		\hline
+		i am going to buy a replacement and wish i had sent this back for a refund & i am going to go through the same time and i have been using it for years \\
+		\hline
+	\end{tabular}
 	\caption{Examples of style-transfer generation.}
 	\label{tab:transfer-samples}
 \end{table}
