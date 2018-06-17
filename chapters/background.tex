@@ -1,6 +1,14 @@
 \section{Natural Language Generation}
 
-Natural Language Generation (NLG) is a sub-field of Natural Language Processing that attempts to generate a sequence of words that resemble natural human languages. Traditionally, this can be done by either using production rules of a pre-defined grammar, or by performing statistical analyses of existing human-written texts to predict sequences of words based on their occurrence probabilities.
+Natural Language Generation (NLG) is a sub-field of Natural Language Processing that attempts to generate a sequence of words that resemble natural human languages. Traditionally, this can be done by either using production rules of a pre-defined grammar, or by performing statistical analyses of existing human-written texts to predict sequences of words based on their occurrence probabilities. Markov-chain text generators are an example of the latter, popularized by their usage in parody text generation \cite{jelinek1985markov}.
+
+This broad classification of problems has multiple applications include, and are not limited to:
+\begin{itemize}
+	\item Neural machine translation (NMT), in which the generation objective is to produce a semantically similar sentence in a target language
+	\item Dialogue generation, in which the objective is to produce a natural and syntactically correct response to the previous utterance.
+	\item Text summarizaton, which eliminates superfluous and non-pertinent information in a body of text, to express the idea using fewer words.
+	\item Data-to-text report generation, which utilizes structured data, sourced from a relational database format to fill in a language template
+\end{itemize}
 
 \section{Recurrent Neural Networks}
 
@@ -22,7 +30,7 @@ The most recent and useful variants of recurrent units provide the ability to re
 
 The prominent variants of recurrent units used in neural networks to extract features from sequences using a memory mechanism are Long Short-Term Memory (LSTM) units \cite{gers2001lstm} and Gated Recurrent units (GRU) \cite{chung2014empirical}.
 
-The use of recurrent networks in the
+The use of recurrent networks in the domain of natural language processing is 
 
 \section{Sequence to Sequence Modeling}
 
