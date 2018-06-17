@@ -1,0 +1,12 @@
+\section{Controlling Linguistic Aspects of Text Generation}
+
+In the past year, the work by \citep{hu2017toward} and \citep{ficler2017controlling} both expounded the applicability of linguistic style transfer. Both of these methods, as opposed to the historical used paraphrasing methods, utilized neural network models \citep{lecun2015deep}.
+
+\citep{hu2017toward} use a variational autoencoder trained with the reconstruction objective and a KL-divergence minimization objective on the latent space with respect to a prior $p(z)$, as described in the original paper by \cite{kingma2013auto}.
+\begin{eqnarray*}
+	\mathcal{L}_{VAE}(\theta_G, \theta_E; x) &=&
+	- \mathbb{E}_{q_E(z|x)q_D(c|x)}[log p_G(x|z,c)] \\ & &
+	+ KL(q_E(z|x)||p(z))
+\end{eqnarray*}
+
+In addition to the reconstruction objective, the authors use additional discriminative training signals to adapt the desired attributes of the generated text. These training signals need to be propagated back to the encoder. The encoder is a recurrent LSTM recurrent neural network that learns weights to encoded sentences into the latent feature space.
