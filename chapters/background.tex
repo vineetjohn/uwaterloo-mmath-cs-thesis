@@ -28,9 +28,16 @@ A graphical depiction of an unrolled RNN is shown in figure \ref{fig:recurrent-n
 
 The most recent and useful variants of recurrent units provide the ability to retain 'memory' of the context in which the current features are to be considered. In the domain of language processing, this typically implies that the recurrent unit has a stored memory of the previous seen words in a sequence, and this property grants it the ability to learn context as part of the feature space.
 
-The prominent variants of recurrent units used in neural networks to extract features from sequences using a memory mechanism are Long Short-Term Memory (LSTM) units \cite{gers2001lstm} and Gated Recurrent units (GRU) \cite{chung2014empirical}.
+The prominent variants of recurrent units used in neural networks to extract features from sequences using a memory mechanism, are Long Short-Term Memory (LSTM) units \citep{gers2001lstm} and Gated Recurrent units (GRU) \citep{chung2014empirical}.
 
-The use of recurrent networks in the domain of natural language processing is 
+Recurrent networks in the domain of natural language processing is used frequently for both natural language understanding (NLU) tasks, as well natural language generation (NLG) tasks. Similar to the manner in which recurrent networks can extract features from arbitrarily long sequences of vectorized text, they can also be used to produce text sequences from a unit vector representation of text, as represented in Figure \ref{fig:rnn-nmt} \footnote{Image Source: http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns/}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.8\textwidth]{images/rnn-nmt}
+	\caption{\label{fig:rnn-nmt} Recurrent Network Encoder-Decoder}
+\end{figure}
+
 
 \section{Sequence to Sequence Modeling}
 
@@ -55,8 +62,8 @@ Autoencoders are models that are parameterized to convert arbitrary data into a 
 
 By training a model to do this, two objectives can be achieved simultaneously:
 \begin{itemize}
-	\item The encoder part of the model could be used extract the most salient features of the data in a compressed representation, which is a friendlier format for downstream processing or learning algorithms. \citep{hinton2006reducing}
-	\item The decoder part of the model could be used as a generator. Given that we can sample from the distribution of the existing latent representations learnt, or from a pre-defined prior (in a variational autoencoder), we can generate plausible novel data.
+	\item The encoder weights of the model could be used extract the most salient features of the data in a compressed representation, which is a friendlier format for downstream processing or learning algorithms. \citep{hinton2006reducing}
+	\item The decoder weights of the model could be used as a generator. Given that we can sample from the distribution of the existing latent representations learnt, or from a pre-defined prior (in a variational autoencoder), we can generate plausible novel data.
 \end{itemize}
 
 In the context of natural language the encoder can be utilized as a sentence-encoding feature-extractor and the decoder can be utilized as a generative model. Autoencoders are also used for being able to de-noise data given pairs of noisy and regular data, by learning a de-noising function. These properties in general make autoencoders a good framework to implement sequence-to-sequence models with.
