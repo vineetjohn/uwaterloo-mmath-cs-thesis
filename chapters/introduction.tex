@@ -42,13 +42,13 @@ This problem in the context of text was first introduced in 2012 \citep{xu2012pa
 
 \section{Problem Statement}
 
-The problem this thesis tackles is to perform an exploratory analysis into the previous approaches used for neural disentanglement of latent spaces and their applications to linguistic style transfer.
+The problem this thesis tackles is to perform an exploratory analysis of previous methods and test novel hypotheses to obtain neural disentanglement of latent spaces and its applications to linguistic style transfer.
 
 We operate under the following constraints and assumptions in our formulation of the problem:
 
 \begin{itemize}
-	\item The model is singular, with no conditional execution based on desired attribute. i.e. there is only one decoder and the number of decoders does not scale with the number of distinct transferrable attributes.
-	\item The corpus of styles can are non-parallel i.e. for instance, there are no pairs of \texttt{$(sentence_1, sentence_2)$} for $styles \in (1, 2)$, as would be commonly seen in neural machine translation corpora.
-	\item The corpora is annotated with the current attribute possessed e.g. each sentence has a corresponding 'positive'/'negative' label if the task is to do sentiment transfer.
-	\item Optionally, a lexicon of words that are statisitically very likely to occur in each distict class label could be useful, primarily to evaluate how well content has been preserved without penalizing change in vocabulary caused by the transferring of style.
+	\item The model is singular, with no conditional execution branch based on desired attribute. i.e. there is only one decoder and the number of decoders does not scale with the number of distinct transferrable attributes.
+	\item The corpus of styles are non-parallel i.e. for instance, there are no pairs of \texttt{$(document_1, document_2)$} for $styles \in (1, 2)$, as would be commonly seen in neural machine translation corpora.
+	\item The corpora is annotated with the current attribute each document possesses e.g. each document has a corresponding 'positive'/'negative' label if the task is to do sentiment transfer.
+	\item Optionally, a lexicon of words that are statistically very likely to be associated with each distict class label would be useful, primarily to evaluate how well content has been preserved without penalizing change in vocabulary caused by the transferring of style.
 \end{itemize}
