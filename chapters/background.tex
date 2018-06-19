@@ -1,24 +1,23 @@
 \section{Natural Language Generation}
 
-Natural Language Generation (NLG) is a sub-field of Natural Language Processing that attempts to generate a sequence of words that resemble natural human languages. Traditionally, this can be done by either using production rules of a pre-defined grammar, or by performing statistical analyses of existing human-written texts to predict sequences of words based on their occurrence probabilities. Markov-chain text generators are an example of the latter, popularized by their usage in parody text generation \cite{jelinek1985markov}.
+Natural Language Generation (NLG) is a sub-field of Natural Language Processing that attempts to generate sequences of words that resemble natural human languages. Traditionally, this was done either by using production rules of a pre-defined grammar, or by performing statistical analyses of existing human-written texts to predict sequences of words based on their occurrence probabilities. Markov-chain text generators are an example of the latter, popularized by their usage in parody text generation \cite{jelinek1985markov}.
 
 This broad classification of problems has multiple applications include, and are not limited to:
 \begin{itemize}
-	\item Neural machine translation (NMT), in which the generation objective is to produce a semantically similar sentence in a target language
-	\item Dialogue generation, in which the objective is to produce a natural and syntactically correct response to the previous utterance.
+	\item Neural machine translation (NMT), in which the generation objective is to produce a semantically similar sentence in a target language, given a sentences in a source language.
+	\item Dialogue generation, in which the objective is to produce a natural and syntactically correct response to the provided utterance.
 	\item Text summarizaton, which eliminates superfluous and non-pertinent information in a body of text, to express the idea using fewer words.
-	\item Data-to-text report generation, which utilizes structured data, sourced from a relational database format to fill in a language template
+	\item Data-to-text report generation, which utilizes structured data, sourced from a relational database format to fill out a text template.
 \end{itemize}
 
 \section{Recurrent Neural Networks}
 
-Recurrent neural networks (RNNs) are a sub-class of artificial neural networks that can be considered a neural network equivalent to a Hidden Markov Model. Its units forms a directed graph that operates on a sequence of inputs when unrolled temporally. This makes them useful to extract features from arbitrary length sequences of input like audio or text. The features extracted at a given temporal point in an instance (sequence) is given by the below equation. The language model is built in such a way that the features extracted from the sequence at epoch $t$ depend on the features observed during the epochs $0 \cdots t-1$
-
+Recurrent neural networks (RNNs) are a sub-class of artificial neural networks that can be considered a neural network equivalent to a Hidden Markov Model. Its units forms a directed graph that operates on a sequence of inputs when unrolled temporally. This makes them a useful tool for extracting features from arbitrary length sequences of input like audio or text. The features extracted at a given temporal point in an instance (sequence) is given by the below equation.
 \begin{equation}
 	P(w_1, \cdots, w_T) = \prod_{i=1}^T P(w_i | w_1, \cdots, w_{i−1})
 \end{equation}
 
-A graphical depiction of an unrolled RNN is shown in figure \ref{fig:recurrent-neural-network-unfold}
+The language model is built in such a way that the features extracted from the sequence at epoch $t$ depend on the features observed during the epochs $0 \cdots t-1$. A graphical depiction of an unrolled RNN is shown in figure \ref{fig:recurrent-neural-network-unfold} \footnote{\url{https://commons.wikimedia.org/wiki/File:Recurrent_neural_network_unfold.svg}}
 
 \begin{figure}[ht]
 	\centering
@@ -26,11 +25,11 @@ A graphical depiction of an unrolled RNN is shown in figure \ref{fig:recurrent-n
 	\caption{\label{fig:recurrent-neural-network-unfold} Unrolled RNN}
 \end{figure}
 
-The most recent and useful variants of recurrent units provide the ability to retain 'memory' of the context in which the current features are to be considered. In the domain of language processing, this typically implies that the recurrent unit has a stored memory of the previous seen words in a sequence, and this property grants it the ability to learn context as part of the feature space.
+The most recent and useful variants of recurrent units provide the ability to retain `memory' of the context in which the current features are to be considered. In the domain of language processing, this typically implies that the recurrent unit has a stored memory of the previously observed words in a sequence, and this property grants it the ability to learn context as part of the feature space.
 
 The prominent variants of recurrent units used in neural networks to extract features from sequences using a memory mechanism, are Long Short-Term Memory (LSTM) units \citep{gers2001lstm} and Gated Recurrent units (GRU) \citep{chung2014empirical}.
 
-Recurrent networks in the domain of natural language processing is used frequently for both natural language understanding (NLU) tasks, as well natural language generation (NLG) tasks. Similar to the manner in which recurrent networks can extract features from arbitrarily long sequences of vectorized text, they can also be used to produce text sequences from a unit vector representation of text, as represented in Figure \ref{fig:rnn-nmt} \footnote{Image Source: http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns/}.
+Recurrent networks in the domain of natural language processing is used frequently for both natural language understanding (NLU) tasks, as well natural language generation (NLG) tasks. Similar to the manner in which recurrent networks can extract features from arbitrarily long sequences of vectorized text, they can also be used to produce text sequences from a unit vector representation of text, as represented in Figure \ref{fig:rnn-nmt} \footnote{\url{http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns/}}. This is achieved by conditioning the generation of the first word of text either on some latent variable produced by a model, or by sampling from a generative distribution, and conditioning the generation of each subsequently predicted word on the word that was predicted in the previous time-step, until the model predicts an end-of-sentence (EOS) token.
 
 \begin{figure}[ht]
 	\centering
@@ -38,21 +37,9 @@ Recurrent networks in the domain of natural language processing is used frequent
 	\caption{\label{fig:rnn-nmt} Recurrent Network Encoder-Decoder}
 \end{figure}
 
-
-\section{Sequence to Sequence Modeling}
-
-This is a class of problems that models functions to map from one sequence to another. First introduced in \citep{sutskever2014sequence}, the general premise of sequence to sequence has been a flexible framework for modelling transformations made to arbitrary length sequences. In the natural language processing community, the main tasks that benefit from the encoder-decoder framework are neural machine translation, dialogue modeling, question answering for which there exists two distinct distributions of data, and the model is trained to learn the mapping from one to the other.
-
-The paper defines a sequence-to-sequence model as on that learns the below function to map a sequence of inputs $x_1, ... , x_T$ to a sequence of outputs $y_1, ... , y_{T′}$, where the initial state $v$ is set to the hidden LSTM representation of $x_1, ... , x_T$.
-
-\begin{equation}
-	p(y_1, ... , y_{T′} | x_1, ... , x_T) =	\prod_{t=1}^T p(y_t | v, y_1, ... , y_{t−1})
-\end{equation}
-
-
 \section{Autoencoders}
 
-Autoencoders are models that are parameterized to convert arbitrary data into a latent representation (encoder), and recover the original data back from the latent representation (decoder). In this setup, the degrees of freedom for the latent representation is usually much smaller than that of the actual data. A simple autoencoder architecture is depict in Figure \ref{fig:autoencoder-structure}. \footnote{Image source: \url{https://commons.wikimedia.org/wiki/File:Autoencoder_structure.png}}
+Autoencoders are models that are parameterized to convert arbitrary data into a latent representation (encoder), and recover the original data back from the latent representation (decoder). In this setup, the degrees of freedom for the latent representation is usually much smaller than that of the actual data. A simple autoencoder architecture is depicted in Figure \ref{fig:autoencoder-structure}. \footnote{\url{https://commons.wikimedia.org/wiki/File:Autoencoder_structure.png}}
 
 \begin{figure}[ht]
 	\centering
@@ -66,4 +53,25 @@ By training a model to do this, two objectives can be achieved simultaneously:
 	\item The decoder weights of the model could be used as a generator. Given that we can sample from the distribution of the existing latent representations learnt, or from a pre-defined prior (in a variational autoencoder), we can generate plausible novel data.
 \end{itemize}
 
-In the context of natural language the encoder can be utilized as a sentence-encoding feature-extractor and the decoder can be utilized as a generative model. Autoencoders are also used for being able to de-noise data given pairs of noisy and regular data, by learning a de-noising function. These properties make autoencoders a good framework to implement sequence-to-sequence models with.
+In the context of natural language the encoder can be utilized as a sentence-encoding feature-extractor and the decoder can be utilized as a generative model. Autoencoders are also used for being able to de-noise data given pairs of noisy and regular data, by learning a de-noising function. These properties make autoencoders a good framework to utilize to implement sequence-to-sequence models, where both the encoder and decoder weights of the network are parameterized by recurrent neural networks.
+
+\todo{Variational Autoencoders}
+
+
+\section{Sequence to Sequence Modeling}
+
+Also abbreviated in the literature as Seq2Seq, this is a class of models that learns functions that map from one sequence to another. First introduced by \cite{sutskever2014sequence}, the general premise of sequence to sequence has been a flexible framework for modelling transformations made to arbitrary length sequences. In the natural language processing community, the main tasks that benefit from the encoder-decoder framework are neural machine translation, dialogue modeling, question answering for which there exists two distinct distributions of data, and the model is trained to learn the mapping from one to the other.
+
+The paper defines a sequence-to-sequence model as on that learns the below function to map a sequence of inputs $x_1, ... , x_T$ to a sequence of outputs $y_1, ... , y_{T′}$, where the initial state $h$ is set to the hidden LSTM representation of $x_1, ... , x_T$.
+
+\begin{equation}
+	p(y_1, ... , y_{T′} | x_1, ... , x_T) =	\prod_{t=1}^T p(y_t | h, y_1, ... , y_{t−1})
+\end{equation}
+
+This makes the Seq2Seq model an ideal framework using which one can implement solutions to several natural language generation tasks like neural machine translation, dialogue generation, text summarizaton etc.
+
+
+\todo{Original neural style transfer paper}
+
+
+The next chapter builds on the fundamentals established in this one, and discusses previous attempts at neural disentanglement in the context of linguistic style transfer as well as methods that do not use disentanglement as the basis of the style transfer model.
