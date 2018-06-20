@@ -62,7 +62,7 @@ In the context of natural language the encoder can be utilized as a sentence-enc
 
 \subsection{Variational Autoencoders}
 
-Variational encoders (VAEs) are a probabilistic variant of autoencoders. The general structure of a VAE is the same as that of a deterministic autoencoder, with an encoder that learns a compressed latent space and a decoder that learns a function to map the latent space into the original data. A simple VAE architecture is depicted in Figure \ref{fig:vae-structure}.
+Variational encoders (VAEs) \citep{kingma2013auto} are a probabilistic variant of autoencoders. The general structure of a VAE is the same as that of a deterministic autoencoder, with an encoder that learns a compressed latent space and a decoder that learns a function to map the latent space into the original data. A simple VAE architecture is depicted in Figure \ref{fig:vae-structure}.
 
 \begin{figure}[ht]
 	\centering
@@ -70,6 +70,16 @@ Variational encoders (VAEs) are a probabilistic variant of autoencoders. The gen
 	\imgsrc{http://mlexplained.com/2017/12/28/an-intuitive-explanation-of-variational-autoencoders-vaes-part-1}
 	\caption{\label{fig:vae-structure} VAE Architecture}
 \end{figure}
+
+In contrast to the deterministic autoencoder we observe that a variational inference networks autoencoder learns representations of both the mean and variance latent spaces. The method requires placing conjugate priors on the mean and variance of the unknown latent representation. The encoder then tries to learn the approximate posterior distribution. This family of distributions used for this purpose are Gaussian.
+
+In addition to the reconstruction loss that a deterministic autoencoder uses, a metric of distance is used to evaluate how closely between the learned representations of mean and variance resemble a Gaussian distribution with mean 0 and unit variance. The Kullback-Leibler (KL) divergence \citep{kullback1951information} is used to penalize learned representations that do not resemble the prior. However, we cannot compute the KL directly. Instead we compute an alternative objective that is equivalent to the KL upto an added constant. This is called the evidence lower-bound (ELBO). The ELBO objective minimized in a variational autoencoder model is given below:
+
+\begin{equation}
+	ELBO(q) = \mathbb{E}_{q(z)} [(\log(p(x|z))] - \mathbb{KL}(q(z)||p(z))
+\end{equation}
+
+Simultaneously, for the decoding step, we sample from the prior, utilizing the re-parameterization trick to ensure that the model remains differentiable. As a result the decoder is trained as a generative network that can randomly sample from the prior and generate plausible data similar to the input distribution. The decoder being able to act as a generative model independently is what sets a VAE apart from a generative model.
 
 \section{Sequence to Sequence Modeling}
 
@@ -83,8 +93,9 @@ The paper defines a sequence-to-sequence model as on that learns the below funct
 
 This makes the Seq2Seq model an ideal framework using which one can implement solutions to several natural language generation tasks like neural machine translation, dialogue generation, text summarizaton etc.
 
+\todo[inline]{Add original GAN paper}
 
-\todo[inline]{Add section for original neural style transfer paper}
+\todo[inline]{Add original neural style transfer paper}
 
 
 The next chapter builds on the fundamentals established in this one, and discusses previous attempts at neural disentanglement in the context of linguistic style transfer as well as methods that do not use disentanglement as the basis of the style transfer model.
