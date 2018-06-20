@@ -75,7 +75,9 @@
 \newcommand{\cmmd}[1]{\textbackslash\texttt{#1}} % command name in tt font 
 \newcommand{\href}[1]{#1} % does nothing, but defines the command so the
 \newcommand{\rmx}{\mathrm x}
-    % print-optimized version will ignore \href tags (redefined by hyperref pkg).
+\newcommand{\imgsrc}[1]{\caption*{\scriptsize{Source: \url{#1}}}}
+
+% print-optimized version will ignore \href tags (redefined by hyperref pkg).
 %\newcommand{\texorpdfstring}[2]{#1} % does nothing, but defines the command
 % Anything defined here may be redefined by packages added below...
 
@@ -94,7 +96,8 @@
 \usepackage{multirow}
 \usepackage{bm}
 \usepackage{todonotes}
-
+\usepackage{caption}
+\usepackage[hyphens]{url}
 
 % Hyperlinks make it very easy to navigate an electronic document.
 % In addition, this is where you should specify the thesis title
