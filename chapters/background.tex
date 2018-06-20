@@ -22,7 +22,7 @@ The language model is built in such a way that the features extracted from the s
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=\textwidth]{images/recurrent-neural-network-unfold}
-	\imgsrc{https://commons.wikimedia.org/wiki/File:Recurrent_neural_network_unfold.svg}
+	\imgsrc{\url{https://commons.wikimedia.org/wiki/File:Recurrent_neural_network_unfold.svg}}
 	\caption{\label{fig:recurrent-neural-network-unfold} Unrolled RNN}
 \end{figure}
 
@@ -37,7 +37,7 @@ This is achieved by conditioning the generation of the first word of text either
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=\textwidth]{images/rnn-nmt}
-	\imgsrc{http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns}
+	\imgsrc{\url{http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns}}
 	\caption{\label{fig:rnn-nmt} Recurrent Network Encoder-Decoder}
 \end{figure}
 
@@ -48,7 +48,7 @@ Autoencoders are models that are parameterized to convert arbitrary data into a 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=\textwidth]{images/autoencoder-structure}
-	\imgsrc{http://mlexplained.com/2017/12/28/an-intuitive-explanation-of-variational-autoencoders-vaes-part-1}
+	\imgsrc{\url{http://mlexplained.com/2017/12/28/an-intuitive-explanation-of-variational-autoencoders-vaes-part-1}}
 	\caption{\label{fig:autoencoder-structure} Autoencoder Architecture}
 \end{figure}
 
@@ -67,13 +67,13 @@ Variational encoders (VAEs) \citep{kingma2013auto} are a probabilistic variant o
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=\textwidth]{images/vae-structure}
-	\imgsrc{http://mlexplained.com/2017/12/28/an-intuitive-explanation-of-variational-autoencoders-vaes-part-1}
+	\imgsrc{\url{http://mlexplained.com/2017/12/28/an-intuitive-explanation-of-variational-autoencoders-vaes-part-1}}
 	\caption{\label{fig:vae-structure} VAE Architecture}
 \end{figure}
 
 In contrast to the deterministic autoencoder we observe that a variational inference networks autoencoder learns representations of both the mean and variance latent spaces. The method requires placing conjugate priors on the mean and variance of the unknown latent representation. The encoder then tries to learn the approximate posterior distribution. This family of distributions used for this purpose are Gaussian.
 
-In addition to the reconstruction loss that a deterministic autoencoder uses, a metric of distance is used to evaluate how closely between the learned representations of mean and variance resemble a Gaussian distribution with mean 0 and unit variance. The Kullback-Leibler (KL) divergence \citep{kullback1951information} is used to penalize learned representations that do not resemble the prior. However, we cannot compute the KL directly. Instead we compute an alternative objective that is equivalent to the KL upto an added constant. This is called the evidence lower-bound (ELBO). The ELBO objective minimized in a variational autoencoder model is given below:
+In addition to the reconstruction loss that a deterministic autoencoder uses, a metric of distance is used to evaluate how closely between the learned representations of mean and variance resemble a Gaussian distribution with mean 0 and unit variance. The Kullback-Leibler (KL) divergence \citep{kullback1951information} is used to penalize learned representations that do not resemble the prior. However, we cannot compute the KL directly. Instead we compute an alternative objective that is equivalent to the KL upto an added constant. This is called the evidence lower-bound (ELBO). The ELBO objective maximized in a variational autoencoder model is given below:
 
 \begin{equation}
 	ELBO(q) = \mathbb{E}_{q(z)} [(\log(p(x|z))] - \mathbb{KL}(q(z)||p(z))
@@ -93,9 +93,45 @@ The paper defines a sequence-to-sequence model as on that learns the below funct
 
 This makes the Seq2Seq model an ideal framework using which one can implement solutions to several natural language generation tasks like neural machine translation, dialogue generation, text summarizaton etc.
 
-\todo[inline]{Add original GAN paper}
+\section{Adversarial Networks}
 
-\todo[inline]{Add original neural style transfer paper}
+\cite{goodfellow2014generative} present a new model that utilizes the idea of a game-theoretic competition between the generative model which is a decoder, and a discriminative model which is usually a classifier or regressor. The general idea is to train the adversary to be able to discriminate between the distributions that the generator model is trying to produce and a true distribution, that it the generator trying to mimic.
 
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/gans}
+	\imgsrc{\url{https://deeplearning4j.org/generative-adversarial-network}}
+	\caption{\label{fig:gans} GAN Architecture}
+\end{figure}
+
+In the original formulation of adversarial training, which involves using a binary classifier, the generator learns weights to map a randomly initialized latent variable $z$ to a data distribution $x$ that it is unaware of. The discriminator is trained using the true distribution and samples generated by the generative model, and it's objective is to discriminate the true samples from the generated samples. The generator on the other hand, attempts to maximize the discriminator's classification error, thereby producing plausible samples that mimic the true distribution.
+
+This property of the generator model parameters possess, of translating random noise into plausible data samples are used in areas of research within computer vision and natural language processing to produce novel data. Also adversarial learning as a principle is a great tool to ensure that known partial information present in the latent space is disentangled from any arbitrarily chosen sub-space.
+
+We utilize adversarial learning in our model to assist with the disentanglement of style labels.
+
+
+\section{Image Style Transfer}
+
+The idea of neural style transfer in the was originally proposed by \cite{gatys2016image}. In the task described in the paper, the authors use two distinct images as input. The first image contributes the content, and the second contributes the style. The objective is to generate a final image that contains all of the physical objects visible in the first image, but depicted by the style (hue, brush strokes, texture etc.) visible in the second.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/image-style-transfer.png}
+	\imgsrc{\cite{gatys2016image}}
+	\caption{\label{fig:image-style-transfer} Artistic Style Transfer in Images}
+\end{figure}
+
+The features, as with most of the state-of-the-art image processing techniques, are extracted from the images using Convolutional Neural Networks (CNNs) \citep{lecun1998gradient}, the deep neural network variants of which have been widely successful at image recognition tasks such as object recognition in the ImageNet data-set \cite{krizhevsky2012imagenet}.
+
+As depicted in Figure \ref{fig:image-style-transfer}, subsequent layers of the CNN learn incrementally higher level features in both the style image and the content image. These learned features for the style and content images are stored for uture use. To generate the final image, the authors begin with a random white noise image. This image is passed through both networks, the parameters of which extract both it's style features and it's content features.
+
+This model uses two training objectives:
+\begin{itemize}
+	\item Minimize the the element-wise mean squared difference between the style features computed for the style image and the white-noise image
+	\item Minimize the the mean squared difference between the content features of the content image and the white noise image, as shown in the below equations.
+\end{itemize}
+
+The overall training loss is a linear combination of the above objectives, and is used to iteratively modify the white-noise image until it the style features of the style image and the content features of the content image.
 
 The next chapter builds on the fundamentals established in this one, and discusses previous attempts at neural disentanglement in the context of linguistic style transfer as well as methods that do not use disentanglement as the basis of the style transfer model.
