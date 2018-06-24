@@ -1,8 +1,6 @@
 filename=uw-ethesis
 build-dir=build
 
-.PHONY: build read clean
-
 build:
 	mkdir -p $(build-dir) && \
 	pdflatex -halt-on-error -output-directory=$(build-dir) $(filename) && \
@@ -12,7 +10,7 @@ build:
 	pdflatex -halt-on-error -output-directory=$(build-dir) $(filename)
 
 read: build
-	xdg-open $(build-dir)/$(filename).pdf &> /dev/null &! 
+	xdg-open $(build-dir)/$(filename).pdf &> /dev/null 
 
 clean:
 	rm -rf ${build-dir}
