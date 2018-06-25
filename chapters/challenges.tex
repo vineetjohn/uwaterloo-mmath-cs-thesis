@@ -1,1 +1,20 @@
+\section{Non-interpretable Latent Representations}
+
+The randomness and inscrutability of the learning processes in neural networks has prompted research into learning interpretable representations \citep{chen2016infogan}.
+
+Although neural networks have proved to be highly capable function approximators in the general machine intelligence literature over the past couple of decades, without any explicit additional modeling, the weights of a neural network are learnt in an arbitrary manner to approximate a function modeled by a user-defined loss variable.
+
+Due to this non-explainability of the weights of neural networks, they have been used as a black-box in practice, and the non-explainability hampers their adoption in use-cases required explicit audits and accountability, and for humans to reason about why a system chose a particular outcome over the other options available.
+
+We believe that the disentanglement of the learned weights of a neural network are an important step in the direction of addressing this shortcoming, using available labels to force representation learning to adhere to a pre-defined separation scheme in the latent space.
+
+
 \section{Quantitative Evaluation of Language Quality}
+
+The evaluation of novel generated text to measure its perceived quality, naturalness, fluency and compliance with predefined attributes, like sentiment, tense etc.
+
+For the presence of a certain attribute, it is fairly simple to devise a classification model that is trained on a large corpora of samples labeled as such.
+
+However it is much more difficult to unambiguously state what makes a body of text more fluent or natural that another with mathematical rigor using quantitative metrics.
+
+To offset this problem while stilling avoiding the need for human annotators to evaluate the target text, we have utilized techniques like sentences embedding similarity, augmented by the removal of words that highly correlate with any specific label, as proposed by the previous work by \cite{fu2017style}. This is described further in section \ref{content-preservation-metric} of the Experiments chapter.
