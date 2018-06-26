@@ -10,6 +10,8 @@ This broad classification of problems has multiple applications include, and are
 	\item Data-to-text report generation, which utilizes structured data, sourced from a relational database format to fill out a text template.
 \end{itemize}
 
+\todo[inline]{Add section about multi-layer perceptrons}
+
 \section{Recurrent Neural Networks}
 
 Recurrent neural networks (RNNs) are a sub-class of artificial neural networks that can be considered a neural network equivalent to a Hidden Markov Model. Its units forms a directed graph that operates on a sequence of inputs when unrolled temporally. This makes them a useful tool for extracting features from arbitrary length sequences of input like audio or text. The features extracted at a given temporal point in an instance (sequence) is given by the below equation.
@@ -82,6 +84,8 @@ In addition to the reconstruction loss that a deterministic autoencoder uses, a 
 \end{equation}
 
 Simultaneously, for the decoding step, we sample from the prior, utilizing the re-parameterization trick to ensure that the model remains differentiable. As a result the decoder is trained as a generative network that can randomly sample from the prior and generate plausible data similar to the input distribution. The decoder being able to act as a generative model independently is what sets a VAE apart from a generative model.
+
+\todo[inline]{Add section about word embeddings}
 
 \section{Sequence to Sequence Modeling}
 
