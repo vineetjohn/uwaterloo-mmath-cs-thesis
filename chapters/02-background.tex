@@ -10,7 +10,30 @@ This broad classification of problems has multiple applications include, and are
 	\item Data-to-text report generation, which utilizes structured data, sourced from a relational database format to fill out a text template.
 \end{itemize}
 
-\todo[inline]{Add section about multi-layer perceptrons}
+
+\section{Multi-Layer Perceptrons}
+
+Multi-layer perceptrons (MLP) are widely used in the neural network literature as the simplest vanilla aritificial neural network. An MLP typically comprises of one or more hidden layers that learn intermediate representations before producing an output layer. A simple MLP classification architecture for MNIST digits \citep{lecun2010mnist} \citep{deng2012mnist} is depicted in Figure \ref{fig:mlp-network}. The network is represented as a directed graph containing nodes and edges, where each node represents a neuron and each edge represents a learned weight. In this example, the weight between two successive layers are densely interconnected, and given a layer of $m$ nodes and a subsequent layer of $n$ nodes that are densely connected, we require $m*n$ edges/weights to connect these two node layers together.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/mlp-network}
+	\imgsrc{\url{http://corochann.com/mnist-training-with-multi-layer-perceptron-1149.html}}
+	\caption{\label{fig:mlp-network} Multi-Layer Perceptron}
+\end{figure}
+
+In terms of function approximation, a multilayer perceptron can be thought of as nested function calls on the input $x$. For example if the intermediate layers approximate the functions $f_1$ and $f_2$ and the output layer approximated the function $f_3$ in the example presented in Figure \ref{fig:mlp-network}, we can say that the relation of the output distribution $y$ compared to the features in the input image $x$ would be described as $y = f_3(f_2(f_1(x)))$. The backpropagation of the objective loss-function over the weights of the network is achieved by the chain-rule to compute the gradients using the derivative of the composite function used to compute the output layer \citep{lecun1989backpropagation}.
+
+\begin{equation}
+    P(y=j \mid \mathbf{x}) = \frac{e^{\mathbf{x}^\mathsf{T}\mathbf{w}_j}}{\sum_{k=1}^K e^{\mathbf{x}^\mathsf{T}\mathbf{w}_k}}
+\end{equation}
+
+The activation functions applied at each layer could either be linear or non-linear. The most popularly used non-linearities for the activation functions are sigmoid, tanh, ReLU etc, which are typically used in the intermediate layers of the network. In the case of multi-label prediction problems, the output layer is typically a softmax distribution over the possible output classes. The softmax activation is simply the binary logistic regression classifier that generalizes to multiple classes, since the output of the softmax function can be used to represent a categorical distribution.
+
+An MLP classifier is trained by minimizing a cross-entropy loss between the predicted softmax distribution $y$ and the true distribution $y'$.
+\begin{equation}
+    \mathcal{H}_{y'} (y) := - \sum_{i} y_{i}' \log (y_i) 
+\end{equation}
 
 \section{Recurrent Neural Networks}
 
