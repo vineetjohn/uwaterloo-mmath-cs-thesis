@@ -1,11 +1,22 @@
 \section{Evaluation Metrics}
 
+\todo[inline]{Add description of all the evaluation metrics used}
+
+\subsection{Transfer Strength}
+
 \subsection{Content Preservation} \label{ssec:content-preservation-metric}
+
+The content preservation metric used by \cite{fu2017style} is repurposed by our work to judge content preservation of the generated sentences compared to the original. This metric is needed to ensure that the generated sentence doesn't talk about subjects entirely different from the original sentence.
+
+\todo[inline]{Insert a few instances of poor content preservation}
+
+As seen in the examples above, it is easy to optimize for a style-transfer objective as long as there are no constraints on the content preservation regularization. To ensure this does not happen, we typically use a much larger content latent space than style latent space.
+
+\subsection{Word Overlap}
 
 \subsection{Cycle Loss}
 
 Cycle loss is not a good metric because while transferring from $X$ to $Y$, and back to $X'$, the variable $Y$ is not observable and if the neural network function is accidentally fitted to transform the content domain, this metric will not be able to tell the difference between an over-fit model and a good model.
-
 
 \section{Experiment Results}
 
@@ -60,9 +71,9 @@ Some examples of style-transfer sentence generation are illustrated in Table~\re
 		\textbf{Model}                       & \textbf{Style Transfer} & \textbf{Content Preservation} \\
 		\hline
 		\hline
-		Cross-alignment \cite{shen2017style} & 0.4609                  & 0.8830                        \\
+		Cross-alignment \citep{shen2017style} & 0.4609                  & 0.8830                        \\
 		\hline
-		Sentiment embed. \cite{fu2017style}  & 0.4009                  & 0.9246                        \\
+		Sentiment embed. \citep{fu2017style}  & 0.4009                  & 0.9246                        \\
 		\hline
 		Ours                                 & 0.7708                  & 0.8958                        \\
 		\hline
@@ -70,6 +81,9 @@ Some examples of style-transfer sentence generation are illustrated in Table~\re
 	\caption{Comparison with previous approaches.}
 	\label{tab:comparison-previous}
 \end{table}
+
+
+\todo[inline]{Update ablation tests table with latest results}
 
 \begin{table}[!t]
 	\centering
@@ -90,6 +104,9 @@ Some examples of style-transfer sentence generation are illustrated in Table~\re
 	\caption{Ablation test.}
 	\label{tab:ablation-results}
 \end{table}
+
+
+\todo[inline]{Update text samples table with latest results}
 
 \begin{table}[!t]
 	\centering
@@ -118,3 +135,9 @@ Some examples of style-transfer sentence generation are illustrated in Table~\re
 	\caption{Examples of style-transfer generation.}
 	\label{tab:transfer-samples}
 \end{table}
+
+
+\todo[inline]{Add gradually evolving plots of style and content}
+
+\todo[inline]{Juxtapose plots of DAE vs VAE to demonstrate smoothness}
+
