@@ -13,27 +13,37 @@ A classifier/regressor discriminator predicts the structured code of the output 
 Each decoder step in $\hat{x}$ is predicted using a softmax function scaled by a temperature $\tau$. Higher temperatures flatten the softmax distribution for each word prediction and increase word diversity. Conversely, setting $\tau = 0$ will resemble a discrete probability distribution over the corpus vocabulary. For their experiments, the authors gradually anneal $\tau \rightarrow 0$
 
 The authors describe the following objectives to train their model:
-\begin{itemize}
-	\item A reconstruction loss that ensures that the generated sentence $\hat{x}$ is the same as the original sentence $x$. This is equivalent to minimizing the negative log-likelihood of generating $\hat{x}$. This is shown in Equation \ref{eqn:tcg-rec}
-	      \begin{eqnarray} \label{eqn:tcg-rec}
-		      \mathcal{L}_{VAE}(\theta_G, \theta_E; x) &=& \nonumber
-		      - \mathbb{E}_{q_E(z|x)q_D(c|x)}[log p_G(x|z,c)] \\ & &
-		      + KL(q_E(z|x)||p(z))
-	      \end{eqnarray}
-	\item A discriminator validates if the predicted class/value for $\hat{x}$ is the same as the corresponding class/label for $x$. This is a cross-entropy loss over the probability distribution of the labels. This discriminator loss can be further subdivided into 2 terms, one that maximizes the log likelihood of predicting the correct class as in Equation \ref{eqn:tcg-disc-class}, and one that minimizes the empirically observed Shannon entropy of the predicted distribution, thereby incentivizing confident predictions, as in Equation \ref{eqn:tcg-disc-ent}.
-	      \begin{equation} \label{eqn:tcg-disc-class}
-		      \mathcal{L}_s(\theta_D) = - \mathbb{E}_{X_L}[log q_D(c_L|x_L)]
-	      \end{equation}
-	      \begin{equation} \label{eqn:tcg-disc-ent}
-		      \mathcal{L}_u(\theta_D) = - \mathbb{E}_{p_G(\hat{x}|z,c)p(z)p(c)}
-		      [log q_D(c|\hat{x}) + \beta \mathcal{H}(q_D(c'|\hat{x}))]
-	      \end{equation}
-	\item The encoder from loss 1, is used to regenerate the latent distribution $z$ devoid of the structured code from the output distribution $\hat{x}$. The authors call this an \textbf{independence constraint}, in that regardless of the structured code $c$ that is currently present in either $x$ or $\hat{x}$, processing either through the generator should produce a consistent $z$. This allows the encoder to encode only latent factors that are independent of the structured code. This is shown in Equation \ref{eqn:tcg-ind-con}
-	      \begin{equation} \label{eqn:tcg-ind-con}
-		      \mathcal{L}_{attr, z}(\theta_G) = - \mathbb{E}_{p(z)p(c)}
-		      [log q_E(z|\tilde{G_{\tau}}(z,c))]
-	      \end{equation}
-\end{itemize}
+
+\subsection{Variational Autoencoder}
+
+A reconstruction loss that ensures that the generated sentence $\hat{x}$ is the same as the original sentence $x$. This is equivalent to minimizing the negative log-likelihood of generating $\hat{x}$. This is shown in Equation \ref{eqn:tcg-rec}
+\begin{eqnarray} \label{eqn:tcg-rec}
+	\mathcal{L}_{VAE}(\theta_G, \theta_E; x) &=& \nonumber
+	- \mathbb{E}_{q_E(z|x)q_D(c|x)}[log p_G(x|z,c)] \\ & &
+	+ KL(q_E(z|x)||p(z))
+\end{eqnarray}
+
+
+\subsection{Style Discriminator}
+
+A discriminator validates if the predicted class/value for $\hat{x}$ is the same as the corresponding class/label for $x$. This is a cross-entropy loss over the probability distribution of the labels. This discriminator loss can be further subdivided into 2 terms, one that maximizes the log likelihood of predicting the correct class as in Equation \ref{eqn:tcg-disc-class}, and one that minimizes the empirically observed Shannon entropy of the predicted distribution, thereby incentivizing confident predictions, as in Equation \ref{eqn:tcg-disc-ent}.
+\begin{equation} \label{eqn:tcg-disc-class}
+	\mathcal{L}_s(\theta_D) = - \mathbb{E}_{X_L}[log q_D(c_L|x_L)]
+\end{equation}
+\begin{equation} \label{eqn:tcg-disc-ent}
+	\mathcal{L}_u(\theta_D) = - \mathbb{E}_{p_G(\hat{x}|z,c)p(z)p(c)}
+	[log q_D(c|\hat{x}) + \beta \mathcal{H}(q_D(c'|\hat{x}))]
+\end{equation}
+
+
+\subsection{Content Discriminator}
+
+The encoder from loss equation \ref{eqn:tcg-rec}, is used to regenerate the latent distribution $z$ devoid of the structured code from the output distribution $\hat{x}$. The authors call this an \textbf{independence constraint}, in that regardless of the structured code $c$ that is currently present in either $x$ or $\hat{x}$, processing either through the generator should produce a consistent $z$. This allows the encoder to encode only latent factors that are independent of the structured code. This is shown in Equation \ref{eqn:tcg-ind-con}.
+\begin{equation} \label{eqn:tcg-ind-con}
+	\mathcal{L}_{attr, z}(\theta_G) = - \mathbb{E}_{p(z)p(c)}
+	[log q_E(z|\tilde{G_{\tau}}(z,c))]
+\end{equation}
+
 
 They maximize the expected log likelihood of predicting the correct distribution of the structured code $c$ given the labelled examples $X_L$. This happens before the generator model training. They also maximize the expected log likelihood of predicting the correct distribution of the structured code $c$ given the generated sentences $\hat{x}$. Also minimize the empirically observed Shannon entropy of the observed discriminator prediction $q_D(c'|\hat{x})$, which reduces uncertainty and increases confidence of the structured code prediction. A wake-sleep algorithm \citep{hinton1995wake} is used to alternatively train the generator and discriminator.
 
@@ -132,5 +142,4 @@ The methods are evaluated in the following manner:
 
 Several other works have also been published in this domain recently including using cyclical translation to strip style as a pre-processing step, followed by a multi-decoder model to generate style-transferred sentences \citep{prabhumoye2018style},
 
-\todo[inline]{Add additional related work in CV/NLP}
-
+\todo[inline]{Add related work in CV/NLP}
