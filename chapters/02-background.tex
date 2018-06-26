@@ -76,11 +76,11 @@ LSTMs, as described first by \cite{hochreiter1997long}, seek to address this iss
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=\textwidth]{images/lstm}
-	\imgsrc{\url{https://colah.github.io/posts/2015-08-Understanding-LSTMs}}
+	\imgsrc{\url{https://isaacchanghau.github.io/post/lstm-gru-formula}}
 	\caption{\label{fig:lstm} Long Short-Term Memory Unit}
 \end{figure}
 
-The structure of an LSTM is depicted in Figure \ref{fig:lstm}. An LSTM is comprised of four distinct gating layers internally, namely the forget gate, input gate and output gate, that determine its outputs - the new cell state and hidden state. As can be seen in Figure \ref{fig:lstm}, the cell state $C_t$ passes through the LSTM mostly unperturbed, which attempts to address the problem of vanishing gradients \citep{hochreiter1998vanishing}.
+The structure of an LSTM is depicted in Figure \ref{fig:lstm}. An LSTM is comprised of four distinct gating layers internally, namely the forget gate, input gate and output gate, that determine its outputs - the new cell state and hidden state. As can be seen in Figure \ref{fig:lstm}, the cell state $C_t$ passes through the LSTM mostly unperturbed, which attempts to address the problem of vanishing gradients \citep{hochreiter1999vanishing}.
 
 The forget gate uses a sigmoid activation to squash the values of the output of the previous time-step between 0 and 1, which can be understood as semantically equivalent to deciding how much of the previous cell state to forget. 
 \begin{equation*}
@@ -104,9 +104,20 @@ Now that we have obtained the cell state, we propagate that through to the next 
     h_t &=& \tanh(C_t)
 \end{eqnarray*}
 
-The efficacy of LSTM-backed RNNs is evident from the prevalence of its usage in language modeling literature \citep{sundermeyer2012lstm,gers2001lstm,graves2005framewise}.
+The efficacy of LSTM-backed RNNs is evident from the prevalence of its usage in language modeling literature \citep{sundermeyer2012lstm,gers2001lstm,graves2005framewise} \footnote{https://karpathy.github.io/2015/05/21/rnn-effectiveness}.
 
 \subsection{Gated Recurrent Units (GRU)}
+
+Gated Recurrent units \citep{cho2014learning} are similar to LSTMs in that they possess gating mechanisms to assist with long-term dependency learning. It varies in a few aspects like the merging of the input and forget gates into a single update gate. It also merges cell state and hidden state, emitting only a single output vector after the computations within the cell. Figure \ref{fig:gru} depicts the internal GRU states and gates.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/gru}
+	\imgsrc{\url{https://isaacchanghau.github.io/post/lstm-gru-formula}}
+	\caption{\label{fig:gru} Gated Recurrent Unit}
+\end{figure}
+
+GRUs are a lot simpler to work with in practice due to their having only a single output and have been used interchangeably with LSTMs as memory units for recurrent neural networks \citep{chung2015gated}.
 
 
 \section{Autoencoders}
@@ -149,7 +160,9 @@ In addition to the reconstruction loss that a deterministic autoencoder uses, a 
 
 Simultaneously, for the decoding step, we sample from the prior, utilizing the re-parameterization trick to ensure that the model remains differentiable. As a result the decoder is trained as a generative network that can randomly sample from the prior and generate plausible data similar to the input distribution. The decoder being able to act as a generative model independently is what sets a VAE apart from a generative model.
 
-\todo[inline]{Add section about word embeddings}
+
+\section{Word Embeddings}
+
 
 \section{Sequence to Sequence Modeling}
 
