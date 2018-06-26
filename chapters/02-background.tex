@@ -32,7 +32,7 @@ The activation functions applied at each layer could either be linear or non-lin
 
 An MLP classifier is trained by minimizing a cross-entropy loss between the predicted softmax distribution $y$ and the true distribution $y'$.
 \begin{equation}
-    \mathcal{H}_{y'} (y) := - \sum_{i} y_{i}' \log (y_i) 
+    \mathcal{H}_{y'} (y) := - \sum_{i}^K y_{i}' \log (y_i) 
 \end{equation}
 
 \section{Recurrent Neural Networks}
@@ -66,7 +66,48 @@ This is achieved by conditioning the generation of the first word of text either
 	\caption{\label{fig:rnn-nmt} Recurrent Network Encoder-Decoder}
 \end{figure}
 
-\todo[inline]{Add note about LSTM/GRU memory units}
+
+\subsection{Long Short-Term Memory (LSTM)}
+
+As described in above, recurrent neural networks (RNN) learn representations of the data over temporal sequences, like text or audio features. However, in practice, RNNs don't seem to be able to assign priorities to which of the past data it chooses to ascribe a higher importance to. In natural language processing tasks, like lengthy bodies of text and audio/video sequences. This lack of ability to learn long-term dependencies in the input features is shown in previous work by \cite{bengio1994learning}. 
+
+LSTMs, as described first by \cite{hochreiter1997long}, seek to address this issue by explicitly modeling how much to retain and forget at each time-step during the RNN's training routine.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/lstm}
+	\imgsrc{\url{https://colah.github.io/posts/2015-08-Understanding-LSTMs}}
+	\caption{\label{fig:lstm} Long Short-Term Memory Unit}
+\end{figure}
+
+The structure of an LSTM is depicted in Figure \ref{fig:lstm}. An LSTM is comprised of four distinct gating layers internally, namely the forget gate, input gate and output gate, that determine its outputs - the new cell state and hidden state. As can be seen in Figure \ref{fig:lstm}, the cell state $C_t$ passes through the LSTM mostly unperturbed, which attempts to address the problem of vanishing gradients \citep{hochreiter1998vanishing}.
+
+The forget gate uses a sigmoid activation to squash the values of the output of the previous time-step between 0 and 1, which can be understood as semantically equivalent to deciding how much of the previous cell state to forget. 
+\begin{equation*}
+    f_t = \sigma(W_f*[h_{t-1}, x_t] + b_f)
+\end{equation*}
+
+The input gate also uses a sigmoid activation on the previous hidden state, which is multiplied by the candidate cell state $\hat{C_t}$. 
+\begin{equation*}
+    i_t = \sigma(W_i*[h_{t-1}, x_t] + b_i)
+\end{equation*}
+
+This value is multiplied by the forget-gated previous cell state to form the next cell state.
+\begin{eqnarray*}
+    \hat{C_t} &=& \tanh(W_c*[h_{t-1}, x_t] + b_c) \\
+    C_t &=& f_t * C_{t-1} + i_t * \hat{C_t}
+\end{eqnarray*}
+
+Now that we have obtained the cell state, we propagate that through to the next time-step. To obtain the hidden state, we use an output gate, again with a sigmoid activation, to gate the cell-state and create the hidden-state for the next time-step.
+\begin{eqnarray*}
+    o_t &=& \sigma(W_o*[h_{t-1}, x_t] + b_o) \\
+    h_t &=& \tanh(C_t)
+\end{eqnarray*}
+
+The efficacy of LSTM-backed RNNs is evident from the prevalence of its usage in language modeling literature \citep{sundermeyer2012lstm,gers2001lstm,graves2005framewise}.
+
+\subsection{Gated Recurrent Units (GRU)}
+
 
 \section{Autoencoders}
 
