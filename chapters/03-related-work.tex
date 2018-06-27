@@ -20,7 +20,7 @@ mutual information between a fixed small subset of the GAN's noise variables and
 
 In the vanilla formulation of the GAN, the decoder might well chose to ignore these additional latent variables provided by minimizing the magnitude of the parameters learned between the additional latent variable and a generated sample. To avoid this, the authors propose an information maximization objective as an auxillary training objective to the GAN objective.
 
-Using this approach, the authors are able to generate MNIST digits in various handwriting styles by changing the continuous variables, and change the numerical value represented in the generated image by changing the categorical variable, as shown in Figure \ref{fig:images/infogan-digits}. Here $c_1$ represents the categorical variable discussed above and $c_2, c_3$ represent continuous variables.
+Using this approach, the authors are able to generate MNIST digits in various handwriting styles by changing the continuous variables, and change the numerical value represented in the generated image by changing the categorical variable, as shown in Figure \ref{fig:images/infogan-digits}. Here $c_1$ represents the categorical variable discussed above and $c_2, c_3$ represent continuous variables. They also test this method on faces \citep{liu2015deep,paysan20093d} and chairs \citep{aubry2014seeing}.
 
 \begin{figure}[ht]
 	\centering
@@ -170,5 +170,7 @@ The methods are evaluated in the following manner:
 \end{itemize}
 
 
-Several other works have also been published in this domain recently including using cyclical translation to strip style as a pre-processing step, followed by a multi-decoder model to generate style-transferred sentences \citep{prabhumoye2018style},
+Several other works have also been published in this domain recently including: using cyclical translation to strip style as a pre-processing step, followed by a multi-decoder model to generate style-transferred sentences \citep{prabhumoye2018style}, conditioned RNN decoding with a set of tunable attributes \citep{ficler2017controlling}, using maximum-mean discrepancy metrics to separate common and discriminative factors in distinct source corpora \citep{larsson2017disentangled} etc.
 
+
+In the next chapter we describe the method used to learn attribute disentangled representations and provide details of the necessary objective and regularizations used in the our model.
