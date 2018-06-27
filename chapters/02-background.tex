@@ -13,7 +13,7 @@ This broad classification of problems has multiple applications include, and are
 
 \section{Multi-Layer Perceptrons}
 
-Multi-layer perceptrons (MLP) are widely used in the neural network literature as the simplest vanilla aritificial neural network. An MLP typically comprises of one or more hidden layers that learn intermediate representations before producing an output layer. A simple MLP classification architecture for MNIST digits \citep{lecun2010mnist} \citep{deng2012mnist} is depicted in Figure \ref{fig:mlp-network}. The network is represented as a directed graph containing nodes and edges, where each node represents a neuron and each edge represents a learned weight. In this example, the weight between two successive layers are densely interconnected, and given a layer of $m$ nodes and a subsequent layer of $n$ nodes that are densely connected, we require $m*n$ edges/weights to connect these two node layers together.
+Multi-layer perceptrons (MLP) are widely used in the neural network literature as the simplest vanilla artificial neural network. An MLP typically comprises of one or more hidden layers that learn intermediate representations before producing an output layer. A simple MLP classification architecture for MNIST digits \citep{lecun2010mnist} \citep{deng2012mnist} is depicted in Figure \ref{fig:mlp-network}. The network is represented as a directed graph containing nodes and edges, where each node represents a neuron and each edge represents a learned weight. In this example, the weight between two successive layers are densely interconnected, and given a layer of $m$ nodes and a subsequent layer of $n$ nodes that are densely connected, we require $m*n$ edges/weights to connect these two node layers together.
 
 \begin{figure}[ht]
 	\centering
@@ -22,17 +22,17 @@ Multi-layer perceptrons (MLP) are widely used in the neural network literature a
 	\caption{\label{fig:mlp-network} Multi-Layer Perceptron}
 \end{figure}
 
-In terms of function approximation, a multilayer perceptron can be thought of as nested function calls on the input $x$. For example if the intermediate layers approximate the functions $f_1$ and $f_2$ and the output layer approximated the function $f_3$ in the example presented in Figure \ref{fig:mlp-network}, we can say that the relation of the output distribution $y$ compared to the features in the input image $x$ would be described as $y = f_3(f_2(f_1(x)))$. The backpropagation of the objective loss-function over the weights of the network is achieved by the chain-rule to compute the gradients using the derivative of the composite function used to compute the output layer \citep{lecun1989backpropagation}.
+In terms of function approximation, a multilayer perceptron can be thought of as nested function calls on the input $x$. For example if the intermediate layers approximate the functions $f_1$ and $f_2$ and the output layer approximated the function $f_3$ in the example presented in Figure \ref{fig:mlp-network}, we can say that the relation of the output distribution $y$ compared to the features in the input image $x$ would be described as $y = f_3(f_2(f_1(x)))$. The back-propagation of the objective loss-function over the weights of the network is achieved by the chain-rule to compute the gradients using the derivative of the composite function used to compute the output layer \citep{lecun1989backpropagation}.
 
 \begin{equation}
-    P(y=j \mid \mathbf{x}) = \frac{e^{\mathbf{x}^\mathsf{T}\mathbf{w}_j}}{\sum_{k=1}^K e^{\mathbf{x}^\mathsf{T}\mathbf{w}_k}}
+	P(y=j \mid \mathbf{x}) = \frac{e^{\mathbf{x}^\mathsf{T}\mathbf{w}_j}}{\sum_{k=1}^K e^{\mathbf{x}^\mathsf{T}\mathbf{w}_k}}
 \end{equation}
 
-The activation functions applied at each layer could either be linear or non-linear. The most popularly used non-linearities for the activation functions are sigmoid, tanh, ReLU etc, which are typically used in the intermediate layers of the network. In the case of multi-label prediction problems, the output layer is typically a softmax distribution over the possible output classes. The softmax activation is simply the binary logistic regression classifier that generalizes to multiple classes, since the output of the softmax function can be used to represent a categorical distribution.
+The activation functions applied at each layer could either be linear or non-linear. The most popularly used non-linear activation functions are sigmoid, tanh, ReLU etc, which are typically used in the intermediate layers of the network. In the case of multi-label prediction problems, the output layer is typically a softmax distribution over the possible output classes. The softmax activation is simply the binary logistic regression classifier that generalizes to multiple classes, since the output of the softmax function can be used to represent a categorical distribution.
 
 An MLP classifier is trained by minimizing a cross-entropy loss between the predicted softmax distribution $y$ and the true distribution $y'$.
 \begin{equation}
-    \mathcal{H}_{y'} (y) := - \sum_{i}^K y_{i}' \log (y_i) 
+	\mathcal{H}_{y'} (y) := - \sum_{i}^K y_{i}' \log (y_i)
 \end{equation}
 
 \section{Recurrent Neural Networks}
@@ -55,7 +55,7 @@ The most recent and useful variants of recurrent units provide the ability to re
 
 The prominent variants of recurrent units used in neural networks to extract features from sequences using a memory mechanism, are Long Short-Term Memory (LSTM) units \citep{gers2001lstm} and Gated Recurrent units (GRU) \citep{chung2014empirical}.
 
-Recurrent networks in the domain of natural language processing is used frequently for both natural language understanding (NLU) tasks, as well natural language generation (NLG) tasks. Similar to the manner in which recurrent networks can extract features from arbitrarily long sequences of vectorized text, they can also be used to produce text sequences from a unit vector representation of text, as represented in Figure \ref{fig:rnn-nmt}.
+Recurrent networks in the domain of natural language processing is used frequently for both natural language understanding (NLU) tasks, as well natural language generation (NLG) tasks \citep{mikolov2010recurrent}. Similar to the manner in which recurrent networks can extract features from arbitrarily long sequences of vectorized text, they can also be used to produce text sequences from a unit vector representation of text, as represented in Figure \ref{fig:rnn-nmt}.
 
 This is achieved by conditioning the generation of the first word of text either on some latent variable produced by a model, or by sampling from a generative distribution, and conditioning the generation of each subsequently predicted word on the word that was predicted in the previous time-step, until the model predicts an end-of-sentence (EOS) token.
 
@@ -69,7 +69,7 @@ This is achieved by conditioning the generation of the first word of text either
 
 \subsection{Long Short-Term Memory (LSTM)}
 
-As described in above, recurrent neural networks (RNN) learn representations of the data over temporal sequences, like text or audio features. However, in practice, RNNs don't seem to be able to assign priorities to which of the past data it chooses to ascribe a higher importance to. In natural language processing tasks, like lengthy bodies of text and audio/video sequences. This lack of ability to learn long-term dependencies in the input features is shown in previous work by \cite{bengio1994learning}. 
+As described in above, recurrent neural networks (RNN) learn representations of the data over temporal sequences, like text or audio features. However, in practice, RNNs don't seem to be able to assign priorities to which of the past data it chooses to ascribe a higher importance to. In natural language processing tasks, like lengthy bodies of text and audio/video sequences. This lack of ability to learn long-term dependencies in the input features is shown in previous work by \cite{bengio1994learning}.
 
 LSTMs, as described first by \cite{hochreiter1997long}, seek to address this issue by explicitly modeling how much to retain and forget at each time-step during the RNN's training routine.
 
@@ -82,26 +82,26 @@ LSTMs, as described first by \cite{hochreiter1997long}, seek to address this iss
 
 The structure of an LSTM is depicted in Figure \ref{fig:lstm}. An LSTM is comprised of four distinct gating layers internally, namely the forget gate, input gate and output gate, that determine its outputs - the new cell state and hidden state. As can be seen in Figure \ref{fig:lstm}, the cell state $C_t$ passes through the LSTM mostly unperturbed, which attempts to address the problem of vanishing gradients \citep{hochreiter1999vanishing}.
 
-The forget gate uses a sigmoid activation to squash the values of the output of the previous time-step between 0 and 1, which can be understood as semantically equivalent to deciding how much of the previous cell state to forget. 
+The forget gate uses a sigmoid activation to squash the values of the output of the previous time-step between 0 and 1, which can be understood as semantically equivalent to deciding how much of the previous cell state to forget.
 \begin{equation*}
-    f_t = \sigma(W_f*[h_{t-1}, x_t] + b_f)
+	f_t = \sigma(W_f*[h_{t-1}, x_t] + b_f)
 \end{equation*}
 
-The input gate also uses a sigmoid activation on the previous hidden state, which is multiplied by the candidate cell state $\hat{C_t}$. 
+The input gate also uses a sigmoid activation on the previous hidden state, which is multiplied by the candidate cell state $\hat{C_t}$.
 \begin{equation*}
-    i_t = \sigma(W_i*[h_{t-1}, x_t] + b_i)
+	i_t = \sigma(W_i*[h_{t-1}, x_t] + b_i)
 \end{equation*}
 
 This value is multiplied by the forget-gated previous cell state to form the next cell state.
 \begin{eqnarray*}
-    \hat{C_t} &=& \tanh(W_c*[h_{t-1}, x_t] + b_c) \\
-    C_t &=& f_t * C_{t-1} + i_t * \hat{C_t}
+	\hat{C_t} &=& \tanh(W_c*[h_{t-1}, x_t] + b_c) \\
+	C_t &=& f_t * C_{t-1} + i_t * \hat{C_t}
 \end{eqnarray*}
 
 Now that we have obtained the cell state, we propagate that through to the next time-step. To obtain the hidden state, we use an output gate, again with a sigmoid activation, to gate the cell-state and create the hidden-state for the next time-step.
 \begin{eqnarray*}
-    o_t &=& \sigma(W_o*[h_{t-1}, x_t] + b_o) \\
-    h_t &=& \tanh(C_t)
+	o_t &=& \sigma(W_o*[h_{t-1}, x_t] + b_o) \\
+	h_t &=& \tanh(C_t)
 \end{eqnarray*}
 
 The efficacy of LSTM-backed RNNs is evident from the prevalence of its usage in language modeling literature \citep{sundermeyer2012lstm,gers2001lstm,graves2005framewise} \footnote{https://karpathy.github.io/2015/05/21/rnn-effectiveness}.
@@ -162,6 +162,32 @@ Simultaneously, for the decoding step, we sample from the prior, utilizing the r
 
 
 \section{Word Embeddings}
+
+Prior to the existence of matrix factorization and neural models, the vectors used for words and documents were one-hot representations, word-ngrams statistics \citep{brown1992class} or tf-idf weighted statistics.
+
+Word-ngrams and tf-idf vectors are useful as a proxy to encode the occurrence likelihoods and word-ngrams also take into account the context of nearby words for models that rely on it. However, each of these methods use discrete word/character occurrence counts to represent words and documents, and these representations scale with the size of the input corpus vocabulary for word-based models, which makes them computationally inefficient. They are also ineffective at modeling semantic inter-word or inter-character relationships.
+
+Word2Vec is a vector space model that embeds words into a continuous space where semantically similar words are embedding in nearby spaces \citep{mikolov2013distributed,mikolov2013linguistic,le2014distributed}. Word2Vec can model the corpus vocabulary in two different ways, namely CBOW and Skip-gram. CBOW predicts target words from source context words, whereas the skip-gram does the opposite and predicts target context-words from a source words. Both model types are shown in Figure \ref{fig:fig:efficient-models}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/efficient-models}
+	\imgsrc{\cite{mikolov2013efficient}}
+	\caption{\label{fig:efficient-models} Word2Vec Model}
+\end{figure}
+
+The Word2Vec model is a simple shallow neural network, with single input, hidden and output layers. The hidden layer is of arbitrary size, called the embedding size. The one-hot encoded input is transformed into it's context or target word, depending on whether the algorithm chosen is CBOW or Skip-gram. After the model converges to a good target prediction accuracy. The network weights connecting the input and the hidden layer can be used as parameters to obtain dense, continuous representations of words.
+
+A surprised outcome of this embedding model is that translations within the learned vector space seem to emulate semantic (gender, tense) as well as factual relationships (country-capital), as shown in Figure \ref{fig:word2vec-linear-relationships}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/word2vec-linear-relationships}
+	\imgsrc{\url{https://www.tensorflow.org/tutorials/word2vec}}
+	\caption{\label{fig:word2vec-linear-relationships} Word2Vec Relationships}
+\end{figure}
+
+Word embedding neural models are also shown to be implicitly factorizing a word-context matrix by subsequent work in this area \citep{levy2014neural}.
 
 
 \section{Sequence to Sequence Modeling}
