@@ -13,6 +13,23 @@ Handwriting style, body type, hair, position, illumination etc. are some of the 
 
 \section{Information Maximizing Generative Adversarial Nets}
 
+InfoGAN \citep{chen2016infogan} is another work that attempts increasing the interpretability of latent representation by utilizing additional regularizations on the latent space to maximize the information retention of attributes in subsets of the overall latent space.
+
+The authors present a modification to the GAN objective \citep{goodfellow2014generative} to encourage the learning of interpretable representations. This is done by maximizing the
+mutual information between a fixed small subset of the GAN's noise variables and the observations. This approach attempts to learn a disentangled latent representation unsupervisedly. In addition to the regular noise variables that a GAN generates novel samples from, the authors use additional categorical and continuous variables under certain sampling constraints. For examples on the MNIST data-set \citep{lecun2010mnist}, the authors use a categorical latent variable of size size, with the probability of sampling each of those variables discretely as 0.1, to represent the 10 distinct digits (labels) present in the MNIST data-set. In addition, they sample two continuous variables sampled from $Unif(-1, 1)$.
+
+In the vanilla formulation of the GAN, the decoder might well chose to ignore these additional latent variables provided by minimizing the magnitude of the parameters learned between the additional latent variable and a generated sample. To avoid this, the authors propose an information maximization objective as an auxillary training objective to the GAN objective.
+
+Using this approach, the authors are able to generate MNIST digits in various handwriting styles by changing the continuous variables, and change the numerical value represented in the generated image by changing the categorical variable, as shown in Figure \ref{fig:images/infogan-digits}. Here $c_1$ represents the categorical variable discussed above and $c_2, c_3$ represent continuous variables.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/infogan-digits}
+	\imgsrc{\cite{chen2016infogan}}
+	\caption{\label{fig:images/infogan-digits} InfoGAN: Tweaking Latent Variables}
+\end{figure}
+
+However, this method does not provide a method of explicitly controlling the nature of the sampled data. Samples need to be generated first to understand which features have been represented in the additional latent variables.
 
 
 \section{Controlled Generation of Text}
