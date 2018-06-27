@@ -2,6 +2,19 @@ In the past year, the work by \cite{hu2017toward} and \cite{ficler2017controllin
 
 Further work presented by \cite{shen2017style} and \cite{fu2017style} utilize the idea of removing attribute information from latent representations using adversarial learning. In this section we discuss some of the prominent work done in this area.
 
+\section{Disentangling Factors of Variation}
+
+\cite{mathieu2016disentangling} proposed the idea of a generative model that learns to separate the factors of variation in the learned representations by splitting the latent space into two codes - one that is relevant to solving a specialized tasks, and one that is not relevant to the specialized task.
+
+They use a variational autoencoder to learn the generative model, and utilize adversarial training to disentangle the latent space of specific attributes. In their evaluations, they utilize image data-sets like MNIST \citep{lecun2010mnist}, NORB \citep{lecun2004learning}, Sprites \citep{reed2015deep} and Extended-YaleB \citep{georghiades2001few}.
+
+Handwriting style, body type, hair, position, illumination etc. are some of the chosen attributes to disentangle from the latent space. This disentanglement is done by training a discriminator, following \cite{goodfellow2014generative} to provide a negative training signal to the generative model if it is able to discriminate training samples based on the given attribute. Once the model is converged and they are able to produce representations devoid of the chosen style or attribute, they can generate new instances of data, conditioned on known representations, but changing the controlled attribute, to product novel samples.
+
+
+\section{Information Maximizing Generative Adversarial Nets}
+
+
+
 \section{Controlled Generation of Text}
 
 \cite{hu2017toward} use a variational autoencoder trained with the reconstruction objective and a KL-divergence minimization objective on the latent space with respect to a prior $p(z)$, as described in the original variational auto-encoding paper by \cite{kingma2013auto}. In addition to the reconstruction objective, the authors use additional discriminative training signals to adapt the desired attributes of the generated text. These training signals need to be propagated back to the encoder.
@@ -142,4 +155,3 @@ The methods are evaluated in the following manner:
 
 Several other works have also been published in this domain recently including using cyclical translation to strip style as a pre-processing step, followed by a multi-decoder model to generate style-transferred sentences \citep{prabhumoye2018style},
 
-\todo[inline]{Add related work in CV/NLP}
