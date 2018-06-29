@@ -8,16 +8,16 @@ Then we introduce two auxiliary losses, multi-task loss and adversarial loss in 
 
 Figures \ref{fig:model-overview-training} and \ref{fig:model-overview-inference} depict the training and generation processes of our approach.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
-	\includegraphics[width=\linewidth]{images/model-overview-training.png}
+	\includegraphics[width=\linewidth]{images/model-overview-training}
 	\caption{Overview of Model Training}
 	\label{fig:model-overview-training}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
-	\includegraphics[width=\linewidth]{images/model-overview-inference.png}
+	\includegraphics[width=\linewidth]{images/model-overview-inference}
 	\caption{Overview of Model Inference}
 	\label{fig:model-overview-inference}
 \end{figure}
@@ -158,7 +158,19 @@ The bag-of-words adversary will not penalize the autoencoder model for encoding 
 
 
 \section{Style Dropout Regularization} \label{ssec:style-dropout}
-\todo[inline]{Add details for the style dropout regularization}
+
+In addition to the regular training objectives, we also describe a novel regularization technique for disentanglement tasks. This method can also be viewed as analogous to a training objective like the bag-of-words loss.
+
+In our formulation of the model, we describe the main adversarial loss for style disentanglement by training a discriminator on the content space. However, there is a possibility of the autoencoder learning to ignore the content vector during generation entirely and use only the style space for encoding and later decoding the salient features of the corpus. This scenario is depicted in \ref{fig:model-content-bypass} and can be thought of as the model bypassing the content space due to the presence of an adversary that penalizes any signals for style.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\linewidth]{images/model-content-bypass}
+	\caption{Content Space Bypassing}
+	\label{fig:model-content-bypass}
+\end{figure}
+
+To address this issue, we propose a customized version of Dropout \cite{srivastava2014dropout}. Similar to how each neuron in a network is dropped out with a pre-defined probability in the general version of dropout, in this version, we drop out entire style vectors in the mini-batch randomly with a pre-defined probability. The motivation for doing this is to reinforce the fact that the content latent vector is not to ignored for the auto-encoding task despite the negative training signal from the adversary.
 
 
 \section{Training Process}

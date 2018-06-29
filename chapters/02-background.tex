@@ -40,7 +40,7 @@ An MLP classifier is trained by minimizing a cross-entropy loss between the pred
 
 Dropout is a regularization technique used during the training of neural networks. It was proposed by \cite{srivastava2014dropout} as a simple technique to prevent a model from over-fitting the approximately learned function on the training data.
 
-The idea of dropout is to randomly set a fixed set of neural network weights i.e. function parameters to 0 during each instance of the forward pass, as shown in Figure \ref{fig:dropout}.
+The idea of dropout is to randomly ignore a set of neural network weights i.e. randomly set function parameters to 0 during each instance of the forward pass, as shown in Figure \ref{fig:dropout}.
 
 \begin{figure}[ht]
 	\centering
@@ -49,7 +49,7 @@ The idea of dropout is to randomly set a fixed set of neural network weights i.e
 	\caption{\label{fig:dropout} MLP Dropout}
 \end{figure}
 
-This allows for a more generalized and robust functions being learned by minimizing the co-dependence of neurons/units on each other. Dropout has also been empirically shown to improve experiment results on several supervised learning tasks in vision, speech recognition, document classification and computational biology \citep{srivastava2014dropout}.
+Each neuron/unit is dropped out with a pre-defined probability, which can be viewed as a model hyperparameter. This allows for more generalized and robust functions being learned by minimizing the co-dependence of neurons/units on each other. Dropout has also been empirically shown to improve experiment results on several supervised learning tasks in vision, speech recognition, document classification and computational biology \citep{srivastava2014dropout}.
 
 
 \section{Recurrent Neural Networks}
