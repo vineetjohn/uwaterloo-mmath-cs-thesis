@@ -67,52 +67,59 @@ Since our objective is to use empirically inferred latent vectors to eventually 
 Besides the above reconstruction losses, we design auxiliary losses to disentangle the latent space such that $\bm h$ can be separated into two spaces $\bm s$ and $\bm c$, representing style and content respectively, i.e., $\bm h = [\bm s ; \bm c]$, where $[\cdot;\cdot]$ denotes concatenation. We also design additional regularizations on the latent space to encourage learning this disentangled representation.
 
 
-\todo[inline]{Re-write the next couple of sections for softmax classifiers}
-
 \section{Multi-Task Loss} \label{ssec:multitask-objective}
 
-Our first auxiliary loss ensures the style space does contain style information. We build a classifier on the style space $\bm s$ predicting the style label $y$, which is a part of the training data.
+Our first auxiliary loss ensures the style space does contain style information. We build a classifier trained using the style space $\bm s$ as its features, predicting the style label $y$, which is a part of the training data.
 
-This loss can be viewed as a \textit{multi-task} loss, which makes the neural network not only decode the sentence, but also predicts its sentiment. Similar multi-task losses are used in previous work for sequence-to-sequence learning \citep{luong2015multi}, sentence representation learning \citep{jernite2017discourse} and sentiment analysis \citep{balikas2017multitask}, among others.
+This loss can be viewed as a multi-task objective, in addition to the original reconstruction objective, which ensures that the neural network not only decodes the sentence, but also predicts its sentiment from a sub-space of the latent representation. Similar multi-task losses have been used in previous work for sequence-to-sequence learning \citep{luong2015multi}, sentence representation learning \citep{jernite2017discourse} and sentiment analysis \citep{balikas2017multitask}, among others.
 
-In our application, we follow previous work \citep{hu2017toward,shen2017style,fu2017style} and treat the sentiment as the style of interest. We introduce a binary classifier
+In our application, we follow previous work \citep{hu2017toward,shen2017style,fu2017style} and treat the sentiment as the style of interest for our primary evaluation. However, since our model generalizes to more that one class, we uses a simple multi-layer perceptron (MLP) followed by a softmax distribution over the possible labels. The softmax function can be expressed as the following expression
+\begin{equation*}
+	\sigma(\mathbf{z})_j = \frac{e^{z_j}}{\sum_{k=1}^K e^{z_k}} \text{for} j \in {1, \cdots K}
+\end{equation*}
+where $z_j$ denotes an arbitrary label's unweighted probability and $K$ is the total number of labels in the training data. The softmax distribution is re-weighted such that it's constituent values sum up to 1, which is very useful to model probability predictions over an arbitrary number of classes.
 
-\begin{equation}
-	p(y|\bm s;\bm\theta_\text{mult})= softmax(\bm w_\text{mult}^\top \bm s + b_\text{mult})
+The discriminative classification predicted distribution is given by
+\begin{equation} \label{eqn:class-pred}
+	p(y | \bm s; \bm\theta_\text{mult}) = softmax(\bm w_\text{mult}^\top \bm s + b_\text{mult})
 \end{equation}
 where $\bm\theta_\text{mult}=[\bm w_\text{mult}; b_\text{mult}]$ are the classifier's parameters for multi-task learning.
 
-\begin{align} \label{eqn:multi-task-loss}
-	 & \mathcal{L}_\text{mult}(\bm\theta_{E};\bm\theta_\text{mult})=      \\ \nonumber
-	 & -s\log p_\text{mult}(s|\bm s) - (1-s)\log p_\text{mult}(1-s|\bm s)
-\end{align}
-where $\bm\theta_E$ are the encoder's parameters..
+This is trained using a simple cross-entropy loss.
+\begin{equation} \label{eqn:multi-task-loss}
+	\mathcal{L}_\text{mult}(\bm\theta_{E};\bm\theta_\text{mult}) =
+	\mathbb{E}_{y'} [\log p(y | \bm s; \bm\theta_\text{mult})]
+\end{equation}
+where $\bm\theta_E$ are the encoder's parameters and $y'$ is the true class distribution.
 
 
 \section{Adversarial Style Discriminator} \label{ssec:adversarial-style-objective}
 
-The above multi-task loss only operates on the style space, but does not have an effect on the content space $\bm c$.
+The above multi-task loss only operates on the style space, but does not have an effect on the content space $\bm c$. With only the multi-task loss, we cannot guarantee that the encoder would not choose to encode stylistic features within the content space.
 
 We therefore apply an adversarial loss to disentangle the content space from style information, inspired by adversarial generation \citep{goodfellow2014generative}, adversarial domain adaptation \citep{liu2017adversarial}, and adversarial style transfer \citep{fu2017style}.
 
-The idea of adversarial loss is to introduce an adversary that deliberately discriminates style $s$ on the content vector $\bm c$. Then the autoencoder is trained to learn such a content vector space that its adversary cannot predict style information.
+The idea of adversarial loss is to introduce an adversary that deliberately attempts to discriminate style $s$ of training samples using only the content vector $\bm c$. Then the autoencoder is trained to learn such a content vector space that its adversary cannot predict style information.
 
-Concretely, the adversarial discriminator predicts style $s$ by a logistic regression
+Concretely, the adversarial discriminator predicts style $y$ by using a softmax distribution over a multi-layer perceptron
 \begin{equation}
-	p_\text{dis}(s=1|\bm c;\bm\theta_\text{adv})=\sigma(\bm w_\text{adv}^\top \bm c + b_\text{adv})
+	p(y | \bm c; \bm\theta_\text{dis}) = softmax(\bm w_\text{dis}^\top \bm c + b_\text{dis})
 \end{equation}
-where $\bm\theta_\text{dis}=[\bm w_\text{dis}; b_\text{dis}]$ are the parameters of the adversary. It is trained by
-\begin{align}
-	 & \mathcal{L}_\text{dis}(\bm\theta_\text{dis})=                  \\ \nonumber
-	 & -s\log p_\text{dis}(s|\bm c)-(1-s)\log p_\text{dis}(1-s|\bm c)
-\end{align}
-The adversarial loss appears similar to the multi-task loss as in Eq.~(\ref{eqn:multi-task-loss}). However, it should be emphasized that, for the adversary, the gradient is not propagated back to the autoencoder, i.e., $\bm c$ is treated as shallow features.
+where $\bm\theta_\text{dis}=[\bm w_\text{dis}; b_\text{dis}]$ are the parameters of the adversary.
+
+It is trained by minimizing the following objective
+\begin{equation} \label{eqn:adv-disc-loss}
+	\mathcal{L}_\text{dis}(\bm\theta_{E};\bm\theta_\text{dis}) =
+	\mathbb{E}_{y'} [\log p(y | \bm c; \bm\theta_\text{dis})]
+\end{equation}
+
+The adversarial loss appears similar to the multi-task loss as in Equation \ref{eqn:multi-task-loss}. However, it should be emphasized that, for the adversary, the gradient is not propagated back to the autoencoder, i.e., $\bm c$ is treated as shallow features. The only adversarial component is the loss itself. The network parameters are mutually exclusive for the autoencoder and the adversarial discriminator.
 
 Having trained an adversary, we would like the autoencoder to learn latent representations, that $\bm c$ is not discriminative in term of the style or attribute we want to transfer. In other words, we penalize the entropy of the adversary's prediction, given by
 \begin{equation}
-	\mathcal{L}_\text{adv}(\bm\theta_E)=\mathcal{H}(p_\text{dis}(y | \bm c))
+	\mathcal{L}_\text{adv}(\bm\theta_E) = \mathcal{H}(p_\text{dis}(y | \bm c))
 \end{equation}
-where $\mathcal{H}=-\sum_{i\in\text{labels}} p_i\log p_i$ is the empirical entropy of the distribution. The adversarial objective is maximized, in this phase, with respect to the encoder. The motivation behind this objective is to increase the uncertainty of the discriminative classifier with respect to predicting style from the content vector. The maximum entropy value attainable over the distribution of attributes is the point at which each label is predicted with equal-probability i.e. the highest uncertainty.
+where $\mathcal{H}=-\sum_{i\in\text{labels}} p_i\log p_i$ is the empirical Shannon entropy of the distribution. The adversarial objective is maximized, in this phase, with respect to the encoder. The motivation behind this objective is to increase the uncertainty of the discriminative classifier with respect to predicting style from the content vector. The maximum entropy value attainable over the distribution of attributes is the point at which each label is predicted with equal-probability i.e. the highest uncertainty.
 
 \todo[inline]{Add details for the bag-of-words loss}
 \section{Adversarial Bag-of-Words Discriminator} \label{ssec:adversarial-bow-objective}
