@@ -88,7 +88,7 @@ This is achieved by conditioning the generation of the first word of text either
 
 As described in above, recurrent neural networks (RNN) learn representations of the data over temporal sequences, like text or audio features. However, in practice, RNNs don't seem to be able to assign priorities to which of the past data it chooses to ascribe a higher importance to. In natural language processing tasks, like lengthy bodies of text and audio/video sequences. This lack of ability to learn long-term dependencies in the input features is shown in previous work by \cite{bengio1994learning}.
 
-LSTMs, as described first by \cite{hochreiter1997long}, seek to address this issue by explicitly modeling how much to retain and forget at each time-step during the RNN's training routine.
+LSTMs, as described first by \cite{hochreiter1997long}, seek to address this issue by explicitly modelling how much to retain and forget at each time-step during the RNN's training routine.
 
 \begin{figure}[ht]
 	\centering
@@ -121,7 +121,7 @@ Now that we have obtained the cell state, we propagate that through to the next 
 	h_t &=& \tanh(C_t)
 \end{eqnarray*}
 
-The efficacy of LSTM-backed RNNs is evident from the prevalence of its usage in language modeling literature \citep{sundermeyer2012lstm,gers2001lstm,graves2005framewise} \footnote{https://karpathy.github.io/2015/05/21/rnn-effectiveness}.
+The efficacy of LSTM-backed RNNs is evident from the prevalence of its usage in language modelling literature \citep{sundermeyer2012lstm,gers2001lstm,graves2005framewise} \footnote{https://karpathy.github.io/2015/05/21/rnn-effectiveness}.
 
 \subsection{Gated Recurrent Units (GRU)}
 
@@ -169,7 +169,7 @@ Variational encoders (VAEs) \citep{kingma2013auto} are a probabilistic variant o
 
 In contrast to the deterministic autoencoder we observe that a variational inference networks autoencoder learns representations of both the mean and variance latent spaces. The method requires placing conjugate priors on the mean and variance of the unknown latent representation. The encoder then tries to learn the approximate posterior distribution. This family of distributions used for this purpose are Gaussian.
 
-In addition to the reconstruction loss that a deterministic autoencoder uses, a metric of distance is used to evaluate how closely between the learned representations of mean and variance resemble a Gaussian distribution with mean 0 and unit variance. The Kullback-Leibler (KL) divergence \citep{kullback1951information} is used to penalize learned representations that do not resemble the prior. However, we cannot compute the KL directly. Instead we compute an alternative objective that is equivalent to the KL upto an added constant. This is called the evidence lower-bound (ELBO). The ELBO objective maximized in a variational autoencoder model is given below:
+In addition to the reconstruction loss that a deterministic autoencoder uses, a metric of distance is used to evaluate how closely between the learned representations of mean and variance resemble a Gaussian distribution with mean 0 and unit variance. The Kullback-Leibler (KL) divergence \citep{kullback1951information} is used to penalize learned representations that do not resemble the prior. However, we cannot compute the KL directly. Instead we compute an alternative objective that is equivalent to the KL up until an added constant. This is called the evidence lower-bound (ELBO). The ELBO objective maximized in a variational autoencoder model is given below:
 
 \begin{equation}
 	ELBO(q) = \mathbb{E}_{q(z)} [(\log(p(x|z))] - \mathbb{KL}(q(z)||p(z))
@@ -182,7 +182,7 @@ Simultaneously, for the decoding step, we sample from the prior, utilizing the r
 
 Prior to the existence of matrix factorization and neural models, the vectors used for words and documents were one-hot representations, word-ngrams statistics \citep{brown1992class} or tf-idf weighted statistics.
 
-Word-ngrams and tf-idf vectors are useful as a proxy to encode the occurrence likelihoods and word-ngrams also take into account the context of nearby words for models that rely on it. However, each of these methods use discrete word/character occurrence counts to represent words and documents, and these representations scale with the size of the input corpus vocabulary for word-based models, which makes them computationally inefficient. They are also ineffective at modeling semantic inter-word or inter-character relationships.
+Word-ngrams and tf-idf vectors are useful as a proxy to encode the occurrence likelihoods and word-ngrams also take into account the context of nearby words for models that rely on it. However, each of these methods use discrete word/character occurrence counts to represent words and documents, and these representations scale with the size of the input corpus vocabulary for word-based models, which makes them computationally inefficient. They are also ineffective at modelling semantic inter-word or inter-character relationships.
 
 Word2Vec is a vector space model that embeds words into a continuous space where semantically similar words are embedding in nearby spaces \citep{mikolov2013distributed,mikolov2013linguistic,le2014distributed}. Word2Vec can model the corpus vocabulary in two different ways, namely CBOW and Skip-gram. CBOW predicts target words from source context words, whereas the skip-gram does the opposite and predicts target context-words from a source words. Both model types are shown in Figure \ref{fig:efficient-models}
 
@@ -207,9 +207,9 @@ A surprised outcome of this embedding model is that translations within the lear
 Word embedding neural models are also shown to be implicitly factorizing a word-context matrix by subsequent work in this area \citep{levy2014neural}.
 
 
-\section{Sequence to Sequence Modeling}
+\section{Sequence to Sequence Modelling}
 
-Also abbreviated in the literature as Seq2Seq, this is a class of models that learns functions that map from one sequence to another. First introduced by \cite{sutskever2014sequence}, the general premise of sequence to sequence has been a flexible framework for modelling transformations made to arbitrary length sequences. In the natural language processing community, the main tasks that benefit from the encoder-decoder framework are neural machine translation, dialogue modeling, question answering for which there exists two distinct distributions of data, and the model is trained to learn the mapping from one to the other.
+Also abbreviated in the literature as Seq2Seq, this is a class of models that learns functions that map from one sequence to another. First introduced by \cite{sutskever2014sequence}, the general premise of sequence to sequence has been a flexible framework for modelling transformations made to arbitrary length sequences. In the natural language processing community, the main tasks that benefit from the encoder-decoder framework are neural machine translation, dialogue modelling, question answering for which there exists two distinct distributions of data, and the model is trained to learn the mapping from one to the other.
 
 The paper defines a sequence-to-sequence model as on that learns the below function to map a sequence of inputs $x_1, ... , x_T$ to a sequence of outputs $y_1, ... , y_{T′}$, where the initial state $h$ is set to the hidden LSTM representation of $x_1, ... , x_T$.
 
@@ -250,7 +250,7 @@ The idea of neural style transfer in the was originally proposed by \cite{gatys2
 
 The features, as with most of the state-of-the-art image processing techniques, are extracted from the images using Convolutional Neural Networks (CNNs) \citep{lecun1998gradient}, the deep neural network variants of which have been widely successful at image recognition tasks such as object recognition in the ImageNet data-set \cite{krizhevsky2012imagenet}.
 
-As depicted in Figure \ref{fig:image-style-transfer}, subsequent layers of the CNN learn incrementally higher level features in both the style image and the content image. These learned features for the style and content images are stored for uture use. To generate the final image, the authors begin with a random white noise image. This image is passed through both networks, the parameters of which extract both it's style features and it's content features.
+As depicted in Figure \ref{fig:image-style-transfer}, subsequent layers of the CNN learn incrementally higher level features in both the style image and the content image. These learned features for the style and content images are stored for future use. To generate the final image, the authors begin with a random white noise image. This image is passed through both networks, the parameters of which extract both it's style features and it's content features.
 
 This model uses two training objectives:
 \begin{itemize}

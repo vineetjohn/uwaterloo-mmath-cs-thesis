@@ -1,6 +1,6 @@
 Natural Language Processing (NLP) is a sub-field of Artificial Intelligence (AI) that deals with the understanding and generation of human languages.
 
-Recently many of the statistical NLP methods are giving way to neural models to parameterize more expressive models of language. This includes machine translation, dialogue modeling, abstract summarization, document classification etc.
+Recently many of the statistical NLP methods are giving way to neural models to parameterize more expressive models of language. This includes machine translation, dialogue modelling, abstract summarisation, document classification etc.
 
 The problem this thesis attempts to tackle is the neural disentanglement of style and content in text to enable conditioned generation of text. This is analogous to style transfer in computer vision \citep{gatys2016image}. The formulation of the problem in the vision domain is to transfer the visual style from one image to the other, as illustrated in Figure \ref{fig:style-transfer-vision}. Stylistic transfer in text is based on a similar premise, where, given a an arbitrary body of text and a predefined style governed by a set of attributes like sentiment, emotion, tense, authorship, a new body of text can be generated such that it incorporates all of the pre-defined attributes its generation is being conditioned on.
 
@@ -50,7 +50,7 @@ The objective of this thesis is to perform an exploratory analysis of previous m
 We operate under the following constraints and assumptions in our formulation of the problem:
 
 \begin{itemize}
-	\item The model is singular, with no conditional execution branch based on desired attribute. i.e. there is only one decoder and the number of decoders does not scale with the number of distinct transferrable attributes.
+	\item The model is singular, with no conditional execution branch based on desired attribute. i.e. there is only one decoder and the number of decoders does not scale with the number of distinct transferable attributes.
 	\item The corpus of styles are non-parallel i.e. for instance, there are no pre-defined pairs of $(document_1, document_2)$ for style labels $\in (1, 2)$, as would be commonly seen in neural machine translation corpora.
 	\item The corpora is annotated with the current attribute each document possesses e.g. each document has a corresponding `positive'/`negative' label if the task is to perform sentiment transfer.
 	\item Optionally, a lexicon of words that are statistically very likely to be associated with each distinct class label would be useful, primarily to evaluate how well content has been preserved without penalizing change in vocabulary caused by the transferring of style.

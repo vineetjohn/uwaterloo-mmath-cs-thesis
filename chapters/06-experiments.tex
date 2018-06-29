@@ -6,7 +6,7 @@
 
 \subsection{Content Preservation} \label{ssec:content-preservation-metric}
 
-The content preservation metric used by \cite{fu2017style} is repurposed by our work to judge content preservation of the generated sentences compared to the original. This metric is needed to ensure that the generated sentence doesn't talk about subjects entirely different from the original sentence.
+The content preservation metric used by \cite{fu2017style} is re-purposed by our work to judge content preservation of the generated sentences compared to the original. This metric is needed to ensure that the generated sentence doesn't talk about subjects entirely different from the original sentence.
 
 \todo[inline]{Insert a few instances of poor content preservation}
 
@@ -24,7 +24,7 @@ We conducted experiments on an Amazon product review data-set, following \cite{f
 
 \subsection{Disentangling Latent Space}
 
-We first analyze how the style (sentiment) and content of the latent space are disentangled. We train a logistic classifier based on different latent spaces, and show results in Table~\ref{tab:classification}.
+We first analyse how the style (sentiment) and content of the latent space are disentangled. We train a logistic classifier based on different latent spaces, and show results in Table~\ref{tab:classification}.
 
 We see that the 128-dimensional content vector is not discriminative for style. It achieves an accuracy of 0.57, slightly better than random/majority guess. However, the 8-dimensional style vector $\bm s$, despite its low dimensionality, achieves significantly higher style classification accuracy. When combining content and style vectors, we achieve no further improvement. These results verify the effectiveness of our disentangling approach, because the style space does contain style information, whereas the content space doesn't.
 
