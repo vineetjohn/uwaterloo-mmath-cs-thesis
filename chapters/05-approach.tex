@@ -8,6 +8,8 @@ Then we introduce two auxiliary losses, multi-task loss and adversarial loss in 
 
 Figures \ref{fig:model-overview-training} and \ref{fig:model-overview-inference} depict the training and generation processes of our approach.
 
+\todo[inline]{Update loss notation in the diagram}
+
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=\linewidth]{images/model-overview-training.png}
@@ -32,13 +34,13 @@ Let $x=(x_1, x_2, \cdots x_n)$ be an input sentence. The encoder encodes $x$ by 
 Then a decoder RNN generates a sentence, which ideally should be $x$ itself. Suppose at a time step $t$, the decoder RNN predicts the word $x_t$ with probability $p(x_t | \bm h, x_1 \cdots x_{t-1})$, then the autoencoder is trained with cross-entropy loss, given by
 
 First the encoder produces the style and content, given that $\theta_{E_s}$ represents the subset of encoder parameters responsible for the production of the style vector and $\theta_{E_c}$, similarly, represents the encoder responsible for the production of the content vector.
-\begin{eqnarray} \label{eqn:dae-rec-1}
+\begin{eqnarray*}
 	\bm s &=& \theta_{E_s}(x) \nonumber \\
 	\bm c &=& \theta_{E_c}(x) \nonumber
-\end{eqnarray}
+\end{eqnarray*}
 
-Following which the decoder attempts to predict the original distribution of $x$ by predicting the softmax over the vocabulary size, for as many time steps as the sequence length, as shown in Equation \ref{eqn:dae-rec-2}
-\begin{equation} \label{eqn:dae-rec-2}
+Following which the decoder attempts to predict the original distribution of $x$ by predicting the softmax over the vocabulary size, for as many time steps as the sequence length, as shown in Equation \ref{eqn:dae-rec}
+\begin{equation} \label{eqn:dae-rec}
 	\mathcal{L}_\text{rec}(\bm\theta_E,\bm\theta_D)= -\mathbb{E}[log p_D(x|\bm s, \bm c)]
 \end{equation}
 where $\bm\theta_E$ and $\bm\theta_D$ are the parameters of the encoder and decoder, respectively.
@@ -121,23 +123,70 @@ Having trained an adversary, we would like the autoencoder to learn latent repre
 \end{equation}
 where $\mathcal{H}=-\sum_{i\in\text{labels}} p_i\log p_i$ is the empirical Shannon entropy of the distribution. The adversarial objective is maximized, in this phase, with respect to the encoder. The motivation behind this objective is to increase the uncertainty of the discriminative classifier with respect to predicting style from the content vector. The maximum entropy value attainable over the distribution of attributes is the point at which each label is predicted with equal-probability i.e. the highest uncertainty.
 
-\todo[inline]{Add details for the bag-of-words loss}
+
 \section{Adversarial Bag-of-Words Discriminator} \label{ssec:adversarial-bow-objective}
 
-\todo[inline]{Add details for the style dropout regularization}
+In addition to the auxiliary losses used above, we also propose a novel bag-of-words discriminator on the style space. The motivation for having this objective is to try and emulate the adversarial signal provided by the style discriminator, but and do the same for the content. Here, we define the content of the sentence as the words from the original sentence without any sentiment words.hu2004mining
+hu2004mining
+The input sentences $x$ are represented as a vector of thu2004mininghe same size as the corpus vocabulary, with each index of the vector a discrete prohu2004miningbability of a word's presence in the sentence. Therefore, this bag-of-words representatiohu2004miningn is comprised of only 1s and 0s.
+hu2004mining
+The bag-of-words discriminator, uses the style vector prhu2004miningoduced by the autoencoder model and tries to predict the true bag-of-words distribution hu2004miningusing a set of parameters that are distinct from those of the autoencoder. The discrimihu2004miningnator uses a logistic regression to predict a probability of each words occurrence in the original sentence, between 0 and 1.
+\begin{equation}
+	p(b | \bm s; \bm\theta_\text{bow}) = \sigma(\bm w_\text{bow}^\top \bm s + b_\text{bow})
+\end{equation}
+where $b$ is the predicted bag-of-words distribution.
+
+This objective is trained in a similar method to the style adversary, by using a cross-entropy loss
+\begin{equation} \label{eqn:adv-bow-disc-loss}
+	\mathcal{L}_\text{bow}(\bm\theta_{E};\bm\theta_\text{bow}) =
+	\mathbb{E}_{b'} [\log p(b | \bm c; \bm\theta_\text{bow})]
+\end{equation}
+where $b'$ is the true distribution and can be considered part of the training data.
+
+Similar to the style adversary, the empirical Shannon entropy of the predicted distribution is provided as a training signal for the autoencoder model to maximize.
+\begin{equation}
+	\mathcal{L}_\text{badv}(\bm\theta_E) = \mathcal{H}(p_\text{bow}(b | \bm s))
+\end{equation}
+
+The motivation for this adversarial loss is similar to the one used in the context of the style discriminator. We want to encourage the encoder to learn a representation of style that the bag-of-words discriminator cannot predict most of the original words from.
+
+\subsection{Lexicon Augmented Discriminator}
+
+An improvement to the bag-of-words discriminator could be made assuming the availability of a lexicon of words that are associated with a high probability with each of the styles that we are trying to disentangle.
+
+The bag-of-words representation that excludes these words can now be created, such that the size of each representation is $(\text{\# vocab words}) \setminus (\text{\# lexicon words})$.
+
+The bag-of-words adversary will not penalize the autoencoder model for encoding words that are pertinent and discriminative for style that may be encoded in the style space. For the sentiment task in our experiments, we use a lexicon of positive and negative sentiments words curated by \cite{hu2004mining}.
+
+
 \section{Style Dropout Regularization} \label{ssec:style-dropout}
+\todo[inline]{Add details for the style dropout regularization}
+
 
 \section{Training Process}
 
-To put it all together, our training process is a loop of the following processes:
-\begin{itemize}
-	\item minimize $\mathcal{L}_\text{dis}(\bm\theta_\text{dis})$ w.r.t. $\bm\theta_\text{dis}$, and
-	\item minimize $\mathcal{L}_\text{rec}(\bm\theta_E, \bm\theta_D) + \lambda_\text{mult}(\bm\theta_E,\bm\theta_\text{mult}) -\lambda_\text{adv}
-		      \mathcal{L}_\text{adv}(\theta_E)$ w.r.t. $\bm\theta_E, \bm\theta_D, \bm\theta_\text{mult}$.
-\end{itemize}
-where $\lambda_\text{mult}$ and $\lambda_\text{adv}$ balance these losses.
+The overall loss used for the autoencoder is thus comprised of four different, objectives, the reconstruction objective, the multi-task objective and the style and content adversaries.
+\begin{eqnarray*}
+	\mathcal{L}_\text{ovr} &=&
+	\mathcal{L}_\text{rec}(\bm\theta_E, \bm\theta_D)
+	+ \lambda_\text{mult}(\bm\theta_E,\bm\theta_\text{mult}) \\ & &
+	- \lambda_\text{adv} \mathcal{L}_\text{adv}(\theta_E)
+	- \lambda_\text{badv} \mathcal{L}_\text{badv}(\theta_E)
+\end{eqnarray*}
+where $\lambda_\text{mult}$, $\lambda_\text{adv}$ and $\lambda_\text{badv}$ balance these losses.
 
-We use the Adam optimizer \citep{kingma2014adam} with an initial learning rate of $10^{-3}$ and train the model for 50 epochs. Both the autoencoder and its adversary are trained once per epoch with $\lambda_\text{mult} = 1$ and $\lambda_\text{adv} = 0.3$.
+To summarize the model training setup, our training process is a loop of the minimization objectives described in Algorithm \ref{alg:training-process}.
+
+\begin{algorithm}[H]
+	\While{epochs remaining}{
+		minimize $\mathcal{L}_\text{dis}(\bm\theta_\text{dis})$ w.r.t. $\bm\theta_\text{dis}$\;
+		minimize $\mathcal{L}_\text{bow}(\bm\theta_\text{bow})$ w.r.t. $\bm\theta_\text{bow}$\;
+		minimize $\mathcal{L}_\text{ovr}(\bm\theta_E, \bm\theta_D)$ w.r.t. $\bm\theta_E, \bm\theta_D, \bm\theta_\text{mult}$\;
+	}
+	\caption{\label{alg:training-process} Training Algorithm}
+\end{algorithm}
+
+We use the the Adam optimizer \citep{kingma2014adam} with an initial learning rate of $10^{-3}$ and train the model for 20 epochs. Both the autoencoder and its adversary are trained once per epoch with $\lambda_\text{mult} = 1$, and $\lambda_\text{adv} = 0.3$ and $\lambda_\text{badv} = 0.001$.
 
 
 \section{Generating Style-Transferred Sentences} \label{ssec:generating-novel-text}

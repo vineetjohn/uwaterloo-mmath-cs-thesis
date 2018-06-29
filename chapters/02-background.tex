@@ -167,7 +167,7 @@ Prior to the existence of matrix factorization and neural models, the vectors us
 
 Word-ngrams and tf-idf vectors are useful as a proxy to encode the occurrence likelihoods and word-ngrams also take into account the context of nearby words for models that rely on it. However, each of these methods use discrete word/character occurrence counts to represent words and documents, and these representations scale with the size of the input corpus vocabulary for word-based models, which makes them computationally inefficient. They are also ineffective at modeling semantic inter-word or inter-character relationships.
 
-Word2Vec is a vector space model that embeds words into a continuous space where semantically similar words are embedding in nearby spaces \citep{mikolov2013distributed,mikolov2013linguistic,le2014distributed}. Word2Vec can model the corpus vocabulary in two different ways, namely CBOW and Skip-gram. CBOW predicts target words from source context words, whereas the skip-gram does the opposite and predicts target context-words from a source words. Both model types are shown in Figure \ref{fig:fig:efficient-models}
+Word2Vec is a vector space model that embeds words into a continuous space where semantically similar words are embedding in nearby spaces \citep{mikolov2013distributed,mikolov2013linguistic,le2014distributed}. Word2Vec can model the corpus vocabulary in two different ways, namely CBOW and Skip-gram. CBOW predicts target words from source context words, whereas the skip-gram does the opposite and predicts target context-words from a source words. Both model types are shown in Figure \ref{fig:efficient-models}
 
 \begin{figure}[ht]
 	\centering
