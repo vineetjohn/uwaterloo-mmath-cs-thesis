@@ -1,4 +1,4 @@
-We provide a novel approach to solve this open problem, and juxtaposes this approach and its experimental results against the current state-of-the-art models. We empirically demonstrate the separation of content and style spaces by demonstrating the inferred spaces of labeled sentences in a sentiment-transfer task, where the positive sentences in the test set are converted to equivalent sentences with a negative sentiment, and vice-versa.
+We provide a novel approach to solve this open problem, and juxtaposes this approach and its experimental results against the current state-of-the-art models. We empirically demonstrate the separation of content and style spaces by demonstrating the inferred spaces of labelled sentences in a sentiment-transfer task, where the positive sentences in the test set are converted to equivalent sentences with a negative sentiment, and vice-versa.
 
 This model is also generalizable using its standard implementation to problems involving multiple classes, like style transfer by authors, artists, topic etc.
 
@@ -196,7 +196,7 @@ To summarize the model training setup, our training process is a loop of the min
 	\caption{\label{alg:training-process} Training Algorithm}
 \end{algorithm}
 
-We use the the Adam optimizer \citep{kingma2014adam} with an initial learning rate of $10^{-3}$ and train the model for 20 epochs. Both the autoencoder and its adversary are trained once per epoch with $\lambda_\text{mult} = 1$, and $\lambda_\text{adv} = 0.3$ and $\lambda_\text{badv} = 0.001$.
+We use the the Adam optimizer \citep{kingma2014adam} with an initial learning rate of $10^{-3}$ and train the model for 20 epochs. Both the autoencoder and its adversary are trained once per epoch with $\lambda_\text{mult} = 1$, and $\lambda_\text{adv} = 0.3$ and $\lambda_\text{badv} = 0.0001$.
 
 
 \section{Generating Style-Transferred Sentences} \label{ssec:generating-novel-text}
@@ -207,5 +207,33 @@ Let $x$ be an input sentence with $\bm s$ and $\bm c$ being the encoded, disenta
 $$\hat{\bm s}=\frac{\sum_{i\in\text{target style}}\bm s_i}{\text{\# target style samples}}$$. The inferred target style $\hat{\bm s}$ is concatenated with the encoded content $\bm c$ for decoding (Figure \ref{fig:model-overview-inference}).
 
 
-\subsection{Nearest Neighbor Approach for Generation}
-\todo[inline]{Add details for the nearest neighbour method for inference}
+\subsection{Nearest-Neighbour Approach for Sentence Generation}
+
+The inference approach described above using the empirically learned mean embedding in the style space and applies it to all future inference requirements. Though simple and intuitive, this method is fairly rigid and doesn't take into account the fact that the inference time sentences' content could vary from the acceptable content embeddings that can be coupled with the mean style embedding used.
+
+To address this, we also propose a nearest neighbour approach to identify better candidates for the style embedding than the empirical mean of training time style embeddings. Algorithm \ref{alg:nearest-neighbour} describes our method.
+
+\begin{algorithm}[H]
+	\KwData{$S \Rightarrow$ empirical style embeddings from the training data}
+	\KwData{$C \Rightarrow$ empirical content embeddings from the training data}
+	\KwData{$s \Rightarrow$ inferred content embedding (singular) of a test sample}
+	\KwData{$c \Rightarrow$ inferred style embedding (singular) of a test sample}
+	\KwData{$N \Rightarrow$ number of neighbours (hyperparameter)}
+	\KwResult{new sentence generation style vector for transferring style}
+	$(S, C) \Rightarrow$ pairs of (style, content) embeddings\;
+	$(\text{cosine-distance}, \text{style-vector}) \Rightarrow$ empty list of tuples\;
+	\For{$s_t, c_t$ in $(S, C)$}{
+		Compute $cd$, the cosine distance between $c$ and $c_t$\;
+		Add tuple $(cd,s_t)$ to $(\text{cosine-distance}, \text{style-vector})$\;
+	}
+	$\text{best-tuples} \Rightarrow$ N best tuples with minimum cosine distance in $(\text{cosine-distance}, \text{style-vector})$\;
+	define $\text{aggregate-style-vector}$\;
+	\For{$cd, s_t$ in $\text{best-tuples}$}{
+		Add $s_t$ to $\text{aggregate-style-vector}$\;
+	}
+	\KwRet{$\frac{\text{aggregate-style-vector}}{N}$}\;
+
+	\caption{\label{alg:nearest-neighbour} Nearest-Neighbour Algorithm}
+\end{algorithm}
+
+However, this method is computationally more expensive since, for each test sentence, we need to iterate over the empirical content embeddings whose number is of the same order of magnitude as the training data.
