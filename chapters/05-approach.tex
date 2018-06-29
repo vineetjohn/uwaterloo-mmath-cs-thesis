@@ -128,9 +128,9 @@ where $\mathcal{H}=-\sum_{i\in\text{labels}} p_i\log p_i$ is the empirical Shann
 
 In addition to the auxiliary losses used above, we also propose a novel bag-of-words discriminator on the style space. The motivation for having this objective is to try and emulate the adversarial signal provided by the style discriminator, but and do the same for the content. Here, we define the content of the sentence as the words from the original sentence without any sentiment words.hu2004mining
 hu2004mining
-The input sentences $x$ are represented as a vector of thu2004mininghe same size as the corpus vocabulary, with each index of the vector a discrete prohu2004miningbability of a word's presence in the sentence. Therefore, this bag-of-words representatiohu2004miningn is comprised of only 1s and 0s.
-hu2004mining
-The bag-of-words discriminator, uses the style vector prhu2004miningoduced by the autoencoder model and tries to predict the true bag-of-words distribution hu2004miningusing a set of parameters that are distinct from those of the autoencoder. The discrimihu2004miningnator uses a logistic regression to predict a probability of each words occurrence in the original sentence, between 0 and 1.
+The input sentences $x$ are represented as a vector of the same size as the corpus vocabulary, with each index of the vector a discrete probability of a word's presence in the sentence. Therefore, this bag-of-words representation is comprised of only 1s and 0s.
+
+The bag-of-words discriminator, uses the style vector produced by the autoencoder model and tries to predict the true bag-of-words distribution using a set of parameters that are distinct from those of the autoencoder. The discriminator uses a logistic regression to predict a probability of each words occurrence in the original sentence, between 0 and 1.
 \begin{equation}
 	p(b | \bm s; \bm\theta_\text{bow}) = \sigma(\bm w_\text{bow}^\top \bm s + b_\text{bow})
 \end{equation}
@@ -193,8 +193,8 @@ We use the the Adam optimizer \citep{kingma2014adam} with an initial learning ra
 
 A direct application of our disentangled latent space is style transfer for natural language generation. For example, we can generate a sentence with generally the same meaning (content) but an opposite sentiment.
 
-Let $x_*$ be an input sentence with $\bm s_*$ and $\bm c_*$ being the encoded, disentangled style and content vectors, respectively. If we would like to transfer its content to a different style, we compute an empirical estimate of the target style's vector $\hat{\bm s}$ by
-$$\hat{\bm s}=\frac{\sum_{i\in\text{target style}}\bm s_i}{\text{\# target style samples}}$$. The inferred target style $\hat{\bm s}$ is concatenated with the encoded content $\bm c_*$ for decoding (Figure \ref{fig:model-overview-inference}).
+Let $x$ be an input sentence with $\bm s$ and $\bm c$ being the encoded, disentangled style and content vectors, respectively. If we would like to transfer its content to a different style, we compute an empirical estimate of the target style's vector $\hat{\bm s}$ by
+$$\hat{\bm s}=\frac{\sum_{i\in\text{target style}}\bm s_i}{\text{\# target style samples}}$$. The inferred target style $\hat{\bm s}$ is concatenated with the encoded content $\bm c$ for decoding (Figure \ref{fig:model-overview-inference}).
 
 
 \subsection{Nearest Neighbor Approach for Generation}
