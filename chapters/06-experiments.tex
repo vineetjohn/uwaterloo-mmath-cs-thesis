@@ -68,14 +68,14 @@ Some examples of style-transfer sentence generation are illustrated in Table~\re
 	\centering
 	\begin{tabular}{| l | r | r | }
 		\hline
-		\textbf{Model}                       & \textbf{Style Transfer} & \textbf{Content Preservation} \\
+		\textbf{Model}                        & \textbf{Style Transfer} & \textbf{Content Preservation} \\
 		\hline
 		\hline
 		Cross-alignment \citep{shen2017style} & 0.4609                  & 0.8830                        \\
 		\hline
 		Sentiment embed. \citep{fu2017style}  & 0.4009                  & 0.9246                        \\
 		\hline
-		Ours                                 & 0.7708                  & 0.8958                        \\
+		Ours                                  & 0.7708                  & 0.8958                        \\
 		\hline
 	\end{tabular}
 	\caption{Comparison with previous approaches.}
@@ -89,16 +89,16 @@ Some examples of style-transfer sentence generation are illustrated in Table~\re
 	\centering
 	\begin{tabular}{| l | r | r |}
 		\hline
-		\textbf{Training Loss}                          & \textbf{Style Transfer} & \textbf{Content Preservation} \\
+		\textbf{Training Loss}                                                        & \textbf{Style Transfer} & \textbf{Content Preservation} \\
 		\hline
 		\hline
-		$J_\text{rec}$                                  & 0.5053                  & 0.9103                        \\
+		$\mathcal{L}_\text{rec}$                                                      & 0.5053                  & 0.9103                        \\
 		\hline
-		$J_\text{rec}$, $J_\text{adv}$                  & 0.5901                  & 0.9121                        \\
+		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{adv}$                            & 0.5901                  & 0.9121                        \\
 		\hline
-		$J_\text{rec}$, $J_\text{mult}$                 & 0.6445                  & 0.9053                        \\
+		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{mult}$                           & 0.6445                  & 0.9053                        \\
 		\hline
-		$J_\text{rec}$, $J_\text{adv}$, $J_\text{mult}$ & 0.7708                  & 0.8958                        \\
+		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{adv}$, $\mathcal{L}_\text{mult}$ & 0.7708                  & 0.8958                        \\
 		\hline
 	\end{tabular}
 	\caption{Ablation test.}
