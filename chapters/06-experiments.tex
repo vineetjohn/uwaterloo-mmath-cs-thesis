@@ -1,14 +1,48 @@
+\section{Dataset and Task}
+
+We conduct experiments on two datasets, the details for which are given below.
+
+\subsection{Yelp Service Reviews}
+
+The model is tested on a subset of the Yelp review dataset \citep{challenge2013yelp} and has been sourced from the code repository accompanying the implementation of the paper by \cite{shen2017style} open-sourced by the authors~\footnote{\url{https://github.com/shentianxiao/language-style-transfer}}. It contains 559142, 2000, 2000 sentences for train, validation, and test, respectively, each sampling accompanied by binary sentiment labels. The maximum sentence length is 15, and the vocabulary size is about 9,200.
+
+\subsection{Amazon Product Reviews}
+
+The model is trained and tested on an Amazon product reviews data-set~\footnote{\url{http://jmcauley.ucsd.edu/data/amazon/}}, following \cite{fu2017style}. The reviews were sourced from the code repository accompanying the paper~\footnote{\url{https://github.com/fuzhenxin/text_style_transfer}}. It contains 559142, 2000, 2000 sentences for train, validation, and test, respectively, each sampling accompanied by binary sentiment labels. The maximum sentence length is 20, and the vocabulary size is about 58,000.
+
+
 \section{Evaluation Metrics}
 
 \subsection{Transfer Strength}
 
 Transfer strength can be defined as a measure of how successful the model has been in generating sentences that are consistent with the attribute the needs to be transferred into them. This can be formulated as a Natural Language Understanding (NLU) task that takes in a sentence as input and predicts the presence of an attribute that we train the model to transfer.
 
+Consistent with the approach taken in \cite{hu2017toward}, \cite{shen2017style} and \cite{fu2017style}, we train a separate model that learns to predict the class among the different classes to which transfer is possible. We use an open source implementation of the work presented by \cite{kim2014convolutional}, which is a convolutional neural network (CNN) model used for text classification, and build it into our model using an open-source implementation as a reference~\footnote{\url{https://github.com/dennybritz/cnn-text-classification-tf}}. This model has frequently been used as a text classification baseline to compare against \citep{tai2015improved} \citep{kiros2015skip} \citep{zhang2015character}.
+
+This CNN classifier is trained on the entire corpus described in the previous section, with a held out validation set to assess improvements in accuracy over time. The test set for this classifier are the style-transferred sentences generated from the autoencoder model.
+
+The style transfer strength is the ratio of sentences successfully transferred to the target style, to the total number of test sentences.
+\begin{equation*}
+	\text{transfer-strength} = \frac{count(\text{generated sentences with target style attribute})}{count(\text{generated sentences})}
+\end{equation*}
 
 
 \subsection{Content Preservation} \label{ssec:content-preservation-metric}
 
-The content preservation metric used by \cite{fu2017style} is re-purposed by our work to judge content preservation of the generated sentences compared to the original. This metric is needed to ensure that the generated sentence doesn't talk about subjects entirely different from the original sentence.
+The content preservation metric used by \cite{fu2017style} is also used in our work to judge content preservation of the generated sentences compared to the original. This metric is needed to ensure that the generated sentence doesn't talk about content, subjects or topics entirely different compared to the original sentence.
+
+This method uses 100-dimensional GloVe embeddings \citep{pennington2014glove} pre-trained on the Wikipedia + GigaWord corpora~\footnote{\url{https://nlp.stanford.edu/projects/glove/}}. The min, mean and max GloVe word embeddings for each sentence are concatenated together to create a sentence representation. The cosine similarity between the source sentence and target sentence is used as a measure of content preservation.
+
+Let $W$ be the set of word embeddings in a sentence $s$. Then the sentence embedding would be given by
+\begin{equation*}
+	\text{sentence-embedding} = [min(W);max(W);mean(W)]
+\end{equation*}
+
+Then the cosine similarity between two sentences $s_1$ and $s_2$ is obtained by
+\begin{equation*}
+	\text{cosine-similarity} = 1 - \cos(\text{sentence-embedding}_1, \text{sentence-embedding}_2)
+\end{equation*}
+where $\text{sentence-embedding}_1$ and $\text{sentence-embedding}_2$ are the sentence embeddings for $s_1$ and $s_2$ respectively.
 
 \todo[inline]{Insert a few instances of poor content preservation}
 
@@ -21,8 +55,6 @@ As seen in the examples above, it is easy to optimize for a style-transfer objec
 Cycle loss is not a good metric because while transferring from $X$ to $Y$, and back to $X'$, the variable $Y$ is not observable and if the neural network function is accidentally fitted to transform the content domain, this metric will not be able to tell the difference between an over-fit model and a good model.
 
 \section{Experiment Results}
-
-We conducted experiments on an Amazon product review data-set, following \cite{fu2017style}. It contains 131072, 2048, 32768 sentences for train, validation, and test, respectively, each sampling accompanied by binary sentiment labels.
 
 \subsection{Disentangling Latent Space}
 
