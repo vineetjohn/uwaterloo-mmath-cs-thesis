@@ -52,6 +52,22 @@ The idea of dropout is to randomly ignore a set of neural network weights i.e. r
 Each neuron/unit is dropped out with a pre-defined probability, which can be viewed as a model hyperparameter. This allows for more generalized and robust functions being learned by minimizing the co-dependence of neurons/units on each other. Dropout has also been empirically shown to improve experiment results on several supervised learning tasks in vision, speech recognition, document classification and computational biology \citep{srivastava2014dropout}.
 
 
+\section{Convolutional Neural Network}
+
+A convolutional neural network (CNN) \cite{lecun1995convolutional} is a specialized neural network that is optimized for extract features from local regions in data, for instance specific objects in an image, or a specific attribute in a body of text. Using densely connected multi-layer perceptrons would increasing the number of parameters and slow down the training process. Instead convolutional autoencoders use shared weights over the source data that are called 'filters'.
+
+The 'convolution' within a convolutional neural network is implemented using a filter. A filter is a learned function that transfer an arbitrary spatial representation of the image, say $3\text{px} * 3\text{px}$ into a single value and this is done for all the similar spatial zones in the image. This is 2-dimensional convolution that is used to process features in text and video because of their spatial nature. A 1-dimensional equivalent could be used to extract features from contiguous regions of text, usually 3 to 5 words. These features are then sub-sampled to reduce the dimensionality for subsequent layers. This is typically achieved by max-pooling, which simply requires using the maximum activations of all the region activations produced by the convolutional layer. An example CNN architecture is presented in Figure \ref{fig:cnn}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/cnn}
+	\imgsrc{\url{https://commons.wikimedia.org/wiki/File\%3ATypical_cnn.png}}
+	\caption{\label{fig:cnn} Convolutional Neural Network}
+\end{figure}
+
+Since their CNNs have been proven to achieve state-of-the-art results in multiple task settings within vision and language, especially with the use of deep convolutional architectures \citep{lawrence1997face} \citep{krizhevsky2012imagenet} \citep{karpathy2014large} \citep{kalchbrenner2014convolutional} \citep{kim2014convolutional} \citep{hu2014convolutional}.
+
+
 \section{Recurrent Neural Networks}
 
 Recurrent neural networks (RNNs) are a sub-class of artificial neural networks that can be considered a neural network equivalent to a Hidden Markov Model. Its units forms a directed graph that operates on a sequence of inputs when unrolled temporally. This makes them a useful tool for extracting features from arbitrary length sequences of input like audio or text. The features extracted at a given temporal point in an instance (sequence) is given by the below equation.
