@@ -47,7 +47,7 @@ Then the cosine similarity between two sentences $s_1$ and $s_2$ is obtained by
 \end{equation*}
 where $\text{sentence-embedding}_1$ and $\text{sentence-embedding}_2$ are the sentence embeddings for $s_1$ and $s_2$ respectively. The mean cosine similarity of all the sentences in the test set is the content preservation that is reported for the experiment.
 
-\begin{table}[!t]
+\begin{table}[ht]
 	\centering
 	\begin{tabular}{| p{0.45\linewidth} | p{0.45\linewidth} |}
 		\hline
@@ -106,13 +106,13 @@ Word overlap can be used interchangeably with the 'Content Preservation' metric 
 
 \subsection{A note about Cycle Consistency Loss}
 
-The cycle consistency loss is described in the image domain-adaptation work done by \cite{zhu2017unpaired}. Given domains $X$ and $Y$, They aim to learn a mapping similar to ours, $G: X \rightarrow Y$ which transfers attributes of $X$ to $Y$. At the same time, they also learn an inverse mapping $F: Y \rightarrow X$. The cycle consistency loss is the step that pushes $F(G(X)) \approx X$ and $G(F(Y)) \approx Y$, as shown in
+The cycle consistency loss is described in the image domain-adaptation work done by \cite{zhu2017unpaired}. Given domains $X$ and $Y$, They aim to learn a mapping similar to ours, $G: X \rightarrow Y$ which transfers attributes of $X$ to $Y$. At the same time, they also learn an inverse mapping $F: Y \rightarrow X$. The cycle consistency loss is the step that pushes $F(G(X)) \approx X$ and $G(F(Y)) \approx Y$, as shown in Figure \ref{fig:cycle-consistency}.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=\textwidth]{images/cycle-consistency}
 	\imgsrc{\cite{zhu2017unpaired}}
-	\caption{\label{fig:cnn} Cycle Consistency Loss}
+	\caption{\label{fig:cycle-consistency} Cycle Consistency Loss}
 \end{figure}
 
 This training routine could also be used as an evaluation metric for other domain adaptation tasks, like text attribute style transfer. The advantage of using a cycle consistency loss is that no other content preservation metric is needed, and no domain or style specific lexicons would be needed.
@@ -132,12 +132,11 @@ Hence, metric would not be able to tell the difference between a model with poor
 
 \subsection{Disentangling Latent Space}
 
-We first analyse how the style (sentiment) and content of the latent space are disentangled. We train a logistic classifier based on different latent spaces, and show results in Table~\ref{tab:classification}.
+We first analyse how the style (sentiment) and content of the latent space are disentangled. We train a softmax classifier from each latent space, style and content, alongside our autoencoder model and train it to predict the true class of an input sample. The results are shown in Table \ref{tab:classification}.
 
-We see that the 128-dimensional content vector is not discriminative for style. It achieves an accuracy of 0.57, slightly better than random/majority guess. However, the 8-dimensional style vector $\bm s$, despite its low dimensionality, achieves significantly higher style classification accuracy. When combining content and style vectors, we achieve no further improvement. These results verify the effectiveness of our disentangling approach, because the style space does contain style information, whereas the content space doesn't.
+In our experiments, we use an 8-neuron layer for the style embedding and a 128-neuron layer for the content embedding. We see that the 128-dimensional content vector is not discriminative for style. It achieves an accuracy of 0.57, slightly better than random/majority guess. However, the 8-dimensional style vector $\bm s$, despite its low dimensionality, achieves significantly higher style classification accuracy. When combining content and style vectors, we achieve no further improvement. These results verify the effectiveness of our disentangling approach, because the content space doesn't contain style information, opposed to the style space.
 
-
-\begin{table}
+\begin{table}[ht]
 	\centering
 	\begin{tabular}{| l | r |}
 		\hline
@@ -151,6 +150,8 @@ We see that the 128-dimensional content vector is not discriminative for style. 
 	\label{tab:classification}
 \end{table}
 
+\todo[inline]{Juxtapose plots of DAE vs VAE to demonstrate smoothness}
+
 \begin{figure}
 	\includegraphics[width=\linewidth]{images/tsne-style-and-content}
 	\caption{t-SNE plots of (a) style and (b) content spaces.}
@@ -158,32 +159,32 @@ We see that the 128-dimensional content vector is not discriminative for style. 
 \end{figure}
 
 
-The latent space can be visualized with t-SNE plots~\cite{maaten2008visualizing} in Figure~\ref{fig:tsne}. As expected, sentences with different sentiments can be nicely separated in the style space (LHS), but are highly mixed in the content space (RHS).
+The latent space can be visualized with t-SNE plots~\cite{maaten2008visualizing} in Figure \ref{fig:tsne}. As expected, sentences with different sentiments can be nicely separated in the style space (LHS), but are highly mixed in the content space (RHS).
 
 
 \subsection{Style-Transfer Sentence Generation}
 
 We apply the disentangled latent space to a style-transfer sentence generation task, where the goal is to generate a sentence with different sentiment (style). We followed \cite{fu2017style} and used two metrics: (1) For style transfer, we train a style classifier and predict the accuracy of the generated sentences. While the style classifier itself may not be perfect, it provides a quantitative way of evaluating the strength of style transfer. (2) For the content-preservation score, we compute a sentence embedding by min, max, and average pooling of word embeddings; then a cosine similarity is computed to evaluate how close two sentences are in meaning. Here, sentiment words from a stop list \cite{hu2004mining} are removed.
 
-We compare our approach with state-of-the-art previous work in Table~\ref{tab:comparison-previous}. We re-conducted the experiments with their publicly available code on our data splits.
+We compare our approach with state-of-the-art previous work in Table \ref{tab:comparison-previous}. We re-conducted the experiments with their publicly available code on our data splits.
 Results show that, our approach achieves a comparable content-preservation score with previous work, but a significantly better style-transfer score, showing that our disentangled latent space can be used for better style-transfer sentence generation.
 
-Table~\ref{tab:ablation-results} presents the results of an ablation test. We see that both adversarial loss and reconstruction loss play a role in the strength of style transfer, and that they can be combined to further improve performance.
+Table \ref{tab:ablation-results} presents the results of an ablation test. We see that both adversarial loss and reconstruction loss play a role in the strength of style transfer, and that they can be combined to further improve performance.
 
-Some examples of style-transfer sentence generation are illustrated in Table~\ref{tab:transfer-samples}. We see that, with the empirically estimated style vector, we can flexibly control the sentiment of generated sentences.
+Some examples of style-transfer sentence generation are illustrated in Table \ref{tab:transfer-samples}. We see that, with the empirically estimated style vector, we can flexibly control the sentiment of generated sentences.
 
-\begin{table}[!t]
+\begin{table}[ht]
 	\centering
-	\begin{tabular}{| l | r | r | }
+	\begin{tabular}{| l | r | r | r |}
 		\hline
-		\textbf{Model}                        & \textbf{Style Transfer} & \textbf{Content Preservation} \\
+		\textbf{Model}                        & \textbf{Style Transfer} & \textbf{Content Preservation} & \textbf{Word Overlap} \\
 		\hline
 		\hline
-		Cross-alignment \citep{shen2017style} & 0.4609                  & 0.8830                        \\
+		Cross-alignment \citep{shen2017style} & 0.8086                  & 0.8919                        & 0.2086                \\
 		\hline
-		Sentiment embed. \citep{fu2017style}  & 0.4009                  & 0.9246                        \\
+		Style-embedding \citep{fu2017style}   & 0.1819                  & 0.9585                        & 0.6661                \\
 		\hline
-		Ours                                  & 0.7708                  & 0.8958                        \\
+		Ours                                  & 0.8425                  & 0.8924                        & 0.2551                \\
 		\hline
 	\end{tabular}
 	\caption{Comparison with previous approaches.}
@@ -193,7 +194,7 @@ Some examples of style-transfer sentence generation are illustrated in Table~\re
 
 \todo[inline]{Update ablation tests table with latest results}
 
-\begin{table}[!t]
+\begin{table}[ht]
 	\centering
 	\begin{tabular}{| l | r | r |}
 		\hline
@@ -216,7 +217,7 @@ Some examples of style-transfer sentence generation are illustrated in Table~\re
 
 \todo[inline]{Update text samples table with latest results}
 
-\begin{table}[!t]
+\begin{table}[ht]
 	\centering
 	\begin{tabular}{| p{0.45\linewidth} | p{0.45\linewidth} |}
 		\hline
@@ -243,9 +244,3 @@ Some examples of style-transfer sentence generation are illustrated in Table~\re
 	\caption{Examples of style-transfer generation.}
 	\label{tab:transfer-samples}
 \end{table}
-
-
-\todo[inline]{Add gradually evolving plots of style and content}
-
-\todo[inline]{Juxtapose plots of DAE vs VAE to demonstrate smoothness}
-
