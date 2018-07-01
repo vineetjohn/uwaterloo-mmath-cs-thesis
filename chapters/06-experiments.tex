@@ -44,9 +44,46 @@ Then the cosine similarity between two sentences $s_1$ and $s_2$ is obtained by
 \end{equation*}
 where $\text{sentence-embedding}_1$ and $\text{sentence-embedding}_2$ are the sentence embeddings for $s_1$ and $s_2$ respectively.
 
-\todo[inline]{Insert a few instances of poor content preservation}
+\begin{table}[!t]
+	\centering
+	\begin{tabular}{| p{0.45\linewidth} | p{0.45\linewidth} |}
+		\hline
+		\textbf{{Original (Positive)}}                                                      & \textbf{Transferred (Negative)}                  \\
+		\hline
+		\hline
+		we had the shrimp with vegetables and shrimp fried rice both lovely                 & we had the bacon cheeseburger and it was cold    \\
+		\hline
+		both dishes prepared with quality veggies                                           & eggs benedict with no flavor                     \\
+		\hline
+		my appetizer was also very good and unique                                          & my steak was very dry and flavorless             \\
+		\hline
+		both times i have eaten the lunch buffet and it was outstanding                     & yes i have had the worst pizza i have ever had   \\
+		\hline
+		the new york eggrolls are outstanding and the beef dishes we ordered were flavorful & the main issue was our server was extremely rude \\
+		\hline
+	\end{tabular}
+	\\
+	\begin{tabular}{| p{0.45\linewidth} | p{0.45\linewidth} |}
+		\hline
+		\textbf{{Original (Negative)}}                                        & \textbf{Transferred (Positive)}        \\
+		\hline
+		\hline
+		the chicken '' strip were paper thin oddly flavored strips            & the bread was wonderful as well        \\
+		\hline
+		the big chicken sandwich should be called the big mayonnaise sandwich & the salsa is the best i have ever had  \\
+		\hline
+		fries are not worth coming back                                       & prices are good                        \\
+		\hline
+		but honestly the worst hookah in las vegas                            & very authentic food in the east valley \\
+		\hline
+		second the service was terribly slow                                  & the sushi was delicious                \\
+		\hline
+	\end{tabular}
+	\caption{Examples of poor content preservation while transferring sentiment}
+	\label{tab:poor-content-preservation}
+\end{table}
 
-As seen in the examples above, it is easy to optimize for a style-transfer objective as long as there are no constraints on the content preservation regularization. To ensure this does not happen, we typically use a much larger content latent space than style latent space.
+As seen in the examples above, it is easy to optimize for a style-transfer objective as long as there are no constraints on the content preservation regularization. To ensure this does not happen, we typically use a much larger content latent space than style latent space, as well as add the necessary regularizations discussed in the previous chapter.
 
 \subsection{Word Overlap}
 
