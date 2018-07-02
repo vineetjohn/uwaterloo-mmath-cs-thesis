@@ -11,6 +11,15 @@ The model is tested on a subset of the Yelp review dataset \citep{challenge2013y
 The model is trained and tested on an Amazon product reviews data-set~\footnote{\url{http://jmcauley.ucsd.edu/data/amazon/}}, following \cite{fu2017style}. The reviews were sourced from the code repository accompanying the paper~\footnote{\url{https://github.com/fuzhenxin/text_style_transfer}}. It contains 559142, 2000, 2000 sentences for train, validation, and test, respectively, each sampling accompanied by binary sentiment labels. The maximum sentence length is 20, and the vocabulary size is about 58000.
 
 
+\section{Implementation Details and Model Hyper-parameters}
+
+We implement the model in Tensorflow \citep{abadi2016tensorflow}, and utilize Scikit-learn \cite{pedregosa2011scikit} for latent-space classification evaluation metrics.
+
+One of the most challenging aspects of training a variational autoencoder (VAE) is avoiding posterior collapse. In previous work \citep{yang2017improved, bowman2016generating, bahuleyan2017variational}, this has been done using manually crafted annealing schedules for weight of the KL-divergence term. We utilize the $\tanh$ annealing schedule proposed by \cite{bahuleyan2017variational}, and also use their technique of appending the latent vector ($[\bm s; \bm c]$) to the hidden state of the recurrent decoder at each time-step of decoding. Greedy decoding is utilized to predict the next word at each time-step.
+
+The model uses style embeddings of size $8$ and content embeddings of size $128$ by default. The remaining hyper-parameters are shared as part of the default configuration in the code repository \footnote{\url{https://github.com/vineetjohn/linguistic-style-transfer}}.
+
+
 \section{Evaluation Metrics} \label{sec:evaluation-metrics}
 
 \subsection{Transfer Strength}
@@ -169,39 +178,40 @@ We T-SNE show plots of both and deterministic autoencoder (DAE) and variational 
 	\label{fig:vae-tsne}
 \end{figure}
 
-As can be seen from the plots, sentences with different styles are noticeably separated in a cleaner manner in the style space (LHS), but are indistinguishable in the content space (RHS).
+As can be seen from the plots, sentences with different styles are noticeably separated in a cleaner manner in the style space (LHS), but are indistinguishable in the content space (RHS). It is also evident that the latent space learned by the variational autoencoder is significantly smoother and continuous than the one learned by the deterministic autoencoder. Since we are essentially given the decoder a previously unseen combination of style and latent space at inference time, our hypothesis is that using a variational autoencoder would lead to more fluent generated sentences.
 
 
 \subsection{Style-Transferred Text Generation}
 
-We apply the disentangled latent space to a style-transfer sentence generation task, where the goal is to generate a sentence with different sentiment (style). We use the metrics
+We apply the disentangled latent space to a style-transfer sentence generation task, where the goal is to generate a sentence with different sentiment (style). We use the metrics discussed in \ref{sec:evaluation-metrics} to evaluate our models.
 
-We compare our approach with state-of-the-art previous work in Table \ref{tab:comparison-previous}. We re-conducted the experiments with their publicly available code on our data splits.
-Results show that, our approach achieves a comparable content-preservation score with previous work, but a significantly better style-transfer score, showing that our disentangled latent space can be used for better style-transfer sentence generation.
+We compare our approach with state-of-the-art previous work in Table \ref{tab:comparison-previous}. We re-conducted the experiments with their publicly available code and data.
 
-Table \ref{tab:ablation-results} presents the results of an ablation test. We see that both adversarial loss and reconstruction loss play a role in the strength of style transfer, and that they can be combined to further improve performance.
-
-Some examples of style-transfer sentence generation are illustrated in Table \ref{tab:transfer-samples}. We see that, with the empirically estimated style vector, we can flexibly control the sentiment of generated sentences.
+Results show that, our approach achieves a comparable content-preservation score to previous work, but a significantly better style-transfer score, showing that our disentangled latent space can be used for better style-transfer sentence generation.
 
 \begin{table}[ht]
 	\centering
 	\begin{tabular}{| l | r | r | r |}
 		\hline
-		\multirow{2}{*}{\textbf{Model}}           & \textbf{Style}    & \textbf{Content}      & \textbf{Word}    \\
-		                                          & \textbf{Transfer} & \textbf{Preservation} & \textbf{Overlap} \\
+		\multirow{2}{*}{
+		\textbf{Model}}                       & \textbf{Style}    & \textbf{Content}      & \textbf{Word}    \\
+		                                      & \textbf{Transfer} & \textbf{Preservation} & \textbf{Overlap} \\
 		\hline
 		\hline
-		Cross-alignment VAE \citep{shen2017style} & 0.8086            & 0.8919                & 0.2086           \\
+		Cross-alignment \citep{shen2017style} & 0.8086            & 0.8919                & 0.2086           \\
 		\hline
-		Style-embedding AE \citep{fu2017style}    & 0.1819            & 0.9585                & 0.6661           \\
+		Style Embedding \citep{fu2017style}   & 0.1819            & 0.9585                & 0.6661           \\
 		\hline
-		Ours                                      & 0.8425            & 0.8924                & 0.2551           \\
+		Ours (DAE)                            & 0.8425            & 0.8924                & 0.2551           \\
+		Ours (VAE)                            & 0.8903            & 0.8824                & 0.2105           \\
 		\hline
 	\end{tabular}
-	\caption{Comparison with previous approaches.}
+	\caption{Comparison with previous approaches on the Yelp Dataset}
 	\label{tab:comparison-previous}
 \end{table}
 
+
+Table \ref{tab:ablation-results} presents the results of an ablation test. We see that both, the adversarial loss and multi-task losses, play a role in the strength of style transfer. It also shows that their usage in a combination can further boost performance of the style-transfer strength.
 
 \todo[inline]{Update ablation tests table with latest results}
 
@@ -225,6 +235,7 @@ Some examples of style-transfer sentence generation are illustrated in Table \re
 	\label{tab:ablation-results}
 \end{table}
 
+Some examples of style-transfer sentence generation are illustrated in Table \ref{tab:transfer-samples}. We see that, with the empirically estimated style vector, we can flexibly control the sentiment of generated sentences.
 
 \todo[inline]{Update text samples table with latest results}
 

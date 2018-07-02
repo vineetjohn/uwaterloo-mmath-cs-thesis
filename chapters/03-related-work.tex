@@ -21,7 +21,7 @@ mutual information between a fixed small subset of the GAN's noise variables and
 
 In the vanilla formulation of the GAN, the decoder might well chose to ignore these additional latent variables provided by minimizing the magnitude of the parameters learned between the additional latent variable and a generated sample. To avoid this, the authors propose an information maximization objective as an auxiliary training objective to the GAN objective.
 
-Using this approach, the authors are able to generate MNIST digits in various handwriting styles by changing the continuous variables, and change the numerical value represented in the generated image by changing the categorical variable, as shown in Figure \ref{fig:images/infogan-digits}. Here $c_1$ represents the categorical variable discussed above and $c_2, c_3$ represent continuous variables. They also test this method on faces \citep{liu2015deep,paysan20093d} and chairs \citep{aubry2014seeing}.
+Using this approach, the authors are able to generate MNIST digits in various handwriting styles by changing the continuous variables, and change the numerical value represented in the generated image by changing the categorical variable, as shown in Figure \ref{fig:infogan-digits}. Here $c_1$ represents the categorical variable discussed above and $c_2, c_3$ represent continuous variables. They also test this method on faces \citep{liu2015deep,paysan20093d} and chairs \citep{aubry2014seeing}.
 
 \begin{figure}[ht]
 	\centering
