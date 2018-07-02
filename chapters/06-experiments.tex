@@ -11,7 +11,7 @@ The model is tested on a subset of the Yelp review dataset \citep{challenge2013y
 The model is trained and tested on an Amazon product reviews data-set~\footnote{\url{http://jmcauley.ucsd.edu/data/amazon/}}, following \cite{fu2017style}. The reviews were sourced from the code repository accompanying the paper~\footnote{\url{https://github.com/fuzhenxin/text_style_transfer}}. It contains 559142, 2000, 2000 sentences for train, validation, and test, respectively, each sampling accompanied by binary sentiment labels. The maximum sentence length is 20, and the vocabulary size is about 58000.
 
 
-\section{Evaluation Metrics}
+\section{Evaluation Metrics} \label{sec:evaluation-metrics}
 
 \subsection{Transfer Strength}
 
@@ -132,22 +132,24 @@ Hence, metric would not be able to tell the difference between a model with poor
 
 \subsection{Disentangling Latent Space}
 
-We first analyse how the style (sentiment) and content of the latent space are disentangled. We train a softmax classifier from each latent space, style and content, alongside our autoencoder model and train it to predict the true class of an input sample. The results are shown in Table \ref{tab:classification}.
+We first analyse how the style (sentiment) and content of the latent space are disentangled. We train a softmax classifier from each latent space, style and content, alongside our autoencoder model and train it to predict the true class of an input sample. The results are shown in Table \ref{tab:latent-space-classification}. vae-The results reported here are for the Yelp dataset.
 
-In our experiments, we use an 8-neuron layer for the style embedding and a 128-neuron layer for the content embedding. We see that the 128-dimensional content vector is not discriminative for style. It achieves an accuracy of 0.57, slightly better than random/majority guess. However, the 8-dimensional style vector $\bm s$, despite its low dimensionality, achieves significantly higher style classification accuracy. When combining content and style vectors, we achieve no further improvement. These results verify the effectiveness of our disentangling approach, because the content space doesn't contain style information, opposed to the style space.
+In our experiments, we use an 8-neuron layer for the style embedding and a 128-neuron layer for the content embedding. We see that the 128-dimensional content vector is not discriminative for style. It achieves a classification accuracy that is slightly better than random/majority guess. However, the 8-dimensional style vector $\bm s$, despite its low dimensionality, achieves significantly higher style classification accuracy. When combining content and style vectors, we achieve no further improvement. These results verify the effectiveness of our disentangling approach, because the content space doesn't contain style information, opposed to the style space.
 
 \begin{table}[ht]
 	\centering
-	\begin{tabular}{| l | r |}
+	\begin{tabular}{| l | r | r |}
 		\hline
-		Random/Majority guess           & 0.5000          \\ \hline
-		Content latent space  ($\bm c$) & 0.5690          \\
-		Style latent space ($\bm s$)    & \textbf{0.7817} \\
-		Combined ($[\bm s;\bm c]$)      & 0.7815          \\
+		                                        & \textbf{Variational} & \textbf{Deterministic} \\
+		\hline \hline
+		Random/Majority guess                   & 0.6018               & 0.6018                 \\ \hline \hline
+		Content latent space  ($\bm c$)         & 0.6567               & 0.6137                 \\ \hline
+		Style latent space ($\bm s$)            & 0.7911               & 0.7927                 \\ \hline
+		Complete latent space ($[\bm s;\bm c]$) & 0.7918               & 0.7918                 \\
 		\hline
 	\end{tabular}
-	\caption{Style classification accuracy.}
-	\label{tab:classification}
+	\caption{Style classification accuracy}
+	\label{tab:latent-space-classification}
 \end{table}
 
 \todo[inline]{Juxtapose plots of DAE vs VAE to demonstrate smoothness}
@@ -162,9 +164,9 @@ In our experiments, we use an 8-neuron layer for the style embedding and a 128-n
 The latent space can be visualized with t-SNE plots~\cite{maaten2008visualizing} in Figure \ref{fig:tsne}. As expected, sentences with different sentiments can be nicely separated in the style space (LHS), but are highly mixed in the content space (RHS).
 
 
-\subsection{Style-Transfer Sentence Generation}
+\subsection{Style-Transferred Text Generation}
 
-We apply the disentangled latent space to a style-transfer sentence generation task, where the goal is to generate a sentence with different sentiment (style). We followed \cite{fu2017style} and used two metrics: (1) For style transfer, we train a style classifier and predict the accuracy of the generated sentences. While the style classifier itself may not be perfect, it provides a quantitative way of evaluating the strength of style transfer. (2) For the content-preservation score, we compute a sentence embedding by min, max, and average pooling of word embeddings; then a cosine similarity is computed to evaluate how close two sentences are in meaning. Here, sentiment words from a stop list \cite{hu2004mining} are removed.
+We apply the disentangled latent space to a style-transfer sentence generation task, where the goal is to generate a sentence with different sentiment (style). We use the metrics
 
 We compare our approach with state-of-the-art previous work in Table \ref{tab:comparison-previous}. We re-conducted the experiments with their publicly available code on our data splits.
 Results show that, our approach achieves a comparable content-preservation score with previous work, but a significantly better style-transfer score, showing that our disentangled latent space can be used for better style-transfer sentence generation.
@@ -177,14 +179,15 @@ Some examples of style-transfer sentence generation are illustrated in Table \re
 	\centering
 	\begin{tabular}{| l | r | r | r |}
 		\hline
-		\textbf{Model}                        & \textbf{Style Transfer} & \textbf{Content Preservation} & \textbf{Word Overlap} \\
+		\multirow{2}{*}{\textbf{Model}}           & \textbf{Style}    & \textbf{Content}      & \textbf{Word}    \\
+		                                          & \textbf{Transfer} & \textbf{Preservation} & \textbf{Overlap} \\
 		\hline
 		\hline
-		Cross-alignment \citep{shen2017style} & 0.8086                  & 0.8919                        & 0.2086                \\
+		Cross-alignment VAE \citep{shen2017style} & 0.8086            & 0.8919                & 0.2086           \\
 		\hline
-		Style-embedding \citep{fu2017style}   & 0.1819                  & 0.9585                        & 0.6661                \\
+		Style-embedding AE \citep{fu2017style}    & 0.1819            & 0.9585                & 0.6661           \\
 		\hline
-		Ours                                  & 0.8425                  & 0.8924                        & 0.2551                \\
+		Ours                                      & 0.8425            & 0.8924                & 0.2551           \\
 		\hline
 	\end{tabular}
 	\caption{Comparison with previous approaches.}
@@ -198,7 +201,7 @@ Some examples of style-transfer sentence generation are illustrated in Table \re
 	\centering
 	\begin{tabular}{| l | r | r |}
 		\hline
-		\textbf{Training Loss}                                                        & \textbf{Style Transfer} & \textbf{Content Preservation} \\
+		\textbf{Training Objectives}                                                  & \textbf{Style Transfer} & \textbf{Content Preservation} \\
 		\hline
 		\hline
 		$\mathcal{L}_\text{rec}$                                                      & 0.5053                  & 0.9103                        \\
