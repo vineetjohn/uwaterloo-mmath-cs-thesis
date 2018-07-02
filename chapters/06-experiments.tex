@@ -13,11 +13,13 @@ The model is trained and tested on an Amazon product reviews data-set~\footnote{
 
 \section{Implementation Details and Model Hyper-parameters}
 
-We implement the model in Tensorflow \citep{abadi2016tensorflow}, and utilize Scikit-learn \cite{pedregosa2011scikit} for latent-space classification evaluation metrics.
+We implement the neural-network model in Tensorflow \citep{abadi2016tensorflow}, and utilize Scikit-learn \cite{pedregosa2011scikit} for latent-space classification evaluation metrics.
 
 One of the most challenging aspects of training a variational autoencoder (VAE) is avoiding posterior collapse. In previous work \citep{yang2017improved, bowman2016generating, bahuleyan2017variational}, this has been done using manually crafted annealing schedules for weight of the KL-divergence term. We utilize the $\tanh$ annealing schedule proposed by \cite{bahuleyan2017variational}, and also use their technique of appending the latent vector ($[\bm s; \bm c]$) to the hidden state of the recurrent decoder at each time-step of decoding. Greedy decoding is utilized to predict the next word at each time-step.
 
-The model uses style embeddings of size $8$ and content embeddings of size $128$ by default. The remaining hyper-parameters are shared as part of the default configuration in the code repository \footnote{\url{https://github.com/vineetjohn/linguistic-style-transfer}}.
+The model uses style embeddings of size $8$ and content embeddings of size $128$ by default. The encoder and decoder are both GRU-RNNs with a size of $256$. The recurrent dropout probability for units in the encoder and decoder is $0.2$, and the same dropout probability is used for units in fully-connected layers as well.
+
+We use the the Adam optimizer \citep{kingma2014adam} with an initial learning rate of $10^{-3}$ and train the model for 20 epochs. Both the autoencoder and its adversary are trained once per epoch with $\lambda_\text{mult} = 1$, and $\lambda_\text{adv} = 0.3$ and $\lambda_\text{badv} = 0.0001$.
 
 
 \section{Evaluation Metrics} \label{sec:evaluation-metrics}
@@ -231,7 +233,7 @@ Table \ref{tab:ablation-results} presents the results of an ablation test. We se
 		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{adv}$, $\mathcal{L}_\text{mult}$ & 0.7708                  & 0.8958                        \\
 		\hline
 	\end{tabular}
-	\caption{Ablation test.}
+	\caption{Ablation tests}
 	\label{tab:ablation-results}
 \end{table}
 
@@ -263,6 +265,6 @@ Some examples of style-transfer sentence generation are illustrated in Table \re
 		i am going to buy a replacement and wish i had sent this back for a refund & i am going to go through the same time and i have been using it for years \\
 		\hline
 	\end{tabular}
-	\caption{Examples of style-transfer generation.}
+	\caption{Examples of style-transferred text generation}
 	\label{tab:transfer-samples}
 \end{table}

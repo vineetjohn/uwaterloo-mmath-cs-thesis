@@ -196,8 +196,6 @@ To summarize the model training setup, our training process is a loop of the min
 	\caption{\label{alg:training-process} Training Algorithm}
 \end{algorithm}
 
-We use the the Adam optimizer \citep{kingma2014adam} with an initial learning rate of $10^{-3}$ and train the model for 20 epochs. Both the autoencoder and its adversary are trained once per epoch with $\lambda_\text{mult} = 1$, and $\lambda_\text{adv} = 0.3$ and $\lambda_\text{badv} = 0.0001$.
-
 
 \section{Generating Style-Transferred Sentences} \label{ssec:generating-novel-text}
 
