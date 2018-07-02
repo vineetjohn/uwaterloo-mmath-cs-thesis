@@ -75,22 +75,19 @@ where $\text{sentence-embedding}_1$ and $\text{sentence-embedding}_2$ are the se
 		\hline
 		the new york eggrolls are outstanding and the beef dishes we ordered were flavorful & the main issue was our server was extremely rude \\
 		\hline
-	\end{tabular}
-	\\
-	\begin{tabular}{| p{0.45\linewidth} | p{0.45\linewidth} |}
 		\hline
-		\textbf{{Original (Negative)}}                                        & \textbf{Transferred (Positive)}        \\
+		\textbf{{Original (Negative)}}                                                      & \textbf{Transferred (Positive)}                  \\
 		\hline
 		\hline
-		the chicken '' strip were paper thin oddly flavored strips            & the bread was wonderful as well        \\
+		the chicken '' strip were paper thin oddly flavored strips                          & the bread was wonderful as well                  \\
 		\hline
-		the big chicken sandwich should be called the big mayonnaise sandwich & the salsa is the best i have ever had  \\
+		the big chicken sandwich should be called the big mayonnaise sandwich               & the salsa is the best i have ever had            \\
 		\hline
-		fries are not worth coming back                                       & prices are good                        \\
+		fries are not worth coming back                                                     & prices are good                                  \\
 		\hline
-		but honestly the worst hookah in las vegas                            & very authentic food in the east valley \\
+		but honestly the worst hookah in las vegas                                          & very authentic food in the east valley           \\
 		\hline
-		second the service was terribly slow                                  & the sushi was delicious                \\
+		second the service was terribly slow                                                & the sushi was delicious                          \\
 		\hline
 	\end{tabular}
 	\caption{Examples of poor content preservation while transferring sentiment}
@@ -239,30 +236,37 @@ Table \ref{tab:ablation-results} presents the results of an ablation test. We se
 
 Some examples of style-transfer sentence generation are illustrated in Table \ref{tab:transfer-samples}. We see that, with the empirically estimated style vector, we can flexibly control the sentiment of generated sentences.
 
-\todo[inline]{Update text samples table with latest results}
-
 \begin{table}[ht]
 	\centering
-	\begin{tabular}{| p{0.45\linewidth} | p{0.45\linewidth} |}
+	\begin{tabular}{| p{0.3\linewidth} | p{0.3\linewidth} | p{0.3\linewidth} |}
 		\hline
-		\textbf{{Original}}                                                        & \textbf{Transferred (Positive $\rightarrow$ Negative)}                    \\
+		\multirow{2}{*}{\textbf{Original (Positive)}}          & \textbf{DAE Transferred}                                       & \textbf{VAE Transferred}                                    \\
+		                                                       & \textbf{(Negative)}                                            & \textbf{(Negative)}                                         \\
+		\hline
+		i would recommend a visit here                         & i would not recommend this place again                         & i would not recommend this place for my experience          \\
+		\hline
+		the restaurant itself is romantic and quiet            & the restaurant itself is soooo quiet                           & the restaurant itself was dirty                             \\
+		\hline
+		my experience was brief but very good                  & my experience was very loud and very expensive                 & my experience was ok but not very much                      \\
+		\hline
+		the food is excellent and the service is exceptional   & the food is by the worst part is the horrible costumer service & the food was bland and i am not thrilled with this          \\
+		\hline
+		the food is very very amazing like beef and fish       & the food is very horrible i have ever had mostly fish          & the food is very bland and just not fresh                   \\
 		\hline
 		\hline
-		i bought this cuisipro mister to replace my old mister last june-(number)  & i bought this a couple of times and was disappointed in this product      \\
-		\hline
-		quality is good, recevied in time and works as expected.                   & quality is good but i am returning it                                     \\
-		\hline
-		all in all, i am very happy with this headset.                             & all in all i was expecting a good product                                 \\
+		\multirow{2}{*}{\textbf{Original (Negative)}}          & \textbf{DAE Transferred}                                       & \textbf{VAE Transferred}                                    \\
+		                                                       & \textbf{(Positive)}                                            & \textbf{(Positive)}                                         \\
 		\hline
 		\hline
-		\textbf{{Original}}                                                        & \textbf{Transferred (Negative $\rightarrow$ Positive)}                    \\
+		so nasty                                               & so helpful                                                     & so fabulous                                                 \\
 		\hline
+		consistently slow                                      & consistently awesome                                           & fast service                                                \\
 		\hline
-		i sent it back and requested a refund, and never got the refund.           & i sent it back and gave it a try and it works great                       \\
+		crap fries hard hamburger buns burger tasted like crap & cheap and yummy sandwiches really something different          & yummy hamburgers and blue cheese bagels are classic italian \\
 		\hline
-		so i tried just one (number) piece each n still the same results.          & so i bought the two sizes and the other ones are great                    \\
+		oh and terrible tea                                    & oh and awesome tea                                             & oh and great tea                                            \\
 		\hline
-		i am going to buy a replacement and wish i had sent this back for a refund & i am going to go through the same time and i have been using it for years \\
+		the interior is old and generally falling apart        & the interior is clean and orderly as entertaining              & the interior is old and noble                               \\
 		\hline
 	\end{tabular}
 	\caption{Examples of style-transferred text generation}
