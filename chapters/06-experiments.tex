@@ -140,28 +140,36 @@ In our experiments, we use an 8-neuron layer for the style embedding and a 128-n
 	\centering
 	\begin{tabular}{| l | r | r |}
 		\hline
-		                                        & \textbf{Variational} & \textbf{Deterministic} \\
+		                                        & \textbf{Deterministic} & \textbf{Variational} \\
 		\hline \hline
-		Random/Majority guess                   & 0.6018               & 0.6018                 \\ \hline \hline
-		Content latent space  ($\bm c$)         & 0.6567               & 0.6137                 \\ \hline
-		Style latent space ($\bm s$)            & 0.7911               & 0.7927                 \\ \hline
-		Complete latent space ($[\bm s;\bm c]$) & 0.7918               & 0.7918                 \\
+		Random/Majority guess                   & 0.6018                 & 0.6018               \\ \hline \hline
+		Content latent space  ($\bm c$)         & 0.6137                 & 0.6567               \\ \hline
+		Style latent space ($\bm s$)            & 0.7927                 & 0.7911               \\ \hline
+		Complete latent space ($[\bm s;\bm c]$) & 0.7918                 & 0.7918               \\
 		\hline
 	\end{tabular}
 	\caption{Style classification accuracy}
 	\label{tab:latent-space-classification}
 \end{table}
 
-\todo[inline]{Juxtapose plots of DAE vs VAE to demonstrate smoothness}
 
-\begin{figure}
-	\includegraphics[width=\linewidth]{images/tsne-style-and-content}
-	\caption{t-SNE plots of (a) style and (b) content spaces.}
-	\label{fig:tsne}
+The latent space can also be visualized with our method since we are able to infer a pair of style and content embeddings for every training data sample. We use t-SNE plots \cite{maaten2008visualizing} and use a random sample from each label to plot both the style and content embeddings inferred for them during a given epoch of the training procedure. Our hypothesis is that while the points for different labels plotted in the content embedding space would be mixed and indistinguishable in terms of plot co-ordinates, the style embedding space would display the opposite characteristic and show a clean separation of samples from each label.
+
+We T-SNE show plots of both and deterministic autoencoder (DAE) and variational autoencoder (VAE) models in Figure \ref{fig:dae-tsne} and Figure \ref{fig:vae-tsne}, respectively.
+
+\begin{figure}[ht]
+	\includegraphics[width=\linewidth]{images/dae-latent-spaces}
+	\caption{t-SNE plots of (a) style and (b) content spaces in the DAE model}
+	\label{fig:dae-tsne}
 \end{figure}
 
+\begin{figure}[ht]
+	\includegraphics[width=\linewidth]{images/vae-latent-spaces}
+	\caption{t-SNE plots of (a) style and (b) content spaces in the VAE model}
+	\label{fig:vae-tsne}
+\end{figure}
 
-The latent space can be visualized with t-SNE plots~\cite{maaten2008visualizing} in Figure \ref{fig:tsne}. As expected, sentences with different sentiments can be nicely separated in the style space (LHS), but are highly mixed in the content space (RHS).
+As can be seen from the plots, sentences with different styles are noticeably separated in a cleaner manner in the style space (LHS), but are indistinguishable in the content space (RHS).
 
 
 \subsection{Style-Transferred Text Generation}
