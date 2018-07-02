@@ -179,7 +179,7 @@ The overall loss used for the autoencoder is thus comprised of four different, o
 \begin{eqnarray*}
 	\mathcal{L}_\text{ovr} &=&
 	\mathcal{L}_\text{rec}(\bm\theta_E, \bm\theta_D)
-	+ \lambda_\text{mult}(\bm\theta_E,\bm\theta_\text{mult}) \\ & &
+	+ \lambda_\text{mult} \mathcal{L}_\text{mult} (\bm\theta_E,\bm\theta_\text{mult}) \\ & &
 	- \lambda_\text{adv} \mathcal{L}_\text{adv}(\theta_E)
 	- \lambda_\text{badv} \mathcal{L}_\text{badv}(\theta_E)
 \end{eqnarray*}

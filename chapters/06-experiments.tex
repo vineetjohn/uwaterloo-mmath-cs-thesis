@@ -1,4 +1,4 @@
-\section{Dataset and Task}
+\section{Datasets and Tasks} \label{sec:datasets-tasks}
 
 We conduct experiments on two datasets, the details for which are given below.
 
@@ -140,9 +140,7 @@ Hence, metric would not be able to tell the difference between a model with poor
 
 \subsection{Disentangling Latent Space}
 
-We first analyse how the style (sentiment) and content of the latent space are disentangled. We train a softmax classifier from each latent space, style and content, alongside our autoencoder model and train it to predict the true class of an input sample. The results are shown in Table \ref{tab:latent-space-classification}. vae-The results reported here are for the Yelp dataset.
-
-In our experiments, we use an 8-neuron layer for the style embedding and a 128-neuron layer for the content embedding. We see that the 128-dimensional content vector is not discriminative for style. It achieves a classification accuracy that is slightly better than random/majority guess. However, the 8-dimensional style vector $\bm s$, despite its low dimensionality, achieves significantly higher style classification accuracy. When combining content and style vectors, we achieve no further improvement. These results verify the effectiveness of our disentangling approach, because the content space doesn't contain style information, opposed to the style space.
+We first analyse how the style (sentiment) and content of the latent space are disentangled. We train a softmax classifier from each latent space, style and content, alongside our autoencoder model and train it to predict the true class of an input sample. The results are shown in Table \ref{tab:latent-space-classification}. The results reported here are for the Yelp dataset.
 
 \begin{table}[ht]
 	\centering
@@ -160,7 +158,6 @@ In our experiments, we use an 8-neuron layer for the style embedding and a 128-n
 	\label{tab:latent-space-classification}
 \end{table}
 
-
 The latent space can also be visualized with our method since we are able to infer a pair of style and content embeddings for every training data sample. We use t-SNE plots \cite{maaten2008visualizing} and use a random sample from each label to plot both the style and content embeddings inferred for them during a given epoch of the training procedure. Our hypothesis is that while the points for different labels plotted in the content embedding space would be mixed and indistinguishable in terms of plot co-ordinates, the style embedding space would display the opposite characteristic and show a clean separation of samples from each label.
 
 We T-SNE show plots of both and deterministic autoencoder (DAE) and variational autoencoder (VAE) models in Figure \ref{fig:dae-tsne} and Figure \ref{fig:vae-tsne}, respectively.
@@ -177,16 +174,11 @@ We T-SNE show plots of both and deterministic autoencoder (DAE) and variational 
 	\label{fig:vae-tsne}
 \end{figure}
 
-As can be seen from the plots, sentences with different styles are noticeably separated in a cleaner manner in the style space (LHS), but are indistinguishable in the content space (RHS). It is also evident that the latent space learned by the variational autoencoder is significantly smoother and continuous than the one learned by the deterministic autoencoder. Since we are essentially given the decoder a previously unseen combination of style and latent space at inference time, our hypothesis is that using a variational autoencoder would lead to more fluent generated sentences.
-
-
 \subsection{Style-Transferred Text Generation}
 
 We apply the disentangled latent space to a style-transfer sentence generation task, where the goal is to generate a sentence with different sentiment (style). We use the metrics discussed in \ref{sec:evaluation-metrics} to evaluate our models.
 
-We compare our approach with state-of-the-art previous work in Table \ref{tab:comparison-previous}. We re-conducted the experiments with their publicly available code and data.
-
-Results show that, our approach achieves a comparable content-preservation score to previous work, but a significantly better style-transfer score, showing that our disentangled latent space can be used for better style-transfer sentence generation.
+We compare our approach with the current state-of-the-art work in automated text attribute style transfer. We re-conducted the experiments with their publicly available code and the datasets described in Section \ref{sec:datasets-tasks}. The results are shown in Table \ref{tab:comparison-previous}.
 
 \begin{table}[ht]
 	\centering
@@ -202,6 +194,7 @@ Results show that, our approach achieves a comparable content-preservation score
 		Style Embedding \citep{fu2017style}   & 0.1819            & 0.9585                & 0.6661           \\
 		\hline
 		Ours (DAE)                            & 0.8425            & 0.8924                & 0.2551           \\
+		\hline
 		Ours (VAE)                            & 0.8903            & 0.8824                & 0.2105           \\
 		\hline
 	\end{tabular}

@@ -1,0 +1,62 @@
+\section{Disentangled Representations Separation}
+
+As can be seen from the T-SNE plots in Figure \ref{fig:dae-tsne} and Figure \ref{fig:vae-tsne}, sentences with different styles are noticeably separated in a cleaner manner in the style space (LHS), but are indistinguishable in the content space (RHS). It is also evident that the latent space learned by the variational autoencoder is significantly smoother and continuous than the one learned by the deterministic autoencoder.
+
+Since we are essentially given the decoder a previously unseen combination of style and latent space at inference time, our hypothesis is that using a variational autoencoder would lead to more fluent generated sentences that are able to preserve content better. However, in the evaluations performed, the deterministic autoencoder proves equally potent at preserving content, and even exceeds the variational autoencoder's performance in terms of content preservation, as seen in the results table \ref{tab:comparison-previous}.
+
+
+\section{Latent Space Style Signal}
+
+As observed in the results in Table \ref{tab:latent-space-classification}, the 128-dimensional content vector is not particularly discriminative for style. It achieves a classification accuracy that is slightly better than random/majority guess.
+
+However, the 8-dimensional style vector $\bm s$, despite its low dimensionality, achieves significantly higher style classification accuracy. When combining content and style vectors, we achieve no further improvement. These results verify the effectiveness of our disentangling approach, because the content space doesn't contain style information, opposed to the style space.
+
+This result is consistent with our original hypothesis of restricting the style signal of each encoded sentence into a contained sub-space of the latent representation.
+
+
+\section{Transfer Strength vs. Content Preservation}
+
+We observe over the course of experimentation that there is a definite trade-off between style transfer strength and content preservation metrics. For the VAE model, we tune the KL-divergence weight hyper-parameters for both the style and content spaces.
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{| c | r | r | r | r | r |}
+		\hline
+		\multirow{2}{*}{
+		} & \textbf{Style}     & \textbf{Content}   & \textbf{Transfer} & \textbf{Content}      & \textbf{Word}    \\
+		  & \textbf{KL Weight} & \textbf{KL Weight} & \textbf{Strength} & \textbf{Preservation} & \textbf{Overlap} \\
+		\hline
+		\hline
+		  & 0.01               & 0.01               & 0.8232            & 0.8696                & 0.2118           \\
+		\hline
+		  & 0.03               & 0.01               & 0.7646            & 0.8769                & 0.2314           \\
+		\hline
+		  & 0.03               & 0.03               & 0.8123            & 0.8724                & 0.2150           \\
+		\hline
+		  & 0.1                & 0.03               & 0.7707            & 0.8817                & 0.2334           \\
+		\hline
+		  & 0.3                & 0.03               & 0.7254            & 0.8783                & 0.2357           \\
+		\hline
+		  & 0.03               & 0.1                & 0.9052            & 0.8546                & 0.1617           \\
+		\hline
+		  & 0.1                & 0.1                & 0.8474            & 0.8609                & 0.1941           \\
+		\hline
+		  & 0.3                & 0.1                & 0.7682            & 0.8645                & 0.2166           \\
+		\hline
+		  & 0.03               & 0.3                & 0.9434            & 0.7538                & 0.0516           \\
+		\hline
+		  & 0.1                & 0.3                & 0.9523            & 0.7533                & 0.0707           \\
+		\hline
+		  & 0.3                & 0.3                & 0.9122            & 0.8069                & 0.1326           \\
+		\hline
+	\end{tabular}
+	\caption{KL-weight hyper-parameter optimisation}
+	\label{tab:kl-hyperparam-opt}
+\end{table}
+
+We observe that as a general rule, improvements in style transfer-strength usually result by imposing heavier KL-divergence constraints on the content embedding space gradually results in posterior collapse, with noise being encoded in the content space and all of the style and content being encoded in the style space. Cov
+
+
+\section{Comparison to State-of-the-Art Approaches}
+
+The results in Table \ref{tab:comparison-previous} show that, our approach achieves a comparable content-preservation score to previous work, but a significantly better style-transfer strength. This indicates that the disentangled latent space approach we describe can be used for better style-transfer sentence generation, despite not being explicitly trained for the purpose, by simply using empirically encoded vectors from the training process.
