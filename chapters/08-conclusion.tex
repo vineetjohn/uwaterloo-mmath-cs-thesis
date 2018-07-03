@@ -11,8 +11,7 @@ We open-source our implementation under a permissive license \footnote{\url{http
 
 \subsection{Model Improvements}
 
-Albeit effective at the task it sets out to do, there are several improvements to the model that could be evaluated improve it's efficacy
-
+Albeit effective at the task it sets out to do, there are several improvements to the model that could be evaluated to improve its efficacy
 \begin{itemize}
 	\item Unsupervisedly building a lexicon a list based on word association with each label from the training corpora, such that a hand-crafted lexicon like \cite{hu2004mining} for sentiment is not needed during evaluation.
 	\item The existing model supports transfer between an arbitrary number of discrete labels. However, it can also be easily extended, by training a regressor in place of a classifier, to continuous labels. For instance, ratings on a scale from 1-5 in Amazon/Yelp reviews, controlling generation on a continuous scale for emotion valence etc.
