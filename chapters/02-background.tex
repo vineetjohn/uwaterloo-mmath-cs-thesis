@@ -72,7 +72,7 @@ Since their CNNs have been proven to achieve state-of-the-art results in multipl
 
 Recurrent neural networks (RNNs) are a sub-class of artificial neural networks that can be considered a neural network equivalent to a Hidden Markov Model. Its units forms a directed graph that operates on a sequence of inputs when unrolled temporally. This makes them a useful tool for extracting features from arbitrary length sequences of input like audio or text. The features extracted at a given temporal point in an instance (sequence) is given by the below equation.
 \begin{equation}
-	P(w_1, \cdots, w_T) = \prod_{i=1}^T P(w_i | w_1, \cdots, w_{i−1})
+	P(w_1, \cdots, w_T) = \prod_{i=1}^T P(w_i | w_1, \cdots, w_{i-1})
 \end{equation}
 
 The language model is built in such a way that the features extracted from the sequence at epoch $t$ depend on the features observed during the epochs $0 \cdots t-1$. A graphical depiction of an unrolled RNN is shown in figure \ref{fig:recurrent-neural-network-unfold}.
@@ -227,10 +227,10 @@ Word embedding neural models are also shown to be implicitly factorizing a word-
 
 Also abbreviated in the literature as Seq2Seq, this is a class of models that learns functions that map from one sequence to another. First introduced by \cite{sutskever2014sequence}, the general premise of sequence to sequence has been a flexible framework for modelling transformations made to arbitrary length sequences. In the natural language processing community, the main tasks that benefit from the encoder-decoder framework are neural machine translation, dialogue modelling, question answering for which there exists two distinct distributions of data, and the model is trained to learn the mapping from one to the other.
 
-The paper defines a sequence-to-sequence model as on that learns the below function to map a sequence of inputs $x_1, ... , x_T$ to a sequence of outputs $y_1, ... , y_{T′}$, where the initial state $h$ is set to the hidden LSTM representation of $x_1, ... , x_T$.
+The paper defines a sequence-to-sequence model as on that learns the below function to map a sequence of inputs $x_1, \cdots , x_T$ to a sequence of outputs $y_1, \cdots , y_{T'}$, where the initial state $h$ is set to the hidden LSTM representation of $x_1, \cdots , x_T$.
 
 \begin{equation}
-	p(y_1, ... , y_{T′} | x_1, ... , x_T) =	\prod_{t=1}^T p(y_t | h, y_1, ... , y_{t−1})
+	p(y_1, \cdots , y_{T'} | x_1, \cdots , x_T) =	\prod_{t=1}^T p(y_t | h, y_1, \cdots , y_{t-1})
 \end{equation}
 
 This makes the Seq2Seq model an ideal framework using which one can implement solutions to several natural language generation tasks like neural machine translation, dialogue generation, text summarizaton etc.

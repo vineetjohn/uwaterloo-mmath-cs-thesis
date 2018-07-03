@@ -212,17 +212,25 @@ Table \ref{tab:ablation-results} presents the results of an ablation test. We se
 	\begin{tabular}{| l | r | r | r |}
 		\hline
 		\multirow{2}{*}{
-		\textbf{Objectives}}                                                          & \textbf{Style}    & \textbf{Content}      & \textbf{Word}    \\
-		                                                                              & \textbf{Transfer} & \textbf{Preservation} & \textbf{Overlap} \\
+		\textbf{Objectives}}                                                                                     & \textbf{Style}    & \textbf{Content}      & \textbf{Word}    \\
+		                                                                                                         & \textbf{Transfer} & \textbf{Preservation} & \textbf{Overlap} \\
 		\hline
 		\hline
-		$\mathcal{L}_\text{rec}$                                                      & 0.1436            & 0.9154                & 0.3288           \\
+		$\mathcal{L}_\text{rec}$                                                                                 & 0.1436            & 0.9154                & 0.3288           \\
 		\hline
-		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{adv}$                            &                   &                       &                  \\
+		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{adv}$                                                       & 0.7274            & 0.8800                & 0.2037           \\
 		\hline
-		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{mult}$                           &                   &                       &                  \\
+		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{mult}$                                                      & 0.7894            & 0.8976                & 0.2589           \\
 		\hline
-		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{adv}$, $\mathcal{L}_\text{mult}$ &                   &                       &                  \\
+		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{badv}$                                                      & 0.1677            & 0.9147                & 0.3282           \\
+		\hline
+		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{adv}$, $\mathcal{L}_\text{mult}$                            & 0.8903            & 0.8824                & 0.2105           \\
+		\hline
+		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{adv}$, $\mathcal{L}_\text{badv}$                            &                   &                       &                  \\
+		\hline
+		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{mult}$, $\mathcal{L}_\text{badv}$                           &                   &                       &                  \\
+		\hline
+		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{adv}$, $\mathcal{L}_\text{mult}$, $\mathcal{L}_\text{badv}$ &                   &                       &                  \\
 		\hline
 	\end{tabular}
 	\caption{Ablation tests}
