@@ -205,8 +205,6 @@ We compare our approach with the current state-of-the-art work in automated text
 
 Table \ref{tab:ablation-results} presents the results of an ablation test. We see that both, the adversarial loss and multi-task losses, play a role in the strength of style transfer. It also shows that their usage in a combination can further boost performance of the style-transfer strength.
 
-\todo[inline]{Update ablation tests table with latest results}
-
 \begin{table}[ht]
 	\centering
 	\begin{tabular}{| l | r | r | r |}
@@ -226,11 +224,11 @@ Table \ref{tab:ablation-results} presents the results of an ablation test. We se
 		\hline
 		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{adv}$, $\mathcal{L}_\text{mult}$                            & 0.8903            & 0.8824                & 0.2105           \\
 		\hline
-		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{adv}$, $\mathcal{L}_\text{badv}$                            &                   &                       &                  \\
+		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{adv}$, $\mathcal{L}_\text{badv}$                            & 0.7491            & 0.8827                & 0.2022           \\
 		\hline
-		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{mult}$, $\mathcal{L}_\text{badv}$                           &                   &                       &                  \\
+		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{mult}$, $\mathcal{L}_\text{badv}$                           & 0.7832            & 0.8958                & 0.2567           \\
 		\hline
-		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{adv}$, $\mathcal{L}_\text{mult}$, $\mathcal{L}_\text{badv}$ &                   &                       &                  \\
+		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{adv}$, $\mathcal{L}_\text{mult}$, $\mathcal{L}_\text{badv}$ & 0.8846            & 0.8782                & 0.1970           \\
 		\hline
 	\end{tabular}
 	\caption{Ablation tests}
