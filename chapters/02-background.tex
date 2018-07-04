@@ -264,7 +264,7 @@ The idea of neural style transfer in the was originally proposed by \cite{gatys2
 	\caption{\label{fig:image-style-transfer} Artistic Style Transfer in Images}
 \end{figure}
 
-The features, as with most of the state-of-the-art image processing techniques, are extracted from the images using Convolutional Neural Networks (CNNs) \citep{lecun1998gradient}, the deep neural network variants of which have been widely successful at image recognition tasks such as object recognition in the ImageNet data-set \cite{krizhevsky2012imagenet}.
+The features, as with most of the state-of-the-art image processing techniques, are extracted from the images using Convolutional Neural Networks (CNNs) \citep{lecun1998gradient}, the deep neural network variants of which have been widely successful at image recognition tasks such as object recognition in the ImageNet dataset \cite{krizhevsky2012imagenet}.
 
 As depicted in Figure \ref{fig:image-style-transfer}, subsequent layers of the CNN learn incrementally higher level features in both the style image and the content image. These learned features for the style and content images are stored for future use. To generate the final image, the authors begin with a random white noise image. This image is passed through both networks, the parameters of which extract both it's style features and it's content features.
 
