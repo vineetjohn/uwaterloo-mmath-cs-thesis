@@ -98,4 +98,31 @@ A possible reason for this is that the spaces are already well regularized by th
 
 \subsection{Nearest Neighbour algorithm for generation}
 
-\todo[inline]{Add analysis of nearest neighbour algorithm}
+We also test the VAE model using the nearest neighbour inference algorithm described in Section \ref{ssec:nearest-neighbour-inference}. We utilize a VAE model with style KL-weight as $0.03$ and content KL-weight as $0.03$ for these tests, in which we vary the number of neighbour embeddings considered while selecting a style embedding with which to generate the new sentence. We use a VAE model in which the latent vector is used only for the initial state of the decoder.
+
+The results are presented in Table \ref{tab:nearest-neighbour-inference-results}, where $N$ is the number of neighbours considered. `All' neighbours just means the empirical mean style embedding is used as in the results described in the above sections.
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{| l | r | r | r |}
+		\hline
+		\multirow{2}{*}{
+		\textbf{N}} & \textbf{Transfer} & \textbf{Content}      & \textbf{Word}    \\
+		            & \textbf{Strength} & \textbf{Preservation} & \textbf{Overlap} \\
+		\hline
+		\hline
+		1           & 0.8040            & 0.8703                & 0.1823           \\
+		\hline
+		10          & 0.7909            & 0.8762                & 0.1859           \\
+		\hline
+		100         & 0.8089            & 0.8792                & 0.1977           \\
+		\hline
+		All         & 0.8122            & 0.8723                & 0.2149           \\
+		\hline
+	\end{tabular}
+	\caption{Nearest Neighbour Inference Results}
+	\label{tab:nearest-neighbour-inference-results}
+\end{table}
+
+We observe that the empirical mean embedding that considers all training examples performs even marginally better than a specialized nearest-neighbour algorithm. In addition, it is easier to implement and more computationally efficient as neighbour similarity need not be computed at inference time.
+

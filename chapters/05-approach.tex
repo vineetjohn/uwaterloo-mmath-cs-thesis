@@ -205,7 +205,7 @@ Let $x$ be an input sentence with $\bm s$ and $\bm c$ being the encoded, disenta
 $$\hat{\bm s}=\frac{\sum_{i\in\text{target style}}\bm s_i}{\text{\# target style samples}}$$. The inferred target style $\hat{\bm s}$ is concatenated with the encoded content $\bm c$ for decoding (Figure \ref{fig:model-overview-inference}).
 
 
-\subsection{Nearest-Neighbour Approach for Sentence Generation}
+\subsection{Nearest-Neighbour Approach for Sentence Generation} \label{ssec:nearest-neighbour-inference}
 
 The inference approach described above using the empirically learned mean embedding in the style space and applies it to all future inference requirements. Though simple and intuitive, this method is fairly rigid and doesn't take into account the fact that the inference time sentences' content could vary from the acceptable content embeddings that can be coupled with the mean style embedding used.
 
