@@ -24,6 +24,18 @@ We use the the Adam optimizer \citep{kingma2014adam} with an initial learning ra
 
 \section{Evaluation Metrics} \label{sec:evaluation-metrics}
 
+
+\subsection{Quantitative Evaluation of Language Quality}
+
+The evaluation of novel generated text to measure its perceived quality, naturalness, fluency and compliance with predefined attributes, like sentiment, tense etc.
+
+For the presence of a certain attribute, it is fairly simple to devise a classification model that is trained on a large corpora of samples labelled as such.
+
+However it is much more difficult to unambiguously state what makes a body of text more fluent or natural that another with mathematical rigour using quantitative metrics.
+
+To offset this problem while stilling avoiding the need for human annotators to evaluate the target text, we have utilized techniques like sentences embedding similarity, augmented by the removal of words that highly correlate with any specific label, as proposed by the previous work by \cite{fu2017style}. This is described further in section \ref{ssec:content-preservation-metric} of the Experiments chapter.
+
+
 \subsection{Transfer Strength}
 
 Transfer strength can be defined as a measure of how successful the model has been in generating sentences that are consistent with the attribute the needs to be transferred into them. This can be formulated as a Natural Language Understanding (NLU) task that takes in a sentence as input and predicts the presence of an attribute that we train the model to transfer.
@@ -113,7 +125,7 @@ Theoretically, the word overlap score ranges from 0 to 1. However, in practice, 
 Word overlap can be used interchangeably with the 'Content Preservation' metric described above. For the experiments in this work, we report both.
 
 
-\todo[inline]{Add note of Kneser-Ney NLL metric}
+\todo[inline]{Add note for Kneser-Ney NLL metric}
 
 
 \subsection{A note about Cycle Consistency Loss}
