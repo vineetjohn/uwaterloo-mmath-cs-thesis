@@ -66,7 +66,36 @@ The model we describe is able to obtain better scores at all the evaluation metr
 Our deterministic model is easier to train than a variational model because of the fewer hyper-parameters and the absence of KL-weight annealing  and also outperforms state-of-the-art models, and the variational model achieves comparable performance. This indicates that the disentangled latent space approach we describe can be used for better style-transfer sentence generation, despite not being explicitly trained for the purpose, by simply using empirically encoded vectors from the training process.
 
 
-\todo[inline]{Add analysis of style dropout}
+\section{Negative Results}
+
+\subsection{Style Dropout}
+
+Although the idea of regularization by dropout \citep{srivastava2014dropout} has been effectively used across neural network models and time-distributed word dropout has been used similarly for text generation tasks \citep{dai2015semi, bowman2016generating}, the empirical results for style dropout prove significantly less effective than expected in comparison to the other model variants tested in this work.
+
+We perform a simple ablation test on the VAE model with style KL-weight as $0.1$ and content KL-weight as $0.03$ to test the effect of the addition of the style-dropout regularization, and the results are presented in Table \ref{tab:style-dropout-results}.
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{| l | r | r | r |}
+		\hline
+		\multirow{2}{*}{
+		\textbf{Model Variant}} & \textbf{Transfer} & \textbf{Content}      & \textbf{Word}    \\
+		                        & \textbf{Strength} & \textbf{Preservation} & \textbf{Overlap} \\
+		\hline
+		\hline
+		Without Style Dropout   & 0.7707            & 0.8816                & 0.2333           \\
+		\hline
+		With Style Dropout      & 0.5726            & 0.8816                & 0.2404           \\
+		\hline
+	\end{tabular}
+	\caption{Style Dropout Effect}
+	\label{tab:style-dropout-results}
+\end{table}
+
+As is clear from the results, style dropout only offers a marginally better word overlap score and is comparable on the content preservation metric. However, it performs significantly worse in terms of style transfer strength.
+
+A possible reason for this is that the spaces are already well regularized by the existing objectives and the fact that the content vector is an order of magnitude larger in size compared to the style vector makes it difficult for the model to ignore the content vector and encode garbage into it. Hence, this negates the need for additional regularization to ensure that the content vector is used by the autoencoding model.
+
+\subsection{Nearest Neighbour algorithm for generation}
 
 \todo[inline]{Add analysis of nearest neighbour algorithm}
-
