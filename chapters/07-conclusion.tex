@@ -2,11 +2,11 @@
 
 In this thesis, we have presented a model that utilizes previously proposed regularizations like adversarial learning and combine it with a multi-task classification objective to disentangle the latent space. We also propose a novel multi-adversary setup using a bag-of-words classification objective. In addition,  empirically show the successful disentanglement of the latent spaces, both by using auxiliary classification objective on the learned latent spaces, and also by visualizing empirical samples using T-SNE plots.
 
-We show that the model maintains a balance between style transfer strength and content preservation, and outperforms state-of-the-art models with respect to the style transfer strength, while performing comparably on content preservation and word overlap.
+We show that the model maintains a balance between style transfer strength and content preservation, and outperforms state-of-the-art models with respect to the style transfer strength, while performing comparably on content preservation and word overlap. In terms of fluency as measured by the Kneser-Ney language model, our VAE model performs the best while simultaneously obtaining the significantly better style transfer strength scores. The DAE model performs slightly worse in terms of style transfer strength and fluency compared to the VAE, but still eclipses the previous methods compared to in terms of style transfer strength, content preservation and word overlap.
 
-\todo[inline]{Restate novel contributions and draw parallels to baselines, compare DAE to VAE}
+We also demonstrate that each addition of each of the training objectives we proposed individually improves the style transfer strength of the model, and it performs the strongest when using the base reconstruction model along with the style adversary and the multi-task classifier. The T-SNE plots of randomly extracted style and content embeddings, as well as the classification scores from individual latent spaces indicates that there is a clean discrimination in these features in the style space and not the content space.
 
-We open-sourced our implementation under a permissive license \footnote{\url{https://github.com/vineetjohn/linguistic-style-transfer}} so that the general framework can be applied to other problems that are thematically similar, and can be re-purposed for extensions to the model, described below.
+We open-source our implementation under a permissive license \footnote{\url{https://github.com/vineetjohn/linguistic-style-transfer}} so that the general framework can be applied to other problems that are thematically similar, and can be re-purposed for extensions to the model, described below.
 
 
 \section{Future Direction}
