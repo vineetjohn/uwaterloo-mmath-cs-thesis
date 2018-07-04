@@ -11,7 +11,7 @@ The model is tested on a subset of the Yelp review dataset \citep{challenge2013y
 The model is trained and tested on an Amazon product reviews dataset~\footnote{\url{http://jmcauley.ucsd.edu/data/amazon/}}, following \cite{fu2017style}. The reviews were sourced from the code repository accompanying the paper~\footnote{\url{https://github.com/fuzhenxin/text_style_transfer}}. It contains 559142, 2000, 2000 sentences for train, validation, and test, respectively, each sampling accompanied by binary sentiment labels. The maximum sentence length is 20, and the vocabulary size is about 58000.
 
 
-\section{Implementation Details and Model Hyper-parameters}
+\section{Implementation Details and Hyperparameters}
 
 We implement the neural-network model in Tensorflow \citep{abadi2016tensorflow}, and utilize Scikit-learn \cite{pedregosa2011scikit} for latent-space classification evaluation metrics.
 
@@ -23,18 +23,6 @@ We use the the Adam optimizer \citep{kingma2014adam} with an initial learning ra
 
 
 \section{Evaluation Metrics} \label{sec:evaluation-metrics}
-
-
-\subsection{Quantitative Evaluation of Language Quality}
-
-The evaluation of novel generated text to measure its perceived quality, naturalness, fluency and compliance with predefined attributes, like sentiment, tense etc.
-
-For the presence of a certain attribute, it is fairly simple to devise a classification model that is trained on a large corpora of samples labelled as such.
-
-However it is much more difficult to unambiguously state what makes a body of text more fluent or natural that another with mathematical rigour using quantitative metrics.
-
-To offset this problem while stilling avoiding the need for human annotators to evaluate the target text, we have utilized techniques like sentences embedding similarity, augmented by the removal of words that highly correlate with any specific label, as proposed by the previous work by \cite{fu2017style}. This is described further in section \ref{ssec:content-preservation-metric} of the Experiments chapter.
-
 
 \subsection{Transfer Strength}
 

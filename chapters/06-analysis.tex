@@ -96,7 +96,7 @@ As is clear from the results, style dropout only offers a marginally better word
 
 A possible reason for this is that the spaces are already well regularized by the existing objectives and the fact that the content vector is an order of magnitude larger in size compared to the style vector makes it difficult for the model to ignore the content vector and encode garbage into it. Hence, this negates the need for additional regularization to ensure that the content vector is used by the autoencoding model.
 
-\subsection{Nearest Neighbour algorithm for generation}
+\subsection{Nearest Neighbour Algorithm}
 
 We also test the VAE model using the nearest neighbour inference algorithm described in Section \ref{ssec:nearest-neighbour-inference}. We utilize a VAE model with style KL-weight as $0.03$ and content KL-weight as $0.03$ for these tests, in which we vary the number of neighbour embeddings considered while selecting a style embedding with which to generate the new sentence. We use a VAE model in which the latent vector is used only for the initial state of the decoder.
 
@@ -126,3 +126,5 @@ The results are presented in Table \ref{tab:nearest-neighbour-inference-results}
 
 We observe that the empirical mean embedding that considers all training examples performs even marginally better than a specialized nearest-neighbour algorithm. In addition, it is easier to implement and more computationally efficient as neighbour similarity need not be computed at inference time.
 
+
+In the next chapter, we summarize the contributions and conclude this work by presenting avenues for extension and improvement on the current model.
