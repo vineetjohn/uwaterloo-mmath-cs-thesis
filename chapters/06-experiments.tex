@@ -138,6 +138,8 @@ Hence, metric would not be able to tell the difference between a model with poor
 
 \section{Experiment Results}
 
+\todo[inline]{Evaluate model fluency using a Kneser-Ney language model}
+
 \subsection{Disentangling Latent Space}
 
 We first analyse how the style (sentiment) and content of the latent space are disentangled. We train a softmax classifier from each latent space, style and content, alongside our autoencoder model and train it to predict the true class of an input sample. The results are shown in Table \ref{tab:latent-space-classification}. The results reported here are for the Yelp dataset.
@@ -185,8 +187,8 @@ We compare our approach with the current state-of-the-art work in automated text
 	\begin{tabular}{| l | r | r | r |}
 		\hline
 		\multirow{2}{*}{
-		\textbf{Model}}                       & \textbf{Style}    & \textbf{Content}      & \textbf{Word}    \\
-		                                      & \textbf{Transfer} & \textbf{Preservation} & \textbf{Overlap} \\
+		\textbf{Model}}                       & \textbf{Transfer} & \textbf{Content}      & \textbf{Word}    \\
+		                                      & \textbf{Strength} & \textbf{Preservation} & \textbf{Overlap} \\
 		\hline
 		\hline
 		Cross-alignment \citep{shen2017style} & 0.8086            & 0.8919                & 0.2086           \\
@@ -210,8 +212,8 @@ Table \ref{tab:ablation-results} presents the results of an ablation test. We se
 	\begin{tabular}{| l | r | r | r |}
 		\hline
 		\multirow{2}{*}{
-		\textbf{Objectives}}                                                                                     & \textbf{Style}    & \textbf{Content}      & \textbf{Word}    \\
-		                                                                                                         & \textbf{Transfer} & \textbf{Preservation} & \textbf{Overlap} \\
+		\textbf{Objectives}}                                                                                     & \textbf{Transfer} & \textbf{Content}      & \textbf{Word}    \\
+		                                                                                                         & \textbf{Strength} & \textbf{Preservation} & \textbf{Overlap} \\
 		\hline
 		\hline
 		$\mathcal{L}_\text{rec}$                                                                                 & 0.1436            & 0.9154                & 0.3288           \\
