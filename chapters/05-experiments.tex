@@ -113,7 +113,15 @@ Theoretically, the word overlap score ranges from 0 to 1. However, in practice, 
 Word overlap can be used interchangeably with the 'Content Preservation' metric described above. For the experiments in this work, we report both.
 
 
-\todo[inline]{Add note for Kneser-Ney NLL metric}
+\subsection{Language Fluency}
+
+Previous works in this area have utilized human evaluations \citep{hu2017toward,shen2017style} for language fluency or do not evaluate it at all \cite{fu2017style}
+
+We use a trigram based Kneser–Ney Smoothed language model \citep{kneser1995improved} as a quantifiable and automated metric by which to assess the quality of generated sentences. It calculates the probability distribution of n-grams in a document based on their occurrence statistics. We train the model on the complete corpus that we evaluate the models on.
+
+After the generation of style transferred sentences, we parse them out into trigrams, and calculate the probabilities of each of the trigrams being from the same corpora as the original model was trained on. The negative log-likelihood scores are aggregated and normalized for sentence length.
+
+The mean negative log-likelihood over the generated corpus, as predicted by the Kneser-Ney model, is reported as the metric for language fluency.
 
 
 \subsection{A note about Cycle Consistency Loss}
@@ -188,19 +196,19 @@ We compare our approach with the current state-of-the-art work in automated text
 	\centering
 	\begin{tabular}{| c | l | r | r | r | r |}
 		\hline
-		\multirow{2}{*}{} & \textbf{Model}        & \textbf{Transfer} & \textbf{Content}      & \textbf{Word}    & \textbf{Negative}       \\
-		                  &                       & \textbf{Strength} & \textbf{Preservation} & \textbf{Overlap} & \textbf{Log-Likelihood} \\
+		\multirow{2}{*}{} & \textbf{Model}        & \textbf{Transfer} & \textbf{Content}      & \textbf{Word}    & \textbf{Language} \\
+		                  &                       & \textbf{Strength} & \textbf{Preservation} & \textbf{Overlap} & \textbf{Fluency}  \\
 		\hline
 		\hline
-		\multirow{2}{*}{} & Cross-Alignment       &                   &                       &                  &                         \\
-		                  & \citep{shen2017style} & 0.8086            & 0.8919                & 0.2086           & 9.9169                  \\
+		\multirow{2}{*}{} & Cross-Alignment       &                   &                       &                  &                   \\
+		                  & \citep{shen2017style} & 0.8086            & 0.8919                & 0.2086           & 9.9169            \\
 		\hline
-		\multirow{2}{*}{} & Style Embedding       &                   &                       &                  &                         \\
-		                  & \citep{fu2017style}   & 0.1819            & 0.9585                & 0.6661           & 11.1301                 \\
+		\multirow{2}{*}{} & Style Embedding       &                   &                       &                  &                   \\
+		                  & \citep{fu2017style}   & 0.1819            & 0.9585                & 0.6661           & 11.1301           \\
 		\hline
-		                  & Ours (DAE)            & 0.8425            & 0.8924                & 0.2551           & 10.5142                 \\
+		                  & Ours (DAE)            & 0.8425            & 0.8924                & 0.2551           & 10.5142           \\
 		\hline
-		                  & Ours (VAE)            & 0.8903            & 0.8824                & 0.2105           & 10.8837                 \\
+		                  & Ours (VAE)            & 0.8903            & 0.8824                & 0.2105           & 10.8837           \\
 		\hline
 	\end{tabular}
 	\caption{Comparison with previous approaches on the Yelp Dataset}
