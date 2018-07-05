@@ -2,9 +2,9 @@
 
 Natural Language Generation (NLG) is a sub-field of Natural Language Processing that attempts to generate sequences of words that resemble natural human languages. Traditionally, this was done either by using production rules of a pre-defined grammar, or by performing statistical analyses of existing human-written texts to predict sequences of words based on their occurrence probabilities. Markov-chain text generators are an example of the latter, popularized by their usage in parody text generation \cite{jelinek1985markov}.
 
-This broad classification of problems has multiple applications include, and are not limited to:
+This broad classification of problems has multiple applications including, but not limited to:
 \begin{itemize}
-	\item Neural machine translation (NMT), in which the generation objective is to produce a semantically similar sentence in a target language, given a sentences in a source language.
+	\item Neural machine translation (NMT), in which the generation objective is to produce a semantically similar sentence in a target language, given a sentence in a source language.
 	\item Dialogue generation, in which the objective is to produce a natural and syntactically correct response to the provided utterance.
 	\item Text summarizaton, which eliminates superfluous and non-pertinent information in a body of text, to express the idea using fewer words.
 	\item Data-to-text report generation, which utilizes structured data, sourced from a relational database format to fill out a text template.
@@ -13,7 +13,7 @@ This broad classification of problems has multiple applications include, and are
 
 \section{Multi-Layer Perceptrons}
 
-Multi-layer perceptrons (MLP) are widely used in the neural network literature as the simplest vanilla artificial neural network. An MLP typically comprises of one or more hidden layers that learn intermediate representations before producing an output layer. A simple MLP classification architecture for MNIST digits \citep{lecun2010mnist} \citep{deng2012mnist} is depicted in Figure \ref{fig:mlp-network}. The network is represented as a directed graph containing nodes and edges, where each node represents a neuron and each edge represents a learned weight. In this example, the weight between two successive layers are densely interconnected, and given a layer of $m$ nodes and a subsequent layer of $n$ nodes that are densely connected, we require $m*n$ edges/weights to connect these two node layers together.
+Multi-layer perceptrons (MLP) are widely used in the neural network literature as the simplest vanilla artificial neural network. An MLP typically comprises one or more hidden layers that learn intermediate representations before producing an output layer. A simple MLP classification architecture for MNIST digits \citep{lecun2010mnist} \citep{deng2012mnist} is depicted in Figure \ref{fig:mlp-network}. The network is represented as a directed graph containing nodes and edges, where each node represents a neuron and each edge represents a learned weight. In this example, the weight between two successive layers are densely interconnected, and given a layer of $m$ nodes and a subsequent layer of $n$ nodes that are densely connected, we require $m*n$ edges (or weights) to connect these two node layers together.
 
 \begin{figure}[ht]
 	\centering
@@ -28,7 +28,7 @@ In terms of function approximation, a multilayer perceptron can be thought of as
 	P(y=j \mid \mathbf{x}) = \frac{e^{\mathbf{x}^\mathsf{T}\mathbf{w}_j}}{\sum_{k=1}^K e^{\mathbf{x}^\mathsf{T}\mathbf{w}_k}}
 \end{equation}
 
-The activation functions applied at each layer could either be linear or non-linear. The most popularly used non-linear activation functions are sigmoid, tanh, ReLU etc, which are typically used in the intermediate layers of the network. In the case of multi-label prediction problems, the output layer is typically a softmax distribution over the possible output classes. The softmax activation is simply the binary logistic regression classifier that generalizes to multiple classes, since the output of the softmax function can be used to represent a categorical distribution.
+The activation functions applied at each layer could either be linear or non-linear. The most popularly used non-linear activation functions are sigmoid, tanh, ReLU etc., which are typically used in the intermediate layers of the network. In the case of multi-label prediction problems, the output layer is typically a softmax distribution over the possible output classes. The softmax activation is simply the binary logistic regression classifier that generalizes to multiple classes, since the output of the softmax function can be used to represent a categorical distribution.
 
 An MLP classifier is trained by minimizing a cross-entropy loss between the predicted softmax distribution $y$ and the true distribution $y'$.
 \begin{equation}
@@ -54,9 +54,9 @@ Each neuron/unit is dropped out with a pre-defined probability, which can be vie
 
 \section{Convolutional Neural Network}
 
-A convolutional neural network (CNN) \cite{lecun1995convolutional} is a specialized neural network that is optimized for extract features from local regions in data, for instance specific objects in an image, or a specific attribute in a body of text. Using densely connected multi-layer perceptrons would increasing the number of parameters and slow down the training process. Instead convolutional autoencoders use shared weights over the source data that are called 'filters'.
+A convolutional neural network (CNN) \cite{lecun1995convolutional} is a specialized neural network that is optimized for feature extraction from local regions in data, for instance specific objects in an image, or a specific attribute in a body of text. Using densely connected multi-layer perceptrons would increase the number of parameters and slow down the training process. Instead convolutional autoencoders use shared weights over the source data that are called `filters'.
 
-The 'convolution' within a convolutional neural network is implemented using a filter. A filter is a learned function that transfer an arbitrary spatial representation of the image, say $3\text{px} * 3\text{px}$ into a single value and this is done for all the similar spatial zones in the image. This is 2-dimensional convolution that is used to process features in text and video because of their spatial nature. A 1-dimensional equivalent could be used to extract features from contiguous regions of text, usually 3 to 5 words. These features are then sub-sampled to reduce the dimensionality for subsequent layers. This is typically achieved by max-pooling, which simply requires using the maximum activations of all the region activations produced by the convolutional layer. An example CNN architecture is presented in Figure \ref{fig:cnn}.
+The `convolution' within a convolutional neural network is implemented using a filter. A filter is a learned function that transfers an arbitrary spatial representation of the image, say $3\text{px} * 3\text{px}$, into a single value and this is done for all the similar spatial zones in the image. This is 2-dimensional convolution that is used to process features in text and video because of their spatial nature. A 1-dimensional equivalent could be used to extract features from contiguous regions of text, usually 3 to 5 words. These features are then sub-sampled to reduce the dimensionality for subsequent layers. This is typically achieved by max-pooling, which simply requires using the maximum activations of all the region activations produced by the convolutional layer. An example CNN architecture is presented in Figure \ref{fig:cnn}.
 
 \begin{figure}[ht]
 	\centering
@@ -65,17 +65,19 @@ The 'convolution' within a convolutional neural network is implemented using a f
 	\caption{\label{fig:cnn} Convolutional Neural Network}
 \end{figure}
 
-Since their CNNs have been proven to achieve state-of-the-art results in multiple task settings within vision and language, especially with the use of deep convolutional architectures \citep{lawrence1997face} \citep{krizhevsky2012imagenet} \citep{karpathy2014large} \citep{kalchbrenner2014convolutional} \citep{kim2014convolutional} \citep{hu2014convolutional}.
+Since their inception, CNNs have been proven to achieve state-of-the-art results in multiple task settings within vision and language, especially with the use of deep convolutional architectures \citep{lawrence1997face} \citep{krizhevsky2012imagenet} \citep{karpathy2014large} \citep{kalchbrenner2014convolutional} \citep{kim2014convolutional} \citep{hu2014convolutional}.
 
 
 \section{Recurrent Neural Networks}
 
-Recurrent neural networks (RNNs) are a sub-class of artificial neural networks that can be considered a neural network equivalent to a Hidden Markov Model. Its units forms a directed graph that operates on a sequence of inputs when unrolled temporally. This makes them a useful tool for extracting features from arbitrary length sequences of input like audio or text. The features extracted at a given temporal point in an instance (sequence) is given by the below equation.
-\begin{equation}
+Recurrent neural networks (RNNs) are a sub-class of artificial neural networks that can be considered a neural network equivalent to a Hidden Markov Model. Its units forms a directed graph that operates on a sequence of inputs when unrolled temporally. This makes them a useful tool for extracting features from arbitrary length sequences of input like audio or text.
+
+The features extracted at a given temporal point in an instance (sequence) are given in Equation \ref{eqn:rnn-next}.
+\begin{equation} \label{eqn:rnn-next}
 	P(w_1, \cdots, w_T) = \prod_{i=1}^T P(w_i | w_1, \cdots, w_{i-1})
 \end{equation}
 
-The language model is built in such a way that the features extracted from the sequence at epoch $t$ depend on the features observed during the epochs $0 \cdots t-1$. A graphical depiction of an unrolled RNN is shown in figure \ref{fig:recurrent-neural-network-unfold}.
+The language model is built in such a way that the features extracted from the sequence at time-step $t$ depend on the features observed during the time-steps $0 \cdots t-1$. A graphical depiction of an unrolled RNN is shown in figure \ref{fig:recurrent-neural-network-unfold}.
 
 \begin{figure}[ht]
 	\centering
@@ -86,9 +88,9 @@ The language model is built in such a way that the features extracted from the s
 
 The most recent and useful variants of recurrent units provide the ability to retain `memory' of the context in which the current features are to be considered. In the domain of language processing, this typically implies that the recurrent unit has a stored memory of the previously observed words in a sequence, and this property grants it the ability to learn context as part of the feature space.
 
-The prominent variants of recurrent units used in neural networks to extract features from sequences using a memory mechanism, are Long Short-Term Memory (LSTM) units \citep{gers2001lstm} and Gated Recurrent units (GRU) \citep{chung2014empirical}.
+The prominent variants of recurrent units used in neural networks to extract features from sequences using a memory mechanism, are Long Short-Term Memory (LSTM) units \citep{gers2001lstm} and Gated Recurrent Units (GRU) \citep{chung2014empirical}.
 
-Recurrent networks in the domain of natural language processing is used frequently for both natural language understanding (NLU) tasks, as well natural language generation (NLG) tasks \citep{mikolov2010recurrent}. Similar to the manner in which recurrent networks can extract features from arbitrarily long sequences of vectorized text, they can also be used to produce text sequences from a unit vector representation of text, as represented in Figure \ref{fig:rnn-nmt}.
+Recurrent networks in the domain of natural language processing are used frequently for both natural language understanding (NLU) tasks, as well natural language generation (NLG) tasks \citep{mikolov2010recurrent}. Similar to the manner in which recurrent networks can extract features from arbitrarily long sequences of vectorized text, they can also be used to produce text sequences from a unit vector representation of text, as represented in Figure \ref{fig:rnn-nmt}.
 
 This is achieved by conditioning the generation of the first word of text either on some latent variable produced by a model, or by sampling from a generative distribution, and conditioning the generation of each subsequently predicted word on the word that was predicted in the previous time-step, until the model predicts an end-of-sentence (EOS) token.
 
@@ -102,9 +104,9 @@ This is achieved by conditioning the generation of the first word of text either
 
 \subsection{Long Short-Term Memory (LSTM)}
 
-As described in above, recurrent neural networks (RNN) learn representations of the data over temporal sequences, like text or audio features. However, in practice, RNNs don't seem to be able to assign priorities to which of the past data it chooses to ascribe a higher importance to. In natural language processing tasks, like lengthy bodies of text and audio/video sequences. This lack of ability to learn long-term dependencies in the input features is shown in previous work by \cite{bengio1994learning}.
+As described in the above section, recurrent neural networks (RNN) learn representations of the data over temporal sequences, like text or audio features. However, in practice, RNNs don't seem to be able to assign priorities to which of the past data they choose to ascribe a higher importance to. This is detrimental to their usage in natural language processing tasks that require processing of long bodies of text or in audio/video processing tasks. This lack of ability to learn long-term dependencies in the input features is shown in previous work by \cite{bengio1994learning}.
 
-LSTMs, as described first by \cite{hochreiter1997long}, seek to address this issue by explicitly modelling how much to retain and forget at each time-step during the RNN's training routine.
+LSTMs, as described first by \cite{hochreiter1997long}, seek to address this issue by explicitly modelling how much to retain and forget at each time-step during the RNN's training procedure.
 
 \begin{figure}[ht]
 	\centering
@@ -137,11 +139,11 @@ Now that we have obtained the cell state, we propagate that through to the next 
 	h_t &=& \tanh(C_t)
 \end{eqnarray*}
 
-The efficacy of LSTM-backed RNNs is evident from the prevalence of its usage in language modelling literature \citep{sundermeyer2012lstm,gers2001lstm,graves2005framewise} \footnote{https://karpathy.github.io/2015/05/21/rnn-effectiveness}.
+The efficacy of LSTM-backed RNNs is evident from the prevalence of their usage in language modelling literature \citep{sundermeyer2012lstm,gers2001lstm,graves2005framewise} \footnote{https://karpathy.github.io/2015/05/21/rnn-effectiveness}.
 
 \subsection{Gated Recurrent Units (GRU)}
 
-Gated Recurrent units \citep{cho2014learning} are similar to LSTMs in that they possess gating mechanisms to assist with long-term dependency learning. It varies in a few aspects like the merging of the input and forget gates into a single update gate. It also merges cell state and hidden state, emitting only a single output vector after the computations within the cell. Figure \ref{fig:gru} depicts the internal GRU states and gates.
+Gated Recurrent Units \citep{cho2014learning} are similar to LSTMs in that they possess gating mechanisms to assist with long-term dependency learning. They differ from LSTMs in a few aspects, like the merging of the input and forget gates into a single update gate. They also merge cell state and hidden state, emitting only a single output vector after the computations within the cell. Figure \ref{fig:gru} depicts the internal GRU states and gates.
 
 \begin{figure}[ht]
 	\centering
@@ -150,12 +152,12 @@ Gated Recurrent units \citep{cho2014learning} are similar to LSTMs in that they 
 	\caption{\label{fig:gru} Gated Recurrent Unit}
 \end{figure}
 
-GRUs are a lot simpler to work with in practice due to their having only a single output and have been used interchangeably with LSTMs as memory units for recurrent neural networks \citep{chung2015gated}.
+GRUs are a lot simpler to work with in practice due to their having only a single output. They have been used interchangeably with LSTMs as memory units for recurrent neural networks \citep{chung2015gated}.
 
 
 \section{Autoencoders}
 
-Autoencoders are models that are parameterized to convert arbitrary data into a latent representation (encoder), and recover the original data back from the latent representation (decoder). In this setup, the degrees of freedom for the latent representation is usually much smaller than that of the actual data. A simple autoencoder architecture is depicted in Figure \ref{fig:autoencoder-structure}.
+Autoencoders are models that are parameterized to convert arbitrary data into a latent representation (encoder), and recover the original data back from the latent representation (decoder). In this setup, the dimensionality of the latent representation is usually much smaller than that of the actual data. A simple autoencoder architecture is depicted in Figure \ref{fig:autoencoder-structure}.
 
 \begin{figure}[ht]
 	\centering
@@ -164,9 +166,9 @@ Autoencoders are models that are parameterized to convert arbitrary data into a 
 	\caption{\label{fig:autoencoder-structure} Autoencoder Architecture}
 \end{figure}
 
-By training a model to do this, two objectives can be achieved simultaneously:
+By training a model to reconstruct data that a funnelled through a lower dimensional representation, two objectives can be achieved simultaneously:
 \begin{itemize}
-	\item The encoder weights of the model could be used extract the most salient features of the data in a compressed representation, which is a friendlier format for downstream processing or learning algorithms. \citep{hinton2006reducing}
+	\item The encoder weights of the model could be used to extract the most salient features of the data in a compressed representation, which is a friendlier format for downstream processing or learning algorithms. \citep{hinton2006reducing}
 	\item The decoder weights of the model could be used as a generator. Given that we can sample from the distribution of the existing latent representations learnt, or from a pre-defined prior (in a variational autoencoder), we can generate plausible novel data.
 \end{itemize}
 
@@ -174,7 +176,7 @@ In the context of natural language the encoder can be utilized as a sentence-enc
 
 \subsection{Variational Autoencoders}
 
-Variational encoders (VAEs) \citep{kingma2013auto} are a probabilistic variant of autoencoders. The general structure of a VAE is the same as that of a deterministic autoencoder, with an encoder that learns a compressed latent space and a decoder that learns a function to map the latent space into the original data. A simple VAE architecture is depicted in Figure \ref{fig:vae-structure}.
+Variational autoencoders (VAEs) \citep{kingma2013auto} are a probabilistic variant of autoencoders. The general structure of a VAE is the same as that of a deterministic autoencoder, with an encoder that learns a compressed latent space and a decoder that learns a function to map the latent space into the original data. A simple VAE architecture is depicted in Figure \ref{fig:vae-structure}.
 
 \begin{figure}[ht]
 	\centering
@@ -183,11 +185,12 @@ Variational encoders (VAEs) \citep{kingma2013auto} are a probabilistic variant o
 	\caption{\label{fig:vae-structure} VAE Architecture}
 \end{figure}
 
-In contrast to the deterministic autoencoder we observe that a variational inference networks autoencoder learns representations of both the mean and variance latent spaces. The method requires placing conjugate priors on the mean and variance of the unknown latent representation. The encoder then tries to learn the approximate posterior distribution. This family of distributions used for this purpose are Gaussian.
+In contrast to the deterministic autoencoder we observe that a variational autoencoder learns representations of both the mean and variance latent spaces. The method of variational inference requires placing conjugate priors on the mean and variance of the unknown latent representation. The encoder then tries to learn the approximate posterior distribution. This family of distributions used for this purpose are Gaussian.
 
-In addition to the reconstruction loss that a deterministic autoencoder uses, a metric of distance is used to evaluate how closely between the learned representations of mean and variance resemble a Gaussian distribution with mean 0 and unit variance. The Kullback-Leibler (KL) divergence \citep{kullback1951information} is used to penalize learned representations that do not resemble the prior. However, we cannot compute the KL directly. Instead we compute an alternative objective that is equivalent to the KL up until an added constant. This is called the evidence lower-bound (ELBO). The ELBO objective maximized in a variational autoencoder model is given below:
+In addition to the reconstruction loss that a deterministic autoencoder uses, a metric of distance is used to evaluate how closely the learned representations of mean and variance resemble a Gaussian distribution with mean 0 and unit variance. The Kullback-Leibler (KL) divergence \citep{kullback1951information} is used to penalize learned representations that do not resemble the prior. However, we cannot compute the KL directly. Instead we compute an alternative objective that is equivalent to the KL divergence up until an added constant. This is called the evidence lower-bound (ELBO).
 
-\begin{equation}
+The ELBO objective maximized in a variational autoencoder model is given in Equation \ref{eqn:elbo}:
+\begin{equation} \label{eqn:elbo}
 	ELBO(q) = \mathbb{E}_{q(z)} [(\log(p(x|z))] - \mathbb{KL}(q(z)||p(z))
 \end{equation}
 
@@ -196,11 +199,11 @@ Simultaneously, for the decoding step, we sample from the prior, utilizing the r
 
 \section{Word Embeddings}
 
-Prior to the existence of matrix factorization and neural models, the vectors used for words and documents were one-hot representations, word-ngrams statistics \citep{brown1992class} or tf-idf weighted statistics.
+Prior to the existence of matrix factorization and neural models, the vectors used for words and documents were one-hot representations, word-ngrams statistics \citep{brown1992class} or tf-idf weighted statistics. Word-ngrams are useful for encoding probability distributions of word occurrences in a corpus. Higher order ngrams (bigrams, trigrams, four-grams etc.) also take into account the context of nearby words, for language models that rely on context to predict future words.
 
-Word-ngrams and tf-idf vectors are useful as a proxy to encode the occurrence likelihoods and word-ngrams also take into account the context of nearby words for models that rely on it. However, each of these methods use discrete word/character occurrence counts to represent words and documents, and these representations scale with the size of the input corpus vocabulary for word-based models, which makes them computationally inefficient. They are also ineffective at modelling semantic inter-word or inter-character relationships.
+However, these methods use discrete word/character occurrence counts to represent words and documents, and these representations scale with the size of the input corpus vocabulary for word-based models, making them computationally inefficient for large corpora with diverse vocabularies. They are also ineffective at modelling semantic inter-word or inter-character relationships.
 
-Word2Vec is a vector space model that embeds words into a continuous space where semantically similar words are embedding in nearby spaces \citep{mikolov2013distributed,mikolov2013linguistic,le2014distributed}. Word2Vec can model the corpus vocabulary in two different ways, namely CBOW and Skip-gram. CBOW predicts target words from source context words, whereas the skip-gram does the opposite and predicts target context-words from a source words. Both model types are shown in Figure \ref{fig:efficient-models}
+Word2Vec is a vector space model that embeds words into a continuous space where semantically similar words are embedded in nearby spaces \citep{mikolov2013distributed,mikolov2013linguistic,le2014distributed}. Word2Vec can model the corpus vocabulary in two different ways, namely CBOW and Skip-gram. The CBOW model predicts a target word from context words, whereas the skip-gram model does the opposite and predicts target words from a single context word. Both model types are shown in Figure \ref{fig:efficient-models}
 
 \begin{figure}[ht]
 	\centering
@@ -209,9 +212,9 @@ Word2Vec is a vector space model that embeds words into a continuous space where
 	\caption{\label{fig:efficient-models} Word2Vec Model}
 \end{figure}
 
-The Word2Vec model is a simple shallow neural network, with single input, hidden and output layers. The hidden layer is of arbitrary size, called the embedding size. The one-hot encoded input is transformed into it's context or target word, depending on whether the algorithm chosen is CBOW or Skip-gram. After the model converges to a good target prediction accuracy. The network weights connecting the input and the hidden layer can be used as parameters to obtain dense, continuous representations of words.
+The Word2Vec model is a simple shallow neural network, with single input, hidden and output layers. The hidden layer is of arbitrary size, called the embedding size. The one-hot encoded input is transformed into it's context or target word, depending on whether the algorithm chosen is CBOW or Skip-gram. After the model converges to a good target prediction accuracy, the network weights connecting the input and the hidden layer can be used as parameters to obtain dense, continuous representations of words.
 
-A surprised outcome of this embedding model is that translations within the learned vector space seem to emulate semantic (gender, tense) as well as factual relationships (country-capital), as shown in Figure \ref{fig:word2vec-linear-relationships}.
+A surprising outcome of this embedding model is that translations within the learned vector space seem to emulate semantic (gender, tense) as well as factual relationships (country-capital), as shown in Figure \ref{fig:word2vec-linear-relationships}.
 
 \begin{figure}[ht]
 	\centering
@@ -227,17 +230,17 @@ Word embedding neural models are also shown to be implicitly factorizing a word-
 
 Also abbreviated in the literature as Seq2Seq, this is a class of models that learns functions that map from one sequence to another. First introduced by \cite{sutskever2014sequence}, the general premise of sequence to sequence has been a flexible framework for modelling transformations made to arbitrary length sequences. In the natural language processing community, the main tasks that benefit from the encoder-decoder framework are neural machine translation, dialogue modelling, question answering for which there exists two distinct distributions of data, and the model is trained to learn the mapping from one to the other.
 
-The paper defines a sequence-to-sequence model as on that learns the below function to map a sequence of inputs $x_1, \cdots , x_T$ to a sequence of outputs $y_1, \cdots , y_{T'}$, where the initial state $h$ is set to the hidden LSTM representation of $x_1, \cdots , x_T$.
+\cite{sutskever2014sequence} define a sequence-to-sequence model that learns a function (Equation \ref{eqn:seq2seq}) to map a sequence of inputs $x_1, \cdots , x_T$ to a sequence of outputs $y_1, \cdots , y_{T'}$, where the initial state $h$ is set to the hidden LSTM representation of $x_1, \cdots , x_T$.
 
-\begin{equation}
+\begin{equation} \label{eqn:seq2seq}
 	p(y_1, \cdots , y_{T'} | x_1, \cdots , x_T) =	\prod_{t=1}^T p(y_t | h, y_1, \cdots , y_{t-1})
 \end{equation}
 
-This makes the Seq2Seq model an ideal framework using which one can implement solutions to several natural language generation tasks like neural machine translation, dialogue generation, text summarizaton etc.
+This makes the Seq2Seq model an ideal framework using which one can implement solutions to several natural language generation tasks like neural machine translation, dialogue generation, text summarizaton, etc.
 
 \section{Adversarial Networks}
 
-\cite{goodfellow2014generative} present a new model that utilizes the idea of a game-theoretic competition between the generative model which is a decoder, and a discriminative model which is usually a classifier or regressor. The general idea is to train the adversary to be able to discriminate between the distributions that the generator model is trying to produce and a true distribution, that it the generator trying to mimic.
+\cite{goodfellow2014generative} present a new model that utilizes the idea of a game-theoretic competition between the generative model which is a decoder, and a discriminative model which is usually a classifier or regressor. The general idea is to train the adversary to be able to discriminate between the distributions that the generator model is trying to produce and a true distribution, that the generator trying to mimic.
 
 \begin{figure}[ht]
 	\centering
@@ -246,16 +249,16 @@ This makes the Seq2Seq model an ideal framework using which one can implement so
 	\caption{\label{fig:gans} GAN Architecture}
 \end{figure}
 
-In the original formulation of adversarial training, which involves using a binary classifier, the generator learns weights to map a randomly initialized latent variable $z$ to a data distribution $x$ that it is unaware of. The discriminator is trained using the true distribution and samples generated by the generative model, and it's objective is to discriminate the true samples from the generated samples. The generator on the other hand, attempts to maximize the discriminator's classification error, thereby producing plausible samples that mimic the true distribution.
+In the original formulation of adversarial training, which involves using a binary classifier, the generator learns weights to map a randomly initialized latent variable $z$ to a data distribution $x$ that it is unaware of. The discriminator is trained using the true distribution and samples generated by the generative model, with the objective to discriminate the true samples from the generated samples. The generator on the other hand, attempts to maximize the discriminator's classification error, thereby producing plausible samples that mimic the true distribution.
 
-This property of the generator model parameters possess, of translating random noise into plausible data samples are used in areas of research within computer vision and natural language processing to produce novel data. Also adversarial learning as a principle is a great tool to ensure that known partial information present in the latent space is disentangled from any arbitrarily chosen sub-space.
+This property the generator model's parameters possess - of translating random noise into plausible data samples - is used in areas of research within computer vision and natural language processing to produce novel data samples. Also, adversarial learning as a principle is an effective tool to ensure that known partial information present in the latent space is disentangled from any arbitrarily chosen sub-space.
 
 We utilize adversarial learning in our model to assist with the disentanglement of style labels.
 
 
 \section{Image Style Transfer}
 
-The idea of neural style transfer in the was originally proposed by \cite{gatys2016image}. In the task described in the paper, the authors use two distinct images as input. The first image contributes the content, and the second contributes the style. The objective is to generate a final image that contains all of the physical objects visible in the first image, but depicted by the style (hue, brush strokes, texture etc.) visible in the second.
+The idea of neural style transfer was originally proposed by \cite{gatys2016image}. In the task described in the paper, the authors use two distinct images as input. The first image contributes the content, and the second contributes the style. The objective is to generate a final image that contains all of the physical objects visible in the first image, but depicted in the style (hue, brush strokes, texture etc.) visible in the second.
 
 \begin{figure}[ht]
 	\centering
@@ -264,16 +267,17 @@ The idea of neural style transfer in the was originally proposed by \cite{gatys2
 	\caption{\label{fig:image-style-transfer} Artistic Style Transfer in Images}
 \end{figure}
 
-The features, as with most of the state-of-the-art image processing techniques, are extracted from the images using Convolutional Neural Networks (CNNs) \citep{lecun1998gradient}, the deep neural network variants of which have been widely successful at image recognition tasks such as object recognition in the ImageNet dataset \cite{krizhevsky2012imagenet}.
+The features, as with most of the state-of-the-art image processing techniques, are extracted from the images using Convolutional Neural Networks (CNNs) \citep{lecun1998gradient}, the deep neural network variants of which have been widely successful at image recognition tasks such as object recognition in the ImageNet dataset \citep{krizhevsky2012imagenet}.
 
-As depicted in Figure \ref{fig:image-style-transfer}, subsequent layers of the CNN learn incrementally higher level features in both the style image and the content image. These learned features for the style and content images are stored for future use. To generate the final image, the authors begin with a random white noise image. This image is passed through both networks, the parameters of which extract both it's style features and it's content features.
+As depicted in Figure \ref{fig:image-style-transfer}, subsequent layers of the CNN learn incrementally higher level features in both the style image and the content image. These learned features for the style and content images are stored for future use. To generate the final image, the authors begin with a random white noise image. This image is passed through both networks, the parameters of which extract both its style features and its content features.
 
 This model uses two training objectives:
 \begin{itemize}
-	\item Minimize the the element-wise mean squared difference between the style features computed for the style image and the white-noise image
-	\item Minimize the the mean squared difference between the content features of the content image and the white noise image, as shown in the below equations.
+	\item Minimize the the element-wise mean squared difference between the style features computed for the style image and the white-noise image.
+	\item Minimize the the mean squared difference between the content features of the content image and the white noise image.
 \end{itemize}
 
-The overall training loss is a linear combination of the above objectives, and is used to iteratively modify the white-noise image until it the style features of the style image and the content features of the content image.
+The overall training loss is a linear combination of the above objectives, and is used to iteratively modify the white-noise image until it has the style features of the style image and the content features of the content image.
 
-The next chapter builds on the fundamentals established in this one, and discusses previous attempts at neural disentanglement in the context of linguistic style transfer as well as methods that do not use disentanglement as the basis of the style transfer model.
+
+The next chapter builds on the fundamentals established in this chapter, and discusses previous attempts at neural disentanglement in the context of linguistic style transfer, as well as methods that do not use disentanglement as the basis of their style transfer model.
