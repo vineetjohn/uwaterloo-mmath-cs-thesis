@@ -43,10 +43,12 @@ An autoencoder encodes an input to a latent vector space, from which it decodes 
 Let $x=(x_1, x_2, \cdots x_n)$ be an input sentence. The encoder encodes $x$ by a recurrent neural network (RNN) with gated recurrent units (GRU) \citep{cho2014learning}, and obtains a hidden state $\bm h$, which in our formulation, is two separate spaces, $\bm s$ for style and, $\bm c$ for content. This variation on how the latent space is parameterized still requires an equal number of parameters when compared to a vanilla RNN encoder. Then a decoder RNN generates a sentence, which ideally should be $x$ itself. Suppose at a time step $t$, the decoder RNN predicts the word $x_t$ with probability $p(x_t | \bm h, x_1 \cdots x_{t-1})$, then the autoencoder is trained with cross-entropy loss. The training process is described in more a detailed manner as follows:
 
 The encoder produces the style and content, given that $\theta_{E_s}$ represents the subset of encoder parameters responsible for the production of the style vector and $\theta_{E_c}$, similarly, represents the encoder responsible for the production of the content vector.
-\begin{eqnarray*}
-	\bm s &=& \theta_{E_s}(x) \nonumber \\
-	\bm c &=& \theta_{E_c}(x) \nonumber
-\end{eqnarray*}
+\begin{align*}
+	\bm s =
+	 & \theta_{E_s}(x) \nonumber \\
+	\bm c =
+	 & \theta_{E_c}(x) \nonumber
+\end{align*}
 
 Following which the decoder attempts to predict the original distribution of $x$ by computing the softmax over the vocabulary size, for as many time steps as the sequence length, as shown in Equation \ref{eqn:dae-rec}
 \begin{equation} \label{eqn:dae-rec}
@@ -63,12 +65,12 @@ In addition to the deterministic auto-encoding objective presented above, we als
 
 Equation \ref{eqn:vae-rec} shows the reconstruction objective that is minimized by the model in the VAE variant of our model.
 
-\begin{eqnarray} \label{eqn:vae-rec}
-	\mathcal{L}_\text{rec}(\theta_D, \theta_E; x) &=& \nonumber
-	- \mathbb{E}_{q_{E_s}(\bm s|x) q_{E_c}(\bm c|x)} [log p_D(x|\bm s, \bm c)] \nonumber \\ & &
-	+ \lambda_{\text{skl}} KL(q_{E_s}(\bm s|x)||p(z)) \nonumber \\ & &
-	+ \lambda_{\text{ckl}} KL(q_{E_c}(\bm c|x)||p(z))
-\end{eqnarray}
+\begin{align} \label{eqn:vae-rec}
+	\mathcal{L}_\text{rec}(\theta_D, \theta_E; x) = \nonumber
+	 & - \mathbb{E}_{q_{E_s}(\bm s|x) q_{E_c}(\bm c|x)} [log p_D(x|\bm s, \bm c)] \nonumber \\
+	 & + \lambda_{\text{skl}} KL(q_{E_s}(\bm s|x)||p(z)) \nonumber                          \\
+	 & + \lambda_{\text{ckl}} KL(q_{E_c}(\bm c|x)||p(z))
+\end{align}
 
 The motivation for using a variational autoencoder variant to compare the base deterministic autoencoder model to, is the property of VAEs to learn smooth and continuous latent spaces, without many dead zones in the latent space that cannot be sampled from. \cite{bowman2016generating} show this empirically by using the latent space of a text variational autoencoder to interpolate between and generate novel sentences from the latent spaces between two valid sentences from a corpus.
 
@@ -185,13 +187,11 @@ To address this issue, we propose a customized version of Dropout \citep{srivast
 \section{Training Process}
 
 The overall loss used for the autoencoder is thus comprised of four different objectives: the reconstruction objective, the multi-task objective and the style and content adversaries.
-\begin{eqnarray*}
-	\mathcal{L}_\text{ovr} &=&
-	\mathcal{L}_\text{rec}(\bm\theta_E, \bm\theta_D)
-	+ \lambda_\text{mult} \mathcal{L}_\text{mult} (\bm\theta_E,\bm\theta_\text{mult}) \\ & &
-	- \lambda_\text{adv} \mathcal{L}_\text{adv}(\theta_E)
-	- \lambda_\text{badv} \mathcal{L}_\text{badv}(\theta_E)
-\end{eqnarray*}
+\begin{align*}
+	\mathcal{L}_\text{ovr} =
+	 & \mathcal{L}_\text{rec}(\bm\theta_E, \bm\theta_D) - \lambda_\text{adv} \mathcal{L}_\text{adv}(\theta_E) +                                \\
+	 & \lambda_\text{mult} \mathcal{L}_\text{mult} (\bm\theta_E,\bm\theta_\text{mult}) - \lambda_\text{badv} \mathcal{L}_\text{badv}(\theta_E)
+\end{align*}
 where $\lambda_\text{mult}$, $\lambda_\text{adv}$ and $\lambda_\text{badv}$ balance these losses.
 
 To summarize the model training setup, our training process is a loop of the minimization objectives described in Algorithm \ref{alg:training-process}.

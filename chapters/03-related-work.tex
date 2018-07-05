@@ -55,23 +55,23 @@ The authors describe three objectives that train their model, including the reco
 \subsection{Variational Autoencoder}
 
 A reconstruction loss that ensures that the generated sentence $\hat{x}$ is the same as the original sentence $x$. This is equivalent to minimizing the negative log-likelihood of generating $\hat{x}$. This is shown in Equation \ref{eqn:tcg-rec}
-\begin{eqnarray} \label{eqn:tcg-rec}
-	\mathcal{L}_{VAE}(\theta_G, \theta_E; x) &=& \nonumber
-	- \mathbb{E}_{q_E(z|x)q_D(c|x)}[log p_G(x|z,c)] \\ & &
+\begin{align} \label{eqn:tcg-rec}
+	\mathcal{L}_{VAE}(\theta_G, \theta_E; x) = &
+	- \mathbb{E}_{q_E(z|x)q_D(c|x)}[\log p_G(x|z,c)]  \nonumber \\ &
 	+ KL(q_E(z|x)||p(z))
-\end{eqnarray}
+\end{align}
 
 
 \subsection{Style Discriminator}
 
 A discriminator validates if the predicted class/value for $\hat{x}$ is the same as the corresponding class/label for $x$. This is a cross-entropy loss over the probability distribution of the labels. This discriminator loss can be further subdivided into 2 terms, one that maximizes the log likelihood of predicting the correct class as in Equation \ref{eqn:tcg-disc-class}, and one that minimizes the empirically observed Shannon entropy of the predicted distribution, thereby incentivizing confident predictions, as in Equation \ref{eqn:tcg-disc-ent}.
-\begin{equation} \label{eqn:tcg-disc-class}
-	\mathcal{L}_s(\theta_D) = - \mathbb{E}_{X_L}[log q_D(c_L|x_L)]
-\end{equation}
-\begin{equation} \label{eqn:tcg-disc-ent}
-	\mathcal{L}_u(\theta_D) = - \mathbb{E}_{p_G(\hat{x}|z,c)p(z)p(c)}
-	[log q_D(c|\hat{x}) + \beta \mathcal{H}(q_D(c'|\hat{x}))]
-\end{equation}
+\begin{align}
+	\label{eqn:tcg-disc-class}
+	\mathcal{L}_s(\theta_D) = & - \mathbb{E}_{X_L}[\log q_D(c_L|x_L)]   \\
+	\label{eqn:tcg-disc-ent}
+	\mathcal{L}_u(\theta_D) = & - \mathbb{E}_{p_G(\hat{x}|z,c)p(z)p(c)}
+	[\log q_D(c|\hat{x}) + \beta \mathcal{H}(q_D(c'|\hat{x}))]
+\end{align}
 
 
 \subsection{Content Discriminator}
@@ -79,7 +79,7 @@ A discriminator validates if the predicted class/value for $\hat{x}$ is the same
 The encoder from the loss equation \ref{eqn:tcg-rec}, is used to regenerate the latent distribution $z$ devoid of the structured code from the output distribution $\hat{x}$. The authors call this an \textbf{independence constraint}, which means that regardless of the structured code $c$ that is currently present in either $x$ or $\hat{x}$, processing either through the generator should produce a consistent $z$. This allows the encoder to encode only latent factors that are independent of the structured code. This is shown in Equation \ref{eqn:tcg-ind-con}.
 \begin{equation} \label{eqn:tcg-ind-con}
 	\mathcal{L}_{attr, z}(\theta_G) = - \mathbb{E}_{p(z)p(c)}
-	[log q_E(z|\tilde{G_{\tau}}(z,c))]
+	[\log q_E(z|\tilde{G_{\tau}}(z,c))]
 \end{equation}
 
 The expected log likelihood of predicting the correct distribution of the structured code $c$ given the labelled examples $X_L$, is maximized. This happens before the generator model training. The expected log likelihood of predicting the correct distribution of the structured code $c$ given the generated sentences $\hat{x}$ is also maximized. At the same time, the empirically observed Shannon entropy of the observed discriminator prediction $q_D(c'|\hat{x})$ is minimized. This entropy minimization objective reduces uncertainty and increases confidence of the structured code prediction. A wake-sleep algorithm \citep{hinton1995wake} is used to alternatively train the generator and discriminator.
@@ -107,22 +107,22 @@ A simplified graphical depiction of their model is shown in Figure \ref{fig:stca
 \end{figure}
 
 The reconstruction loss is the same as the one used by a variation autoencoder for its reconstruction objective, as shown in Equation \ref{eqn:stca-rec}.
-\begin{eqnarray} \label{eqn:stca-rec}
-	\mathcal{L}(\theta_E,\theta_G)
-	&=& \mathbb{E}_{x_1 \sim X_1}[-\log p_G(x_1|y_1,E(x_1, y_1))] \nonumber \\
-	& & + \mathbb{E}_{x_2 \sim X_2}[-\log p_G(x_2|y_2,E(x_2, y_2))]
-\end{eqnarray}
+\begin{align} \label{eqn:stca-rec}
+	\mathcal{L}(\theta_E,\theta_G) =
+	 & \mathbb{E}_{x_1 \sim X_1}[-\log p_G(x_1|y_1,E(x_1, y_1))] + \nonumber \\
+	 & \mathbb{E}_{x_2 \sim X_2}[-\log p_G(x_2|y_2,E(x_2, y_2))]
+\end{align}
 
 \subsection{Aligned Autoencoder}
 
 The authors propose aligning the distributions $P_E(z|x_1)$ and $P_E(z|x_2)$ where $E$ is the encoder function. This is done by training an adversarial discriminator to distinguish between the two distributions.
 
 The adversarial objective is expressed as shown in Equation \ref{eqn:stca-align-adv} where $D(\cdot)$ outputs 0 if it predicts the source distribution to be $X_1$ and 1 if it predicts the source distribution to be $X_2$
-\begin{eqnarray} \label{eqn:stca-align-adv}
-	\mathcal{L}_{adv}(\theta_E,\theta_D)
-	&=& \mathbb{E}_{x_1 \sim X_1}[-\log D(E(x_1,y_1))] \nonumber \\
-	& & + \mathbb{E}_{x_2 \sim X_2}[-\log(1 - D(E(x_2,y_2)))]
-\end{eqnarray}
+\begin{align} \label{eqn:stca-align-adv}
+	\mathcal{L}_{adv}(\theta_E,\theta_D) =
+	 & \mathbb{E}_{x_1 \sim X_1}[-\log D(E(x_1,y_1))] + \nonumber \\
+	 & \mathbb{E}_{x_2 \sim X_2}[-\log(1 - D(E(x_2,y_2)))]
+\end{align}
 
 The overall optimization objective combining equations \ref{eqn:stca-rec} and \ref{eqn:stca-align-adv} can be written as
 \begin{equation}

@@ -128,16 +128,20 @@ The input gate also uses a sigmoid activation on the previous hidden state, whic
 \end{equation*}
 
 This value is multiplied by the forget-gated previous cell state to form the next cell state.
-\begin{eqnarray*}
-	\hat{C_t} &=& \tanh(W_c*[h_{t-1}, x_t] + b_c) \\
-	C_t &=& f_t * C_{t-1} + i_t * \hat{C_t}
-\end{eqnarray*}
+\begin{align*}
+	\hat{C_t} =
+	 & \tanh(W_c*[h_{t-1}, x_t] + b_c) \\
+	C_t =
+	 & f_t * C_{t-1} + i_t * \hat{C_t}
+\end{align*}
 
 Now that we have obtained the cell state, we propagate that through to the next time-step. To obtain the hidden state, we use an output gate, again with a sigmoid activation, to gate the cell-state and create the hidden-state for the next time-step.
-\begin{eqnarray*}
-	o_t &=& \sigma(W_o*[h_{t-1}, x_t] + b_o) \\
-	h_t &=& \tanh(C_t)
-\end{eqnarray*}
+\begin{align*}
+	o_t =
+	 & \sigma(W_o*[h_{t-1}, x_t] + b_o) \\
+	h_t =
+	 & \tanh(C_t)
+\end{align*}
 
 The efficacy of LSTM-backed RNNs is evident from the prevalence of their usage in language modelling literature \citep{sundermeyer2012lstm,gers2001lstm,graves2005framewise} \footnote{\url{https://karpathy.github.io/2015/05/21/rnn-effectiveness}}.
 
