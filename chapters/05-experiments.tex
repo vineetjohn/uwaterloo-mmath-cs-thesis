@@ -47,15 +47,13 @@ The content preservation metric used by \cite{fu2017style} is also used in our w
 
 This method uses 100-dimensional GloVe embeddings \citep{pennington2014glove} pre-trained on the Wikipedia + GigaWord corpora~\footnote{\url{https://nlp.stanford.edu/projects/glove/}}. The min, mean and max GloVe word embeddings for each sentence are concatenated together to create a sentence representation. The cosine similarity between the source sentence and target sentence is used as a measure of content preservation.
 
-Let $W$ be the set of word embeddings in a sentence $s$. Then the sentence embedding would be given by
-\begin{equation*}
-	\text{sentence-embedding} = [min(W);max(W);mean(W)]
-\end{equation*}
-
-Then the cosine similarity between two sentences $s_1$ and $s_2$ is obtained by
-\begin{equation*}
-	\text{cosine-similarity} = 1 - \cos(\text{sentence-embedding}_1, \text{sentence-embedding}_2)
-\end{equation*}
+Let $W$ be the set of word embeddings in any sentence $s$. Then the cosine similarity between two sentences $s_1$ and $s_2$ is obtained by
+\begin{align*}
+	\text{sentence-embedding} =
+	 & [min(W);max(W);mean(W)]                                            \\
+	\text{cosine-similarity} =
+	 & 1 - \cos(\text{sentence-embedding}_1, \text{sentence-embedding}_2)
+\end{align*}
 where $\text{sentence-embedding}_1$ and $\text{sentence-embedding}_2$ are the sentence embeddings for $s_1$ and $s_2$ respectively. The mean cosine similarity of all the sentences in the test set is the content preservation that is reported for the experiment.
 
 \begin{table}[ht]
@@ -216,6 +214,28 @@ We compare our approach with the current state-of-the-art work in automated text
 \end{table}
 
 \todo[inline]{Add Amazon corpus experiments}
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{| c | l | r | r | r | r |}
+		\hline
+		\multirow{2}{*}{} & \textbf{Model}        & \textbf{Transfer} & \textbf{Content}      & \textbf{Word}    & \textbf{Language} \\
+		                  &                       & \textbf{Strength} & \textbf{Preservation} & \textbf{Overlap} & \textbf{Fluency}  \\
+		\hline
+		\hline
+		\multirow{2}{*}{} & Cross-Alignment       &                   &                       &                  &                   \\
+		                  & \citep{shen2017style} &                   &                       &                  &                   \\
+		\hline
+		\multirow{2}{*}{} & Style Embedding       &                   &                       &                  &                   \\
+		                  & \citep{fu2017style}   & 0.4165            & 0.9332                & 0.3587           &                   \\
+		\hline
+		                  & Ours (DAE)            &                   &                       &                  &                   \\
+		\hline
+		                  & Ours (VAE)            &                   &                       &                  &                   \\
+		\hline
+	\end{tabular}
+	\caption{Comparison with previous approaches on the Amazon Dataset}
+	\label{tab:comparison-previous-ama}
+\end{table}
 
 
 Table \ref{tab:ablation-results} presents the results of an ablation test. We see that both, the adversarial loss and multi-task losses, play a role in the strength of style transfer. It also shows that their usage in a combination can further boost performance of the style-transfer strength.
