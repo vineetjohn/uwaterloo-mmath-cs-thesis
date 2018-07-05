@@ -4,16 +4,16 @@ The randomness and inscrutability of the learning processes in neural networks h
 
 Although neural networks have proved to be highly capable function approximators in the general machine intelligence literature over the past couple of decades, without any explicit additional modelling, the weights of a neural network are learnt in an arbitrary manner to approximate a function modelled by a user-defined loss variable.
 
-Due to this non-explainability of the weights of neural networks, they have been used as a black-box in practice, and the non-explainability hampers their adoption in use-cases required explicit audits and accountability, and for humans to reason about why a system chose a particular outcome over the other options available.
+Due to this non-explainability of the weights of neural networks, they have been used as a black-box in practice, and the non-explainability hampers their adoption in use-cases requiring explicit audits for accountability, and for humans to reason about why a system chose a particular outcome over the other options available.
 
-We believe that the disentanglement of the learned weights of a neural network are an important step in the direction of addressing this shortcoming, using available labels to force representation learning to adhere to a pre-defined separation scheme in the latent space.
+We believe that the disentanglement of the learned weights of a neural network is an important step in the direction toward addressing this shortcoming. This is achieved by using available labels to force representation learning to adhere to a predefined separation scheme in the latent space.
 
 
 \section{Overview}
 
-We provide a novel approach to solve this open problem, and juxtaposes this approach and its experimental results against the current state-of-the-art models. We empirically demonstrate the separation of content and style spaces by demonstrating the inferred spaces of labelled sentences in a sentiment-transfer task, where the positive sentences in the test set are converted to equivalent sentences with a negative sentiment, and vice-versa.
+We provide a novel approach to solve this open problem of non-interpretable latent representations in neural networks. We juxtapose this approach and its experimental results against the current state-of-the-art models. We empirically demonstrate the separation of content and style spaces by visualizing the inferred spaces of labelled sentences in sentiment-transfer tasks, where the positive sentences in the test set are converted to equivalent sentences with a negative sentiment, and vice-versa.
 
-This model is also generalizable using its standard implementation to problems involving multiple classes, like style transfer by authors, artists, topic etc.
+This model is also generalizable using its standard implementation to problems involving multiple classes, like style transfer by authors, artists, topic, etc.
 
 Our model is built upon an autoencoder with a sequence-to-sequence (Seq2Seq) neural network \citep{sutskever2014sequence}, as described in Section \ref{ssec:seq2seq-objective}. This is the primary objective of the algorithm, whose objective function is to simply reconstruct the input text. We implement our model with both deterministic autoencoders \citep{baldi2012autoencoders} as well as variational autoencoders \citep{kingma2013auto}.
 
@@ -40,17 +40,15 @@ Figures \ref{fig:model-overview-training} and \ref{fig:model-overview-inference}
 
 An autoencoder encodes an input to a latent vector space, from which it decodes the input itself. By doing so, the autoencoder learns meaningful representations of data. This serves as our primary learning objective. Besides, we also use the autoencoder weights  for text generation in the attribute style-transfer application.
 
-Let $x=(x_1, x_2, \cdots x_n)$ be an input sentence. The encoder encodes $x$ by a recurrent neural network (RNN) with gated recurrent units (GRU) \citep{cho2014learning}, and obtains a hidden state $\bm h$, which in our formulation, is two separate spaces, $\bm s$ for style and, $\bm c$ for content, which still requires an equivalent number of parameters compared to a vanilla RNN encoder.
+Let $x=(x_1, x_2, \cdots x_n)$ be an input sentence. The encoder encodes $x$ by a recurrent neural network (RNN) with gated recurrent units (GRU) \citep{cho2014learning}, and obtains a hidden state $\bm h$, which in our formulation, is two separate spaces, $\bm s$ for style and, $\bm c$ for content. This variation on how the latent space is parameterized still requires an equal number of parameters when compared to a vanilla RNN encoder. Then a decoder RNN generates a sentence, which ideally should be $x$ itself. Suppose at a time step $t$, the decoder RNN predicts the word $x_t$ with probability $p(x_t | \bm h, x_1 \cdots x_{t-1})$, then the autoencoder is trained with cross-entropy loss. The training process is described in more a detailed manner as follows:
 
-Then a decoder RNN generates a sentence, which ideally should be $x$ itself. Suppose at a time step $t$, the decoder RNN predicts the word $x_t$ with probability $p(x_t | \bm h, x_1 \cdots x_{t-1})$, then the autoencoder is trained with cross-entropy loss, given by
-
-First the encoder produces the style and content, given that $\theta_{E_s}$ represents the subset of encoder parameters responsible for the production of the style vector and $\theta_{E_c}$, similarly, represents the encoder responsible for the production of the content vector.
+The encoder produces the style and content, given that $\theta_{E_s}$ represents the subset of encoder parameters responsible for the production of the style vector and $\theta_{E_c}$, similarly, represents the encoder responsible for the production of the content vector.
 \begin{eqnarray*}
 	\bm s &=& \theta_{E_s}(x) \nonumber \\
 	\bm c &=& \theta_{E_c}(x) \nonumber
 \end{eqnarray*}
 
-Following which the decoder attempts to predict the original distribution of $x$ by predicting the softmax over the vocabulary size, for as many time steps as the sequence length, as shown in Equation \ref{eqn:dae-rec}
+Following which the decoder attempts to predict the original distribution of $x$ by computing the softmax over the vocabulary size, for as many time steps as the sequence length, as shown in Equation \ref{eqn:dae-rec}
 \begin{equation} \label{eqn:dae-rec}
 	\mathcal{L}_\text{rec}(\bm\theta_E,\bm\theta_D)= -\mathbb{E}[log p_D(x|\bm s, \bm c)]
 \end{equation}
@@ -61,7 +59,7 @@ Since this loss trains the autoencoder to reconstruct $x$, it is also called the
 
 \subsection{Variational Autoencoder}
 
-In addition to the deterministic auto-encoding objective presented above, we also implement a variational autoencoder. The variational sampling and KL-divergence losses are applied for both the style space $\bm s$ and the content space $\bm c$. The weights applied to each KL-divergence loss is tuned independently as a hyperparameter.
+In addition to the deterministic auto-encoding objective presented above, we also implement a variational autoencoder. The variational sampling and KL-divergence losses are applied for both the style space $\bm s$ and the content space $\bm c$. The weights applied to each KL-divergence loss are tuned independently as a hyperparameter.
 
 Equation \ref{eqn:vae-rec} shows the reconstruction objective that is minimized by the model in the VAE variant of our model.
 
@@ -84,9 +82,9 @@ Besides the above reconstruction losses, we design auxiliary losses to disentang
 
 Our first auxiliary loss ensures the style space does contain style information. We build a classifier trained using the style space $\bm s$ as its features, predicting the style label $y$, which is a part of the training data.
 
-This loss can be viewed as a multi-task objective, in addition to the original reconstruction objective, which ensures that the neural network not only decodes the sentence, but also predicts its sentiment from a sub-space of the latent representation. Similar multi-task losses have been used in previous work for sequence-to-sequence learning \citep{luong2015multi}, sentence representation learning \citep{jernite2017discourse} and sentiment analysis \citep{balikas2017multitask}, among others.
+This loss can be viewed as a multi-task objective, in addition to the original reconstruction objective, which ensures that the neural network not only decodes the sentence, but also predicts its style (e.g. sentiment) from a sub-space of the latent representation. Similar multi-task losses have been used in previous work for sequence-to-sequence learning \citep{luong2015multi}, sentence representation learning \citep{jernite2017discourse} and sentiment analysis \citep{balikas2017multitask}, among others.
 
-In our application, we follow previous work \citep{hu2017toward,shen2017style,fu2017style} and treat the sentiment as the style of interest for our primary evaluation. However, since our model generalizes to more that one class, we uses a simple multi-layer perceptron (MLP) followed by a softmax distribution over the possible labels. The softmax function can be expressed as the following expression
+In our application, we follow previous work \citep{hu2017toward,shen2017style,fu2017style} and treat the sentiment as the style of interest for our primary evaluation. However, since our model generalizes to more than one class, we uses a simple multi-layer perceptron (MLP) followed by a softmax distribution over the possible labels. The softmax function can be expressed as the following expression
 \begin{equation*}
 	\sigma(\mathbf{z})_j = \frac{e^{z_j}}{\sum_{k=1}^K e^{z_k}} \text{for} j \in {1, \cdots K}
 \end{equation*}
@@ -112,7 +110,7 @@ The above multi-task loss only operates on the style space, but does not have an
 
 We therefore apply an adversarial loss to disentangle the content space from style information, inspired by adversarial generation \citep{goodfellow2014generative}, adversarial domain adaptation \citep{liu2017adversarial}, and adversarial style transfer \citep{fu2017style}.
 
-The idea of adversarial loss is to introduce an adversary that deliberately attempts to discriminate style $s$ of training samples using only the content vector $\bm c$. Then the autoencoder is trained to learn such a content vector space that its adversary cannot predict style information.
+The idea of adversarial loss is to introduce an adversary that deliberately attempts to discriminate style $s$ of training samples using only the content vector $\bm c$. Then the autoencoder is trained to learn a content vector space from which its adversary cannot predict style information.
 
 Concretely, the adversarial discriminator predicts style $y$ by using a softmax distribution over a multi-layer perceptron
 \begin{equation}
@@ -128,7 +126,7 @@ It is trained by minimizing the following objective
 
 The adversarial loss appears similar to the multi-task loss as in Equation \ref{eqn:multi-task-loss}. However, it should be emphasized that, for the adversary, the gradient is not propagated back to the autoencoder, i.e., $\bm c$ is treated as shallow features. The only adversarial component is the loss itself. The network parameters are mutually exclusive for the autoencoder and the adversarial discriminator.
 
-Having trained an adversary, we would like the autoencoder to learn latent representations, that $\bm c$ is not discriminative in term of the style or attribute we want to transfer. In other words, we penalize the entropy of the adversary's prediction, given by
+Having trained an adversary, we would like the autoencoder to learn latent representations, such that $\bm c$ is not discriminative in terms of the style or attribute we want to transfer. In other words, we penalize the entropy of the adversary's prediction, given by
 \begin{equation}
 	\mathcal{L}_\text{adv}(\bm\theta_E) = \mathcal{H}(p_\text{dis}(y | \bm c))
 \end{equation}
@@ -137,11 +135,9 @@ where $\mathcal{H}=-\sum_{i\in\text{labels}} p_i\log p_i$ is the empirical Shann
 
 \section{Adversarial Bag-of-Words Discriminator} \label{ssec:adversarial-bow-objective}
 
-In addition to the auxiliary losses used above, we also propose a novel bag-of-words discriminator on the style space. The motivation for having this objective is to try and emulate the adversarial signal provided by the style discriminator, but and do the same for the content. Here, we define the content of the sentence as the words from the original sentence without any sentiment words.hu2004mining
-hu2004mining
-The input sentences $x$ are represented as a vector of the same size as the corpus vocabulary, with each index of the vector a discrete probability of a word's presence in the sentence. Therefore, this bag-of-words representation is comprised of only 1s and 0s.
+In addition to the auxiliary losses used above, we also propose a novel bag-of-words discriminator on the style space. The motivation for having this objective is to try and emulate the adversarial signal provided by the style discriminator, and do the same for the content. Here, we define the content of the sentence as the words from the original sentence without any sentiment words \citep{hu2004mining}. The input sentences $x$ are represented as a vector of the same size as the corpus vocabulary, with each index of the vector a discrete probability of a word's presence in the sentence. Therefore, this bag-of-words representation is comprised of only 1s and 0s.
 
-The bag-of-words discriminator, uses the style vector produced by the autoencoder model and tries to predict the true bag-of-words distribution using a set of parameters that are distinct from those of the autoencoder. The discriminator uses a logistic regression to predict a probability of each words occurrence in the original sentence, between 0 and 1.
+The bag-of-words discriminator, uses the style vector produced by the autoencoder model and tries to predict the true bag-of-words distribution using a set of parameters that are distinct from those of the autoencoder. The discriminator uses a logistic regression to predict a probability of each word's occurrence in the original sentence, between 0 and 1.
 \begin{equation}
 	p(b | \bm s; \bm\theta_\text{bow}) = \sigma(\bm w_\text{bow}^\top \bm s + b_\text{bow})
 \end{equation}
@@ -165,7 +161,7 @@ The motivation for this adversarial loss is similar to the one used in the conte
 
 An improvement to the bag-of-words discriminator could be made assuming the availability of a lexicon of words that are associated with a high probability with each of the styles that we are trying to disentangle.
 
-The bag-of-words representation that excludes these words can now be created, such that the size of each representation is $(\text{\# vocab words}) \setminus (\text{\# lexicon words})$.
+The bag-of-words representation that excludes these words can now be created, such that the size of each representation is the set difference given by $(\text{\# vocab words}) \setminus (\text{\# lexicon words})$.
 
 The bag-of-words adversary will not penalize the autoencoder model for encoding words that are pertinent and discriminative for style that may be encoded in the style space. For the sentiment task in our experiments, we use a lexicon of positive and negative sentiments words curated by \cite{hu2004mining}.
 
@@ -183,12 +179,12 @@ In our formulation of the model, we describe the main adversarial loss for style
 	\label{fig:model-content-bypass}
 \end{figure}
 
-To address this issue, we propose a customized version of Dropout \cite{srivastava2014dropout}. Similar to how each neuron in a network is dropped out with a pre-defined probability in the general version of dropout, in this version, we drop out entire style vectors in the mini-batch randomly with a pre-defined probability. The motivation for doing this is to reinforce the fact that the content latent vector is not to ignored for the auto-encoding task despite the negative training signal from the adversary.
+To address this issue, we propose a customized version of Dropout \citep{srivastava2014dropout}. Similar to how each neuron in a network is dropped out with a predefined probability in the general version of dropout, in this version, we drop out entire style vectors in the mini-batch randomly with a predefined probability. The motivation for doing this is to reinforce the fact that the content latent vector is not to be ignored for the auto-encoding task despite the negative training signal from the adversary.
 
 
 \section{Training Process}
 
-The overall loss used for the autoencoder is thus comprised of four different, objectives, the reconstruction objective, the multi-task objective and the style and content adversaries.
+The overall loss used for the autoencoder is thus comprised of four different objectives: the reconstruction objective, the multi-task objective and the style and content adversaries.
 \begin{eqnarray*}
 	\mathcal{L}_\text{ovr} &=&
 	\mathcal{L}_\text{rec}(\bm\theta_E, \bm\theta_D)
@@ -220,9 +216,9 @@ $$\hat{\bm s}=\frac{\sum_{i\in\text{target style}}\bm s_i}{\text{\# target style
 
 \subsection{Nearest-Neighbour Approach for Sentence Generation} \label{ssec:nearest-neighbour-inference}
 
-The inference approach described above using the empirically learned mean embedding in the style space and applies it to all future inference requirements. Though simple and intuitive, this method is fairly rigid and doesn't take into account the fact that the inference time sentences' content could vary from the acceptable content embeddings that can be coupled with the mean style embedding used.
+The inference approach described above uses the empirically learned mean embedding in the style space to transfer any unseen sentences to the style it represents. Though simple and intuitive, this method is fairly rigid and doesn't take into account the fact that the inference time sentences' content could differ from the plausible content embeddings that could be coupled with the mean style embedding. This incompatibility between the style and content vectors could hinder the decoder from producing meaningful sentences. In other words, although the mean style vector could produce meaningful sentences when concatenated with almost any content vector, an outlier content vector that is on the periphery of the distribution of the content space might not be decoded into a valid sentence when concatenated with the mean style vector.
 
-To address this, we also propose a nearest neighbour approach to identify better candidates for the style embedding than the empirical mean of training time style embeddings. Algorithm \ref{alg:nearest-neighbour} describes our method.
+Hence, we want to supply a style embedding that might be a closer counterpart to each new content vector seen, by comparing the inference-time content vector to other content vectors seen during training, and identifying a more suitable style vector using a cosine proximity search of the embeddings learned empirically during training. To address this, we also propose a nearest neighbour approach to identify better candidates for the style embedding than the empirical mean of training time style embeddings. Algorithm \ref{alg:nearest-neighbour} describes our method.
 
 \begin{algorithm}[H]
 	\KwData{$S \Rightarrow$ empirical style embeddings from the training data}
@@ -249,15 +245,14 @@ To address this, we also propose a nearest neighbour approach to identify better
 
 However, this method is computationally more expensive since, for each test sentence, we need to iterate over the empirical content embeddings whose number is of the same order of magnitude as the training data.
 
+
 \section{Quantitative Evaluation of Language Quality}
 
-The evaluation of novel generated text to measure its perceived quality, naturalness, fluency and compliance with predefined attributes, like sentiment, tense etc.
+The evaluation of novel generated text to measure its perceived quality, naturalness, fluency and compliance with predefined attributes, like sentiment, tense etc. is particularly important in tasks like ours where having parallel corpus as a gold set is not possible.
 
-For the presence of a certain attribute, it is fairly simple to devise a classification model that is trained on a large corpora of samples labelled as such.
+For the presence of certain attributes like sentiment, tense, formality, etc., it is fairly simple to devise a classification model that is trained on a large corpora of samples labelled as such. However, it is much more difficult to unambiguously state what makes a body of text more fluent or natural than another with mathematical rigour using quantitative metrics. To tackle this, the other contemporary work in this area uses human annotators \cite{hu2017toward,shen2017style,fu2017style}. However, this is not scalable to large sets of generated sentences, and researchers need to account for subjectivity and inter-annotator agreement to further normalize scores obtained from human assessments.
 
-However it is much more difficult to unambiguously state what makes a body of text more fluent or natural that another with mathematical rigour using quantitative metrics.
-
-To offset this problem while stilling avoiding the need for human annotators to evaluate the target text, we have utilized techniques like sentences embedding similarity, augmented by the removal of words that highly correlate with any specific label, as proposed by the previous work by \cite{fu2017style}. This is described further in section \ref{ssec:content-preservation-metric} of the Experiments chapter.
+To offset this problem while still avoiding the need for human annotators to evaluate the target text, we have utilized techniques like sentence embedding similarity, augmented by the removal of words that highly correlate with any specific label, as proposed by the previous work by \cite{fu2017style}. We also use a Kneser-Ney smoothed \cite{kneser1995improved} language model to evaluate fluency. Both these metrics are described in greater detail in Section \ref{sec:evaluation-metrics} of the Experiments chapter.
 
 
 The next chapter describes the tasks undertaken, details of the datasets and models used, and the subsequent model evaluation results.

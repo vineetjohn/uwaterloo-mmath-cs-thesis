@@ -51,7 +51,7 @@ We operate under the following constraints and assumptions in our formulation of
 
 \begin{itemize}
 	\item The model is singular, with no conditional execution branch based on desired attribute. i.e. there is only one decoder and the number of decoders does not scale with the number of distinct transferable attributes.
-	\item The corpus of labelled text is non-parallel i.e. for instance, there are no pre-defined pairs of $(document_1, document_2)$ for style labels $\in (1, 2)$, as would be commonly seen in neural machine translation corpora.
+	\item The corpus of labelled text is non-parallel i.e. for instance, there are no predefined pairs of $(document_1, document_2)$ for style labels $\in (1, 2)$, as would be commonly seen in neural machine translation corpora.
 	\item The corpus is annotated with the current attribute each document possesses e.g. each document has a corresponding `positive'/`negative' label if the task is to perform sentiment transfer.
 	\item Optionally, a lexicon of words that are statistically likely to be associated with each distinct class label would be useful, primarily to evaluate how well content has been preserved in a generated sentence without penalizing a potential change in vocabulary caused by the transferring of style.
 \end{itemize}

@@ -1,6 +1,6 @@
 \section{Natural Language Generation}
 
-Natural Language Generation (NLG) is a sub-field of Natural Language Processing that attempts to generate sequences of words that resemble natural human languages. Traditionally, this was done either by using production rules of a pre-defined grammar, or by performing statistical analyses of existing human-written texts to predict sequences of words based on their occurrence probabilities. Markov-chain text generators are an example of the latter, popularized by their usage in parody text generation \cite{jelinek1985markov}.
+Natural Language Generation (NLG) is a sub-field of Natural Language Processing that attempts to generate sequences of words that resemble natural human languages. Traditionally, this was done either by using production rules of a predefined grammar, or by performing statistical analyses of existing human-written texts to predict sequences of words based on their occurrence probabilities. Markov-chain text generators are an example of the latter, popularized by their usage in parody text generation \cite{jelinek1985markov}.
 
 This broad classification of problems has multiple applications including, but not limited to:
 \begin{itemize}
@@ -49,7 +49,7 @@ The idea of dropout is to randomly ignore a set of neural network weights i.e. r
 	\caption{\label{fig:dropout} MLP Dropout}
 \end{figure}
 
-Each neuron/unit is dropped out with a pre-defined probability, which can be viewed as a model hyperparameter. This allows for more generalized and robust functions being learned by minimizing the co-dependence of neurons/units on each other. Dropout has also been empirically shown to improve experiment results on several supervised learning tasks in vision, speech recognition, document classification and computational biology \citep{srivastava2014dropout}.
+Each neuron/unit is dropped out with a predefined probability, which can be viewed as a model hyperparameter. This allows for more generalized and robust functions being learned by minimizing the co-dependence of neurons/units on each other. Dropout has also been empirically shown to improve experiment results on several supervised learning tasks in vision, speech recognition, document classification and computational biology \citep{srivastava2014dropout}.
 
 
 \section{Convolutional Neural Network}
@@ -169,7 +169,7 @@ Autoencoders are models that are parameterized to convert arbitrary data into a 
 By training a model to reconstruct data that a funnelled through a lower dimensional representation, two objectives can be achieved simultaneously:
 \begin{itemize}
 	\item The encoder weights of the model could be used to extract the most salient features of the data in a compressed representation, which is a friendlier format for downstream processing or learning algorithms. \citep{hinton2006reducing}
-	\item The decoder weights of the model could be used as a generator. Given that we can sample from the distribution of the existing latent representations learnt, or from a pre-defined prior (in a variational autoencoder), we can generate plausible novel data.
+	\item The decoder weights of the model could be used as a generator. Given that we can sample from the distribution of the existing latent representations learnt, or from a predefined prior (in a variational autoencoder), we can generate plausible novel data.
 \end{itemize}
 
 In the context of natural language the encoder can be utilized as a sentence-encoding feature-extractor and the decoder can be utilized as a generative model. Autoencoders are also used for being able to de-noise data given pairs of noisy and regular data, by learning a de-noising function. These properties make autoencoders a good framework to utilize to implement sequence-to-sequence models, where both the encoder and decoder weights of the network are parameterized by recurrent neural networks.
