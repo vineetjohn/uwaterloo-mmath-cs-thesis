@@ -9,7 +9,7 @@ Due to this non-explainability of the weights of neural networks, they have been
 We believe that the disentanglement of the learned weights of a neural network is an important step in the direction toward addressing this shortcoming. This is achieved by using available labels to force representation learning to adhere to a predefined separation scheme in the latent space.
 
 
-\section{Overview}
+\section{Model Overview}
 
 We provide a novel approach to solve this open problem of non-interpretable latent representations in neural networks. We juxtapose this approach and its experimental results against the current state-of-the-art models. We empirically demonstrate the separation of content and style spaces by visualizing the inferred spaces of labelled sentences in sentiment-transfer tasks, where the positive sentences in the test set are converted to equivalent sentences with a negative sentiment, and vice-versa.
 
@@ -80,7 +80,7 @@ Since our objective is to use empirically inferred latent vectors to eventually 
 Besides the above reconstruction losses, we design auxiliary losses to disentangle the latent space such that $\bm h$ can be separated into two spaces $\bm s$ and $\bm c$, representing style and content respectively, i.e., $\bm h = [\bm s ; \bm c]$, where $[\cdot;\cdot]$ denotes concatenation. We also design additional regularizations on the latent space to encourage learning this disentangled representation.
 
 
-\section{Multi-Task Loss} \label{ssec:multitask-objective}
+\section{Multi-Task Classification} \label{ssec:multitask-objective}
 
 Our first auxiliary loss ensures the style space does contain style information. We build a classifier trained using the style space $\bm s$ as its features, predicting the style label $y$, which is a part of the training data.
 
