@@ -1,19 +1,19 @@
 \section{Natural Language Generation}
 
-Natural Language Generation (NLG) is a sub-field of Natural Language Processing that attempts to generate sequences of words that resemble natural human languages. Traditionally, this was done either by using production rules of a predefined grammar, or by performing statistical analyses of existing human-written texts to predict sequences of words based on their occurrence probabilities. Markov-chain text generators are an example of the latter, popularized by their usage in parody text generation \cite{jelinek1985markov}.
+Natural Language Generation (NLG) is a sub-field of Natural Language Processing that attempts to generate sequences of words that resemble natural human languages. Traditionally, this was done either by using production rules of a predefined grammar, or by performing statistical analyses of existing human-written texts to predict sequences of words, based on their occurrence probabilities \citep{cambria2014jumping}. Markov-chain text generators are an example of the latter, popularized by their usage in parody text generation \cite{jelinek1985markov}.
 
 This broad classification of problems has multiple applications including, but not limited to:
 \begin{itemize}
-	\item Neural machine translation (NMT), in which the generation objective is to produce a semantically similar sentence in a target language, given a sentence in a source language.
-	\item Dialogue generation, in which the objective is to produce a natural and syntactically correct response to the provided utterance.
-	\item Text summarizaton, which eliminates superfluous and non-pertinent information in a body of text, to express the idea using fewer words.
-	\item Data-to-text report generation, which utilizes structured data, sourced from a relational database format to fill out a text template.
+	\item Neural machine translation (NMT), in which the generation objective is to produce a semantically similar sentence in a target language, given a sentence in a source language \citep{bahdanau2014neural,cho2014properties,luong2015effective,wu2016google}.
+	\item Dialogue generation, in which the objective is to produce a natural and syntactically correct response to a provided utterance \citep{cavazza2005dialogue,li2016persona,li2016deep,li2017adversarial}.
+	\item Text summarization, which eliminates superfluous and non-pertinent information in a body of text, to express the idea using fewer words \citep{barzilay1999using,gong2001generic,conroy2001text}.
+	\item Data-to-text report generation, which utilizes structured data, sourced from a relational database format to fill out a text template \citep{goldberg1994using,reiter2007architecture,gatt2009data}.
 \end{itemize}
 
 
 \section{Multi-Layer Perceptrons}
 
-Multi-layer perceptrons (MLP) are widely used in the neural network literature as the simplest vanilla artificial neural network. An MLP typically comprises one or more hidden layers that learn intermediate representations before producing an output layer. A simple MLP classification architecture for MNIST digits \citep{lecun2010mnist} \citep{deng2012mnist} is depicted in Figure \ref{fig:mlp-network}. The network is represented as a directed graph containing nodes and edges, where each node represents a neuron and each edge represents a learned weight. Each weight here is a model parameter. In this example, the weight between two successive layers are densely interconnected, and given a layer of $m$ nodes and a subsequent layer of $n$ nodes that are densely connected, we require $m*n$ edges (or weights) to connect these two node layers together.
+Multi-layer perceptrons (MLP) are widely used in the neural network literature as the simplest vanilla artificial neural network. An MLP typically comprises one or more hidden layers that learn intermediate representations before producing an output layer. A simple MLP classification architecture for MNIST digits \citep{lecun2010mnist} \citep{deng2012mnist} is depicted in Figure \ref{fig:mlp-network}. The network is represented as a directed graph containing nodes and edges, where each node represents a neuron and each edge represents a learned weight. Each weight here is a model parameter. In this example, the weight between two successive layers are densely interconnected. Given a layer of $m$ nodes and a subsequent layer of $n$ nodes that are densely connected, we require $m*n$ edges (or weights) to connect these two node layers together. These $m*n$ edges form a matrix representing the model parameters that transform a vector represented in the first layer to a vector represented in the second layer.
 
 \begin{figure}[ht]
 	\centering
@@ -22,13 +22,13 @@ Multi-layer perceptrons (MLP) are widely used in the neural network literature a
 	\caption{\label{fig:mlp-network} Multi-Layer Perceptron}
 \end{figure}
 
-In terms of function approximation, a multilayer perceptron can be thought of as nested function calls on the input $x$. For example if the intermediate layers approximate the functions $f_1$ and $f_2$ and the output layer approximated the function $f_3$ in the example presented in Figure \ref{fig:mlp-network}, we can say that the relation of the output distribution $y$ compared to the features in the input image $x$ would be described as $y = f_3(f_2(f_1(x)))$. The back-propagation of the objective loss over the weights of the network is achieved by using the chain-rule to differentiate the function. The gradients thus obtained are then used to update the weights, thereby changing how the output layer is computed \citep{lecun1989backpropagation}.
+In terms of function approximation, a multilayer perceptron can be thought of as nested function calls on the input $x$. For example, assume that the intermediate layers approximate the functions $f_1$ and $f_2$, and the output layer approximated the function $f_3$ in the example presented in Figure \ref{fig:mlp-network}. We can then say that the relation of the output distribution $y$ compared to the features in the input sample $x$ would be described as $y = f_3(f_2(f_1(x)))$. The back-propagation of the objective loss over the weights of the network is achieved by using the chain-rule to differentiate this nested function. The gradients thus obtained are then used to update the weights, thereby changing how the output layer is computed \citep{lecun1989backpropagation} during the next iteration of computation through the directed graph.
 
-\begin{equation}
+The activation functions applied at each layer could either be linear or non-linear. The most popularly used non-linear activation functions are sigmoid, tanh, ReLU etc., which are typically used in the intermediate layers of the network. In the case of multi-label prediction problems, the output layer is typically a softmax distribution over the possible output classes. The softmax activation is simply the binary logistic regression classifier that generalizes to multiple classes, since the output of the softmax function can be used to represent a categorical distribution (Equation \ref{eqn:softmax-function}).
+
+\begin{equation} \label{eqn:softmax-function}
 	P(y=j \mid \mathbf{x}) = \frac{e^{\mathbf{x}^\mathsf{T}\mathbf{w}_j}}{\sum_{k=1}^K e^{\mathbf{x}^\mathsf{T}\mathbf{w}_k}}
 \end{equation}
-
-The activation functions applied at each layer could either be linear or non-linear. The most popularly used non-linear activation functions are sigmoid, tanh, ReLU etc., which are typically used in the intermediate layers of the network. In the case of multi-label prediction problems, the output layer is typically a softmax distribution over the possible output classes. The softmax activation is simply the binary logistic regression classifier that generalizes to multiple classes, since the output of the softmax function can be used to represent a categorical distribution.
 
 An MLP classifier is trained by minimizing a cross-entropy loss between the predicted softmax distribution $y$ and the true distribution $y'$.
 \begin{equation}
@@ -49,16 +49,16 @@ The idea of dropout is to randomly ignore a set of neural network weights i.e. r
 	\caption{\label{fig:dropout} MLP Dropout}
 \end{figure}
 
-Each neuron/unit is dropped out with a predefined probability, which can be viewed as a model hyperparameter. This allows for more generalized and robust functions being learned by minimizing the co-dependence of neurons/units on each other. Dropout has also been empirically shown to improve experiment results on several supervised learning tasks in vision, speech recognition, document classification and computational biology \citep{srivastava2014dropout}.
+Each neuron / unit is dropped out with a predefined probability, which can be viewed as a model hyperparameter. This allows for more generalized and robust functions being learned by minimizing the co-dependence of neurons on each other. Dropout has also been empirically shown to improve experiment results on several supervised learning tasks in vision, speech recognition, document classification and computational biology \citep{srivastava2014dropout}.
 
 
 \section{Convolutional Neural Network}
 
 A convolutional neural network (CNN) \cite{lecun1995convolutional} is a specialized neural network that is optimized for feature extraction from local regions in data, for instance a specific object in an image, or a specific attribute in a body of text. Using densely connected multi-layer perceptrons would increase the number of parameters and slow down the training process. Instead convolutional networks use shared weights over the source data that are called `filters'.
 
-The `convolution' within a convolutional neural network is implemented using a filter. A filter is a learned function that transfers an arbitrary spatial representation of the image, say $3\text{px} * 3\text{px}$, into a single value and this is done for all the similar spatial zones in the image. This is 2-dimensional convolution that is used to process features in text and video because of their spatial nature. A 1-dimensional equivalent could be used to extract features from contiguous regions of text, usually 3 to 5 words. These features are then sub-sampled to reduce the dimensionality for subsequent layers. This is typically achieved by max-pooling, which simply requires using the maximum activations of all the region activations produced by the convolutional layer.
+The `convolution' within a convolutional neural network is implemented using a filter. A filter is a learned function that transfers an arbitrary spatial representation of the image, say $3\text{px} * 3\text{px}$, into a single value and this is done for all the similar spatial zones in the image. 2-dimensional convolutions are used to process features in images and video because of their inherent spatial nature. A 1-dimensional equivalent could be used to extract features from contiguous regions of text, usually 3 to 5 words. These features are then sub-sampled to reduce the dimensionality for subsequent layers. This is typically achieved by max-pooling or average-pooling, which simply requires aggregating the activations of all the region activations produced by the convolutional layer in a continuous region.
 
-This strategy of stacking convolutional and pooling layers allows the network to learn parameters that are translation invariant. In simpler words, an object can be identified regardless of its location in an image, and an attribute can be identified regardless of its position in a body of text.
+The strategy of stacking convolutional and pooling layers allows the network to learn parameters that are translation invariant. In simpler words, an object can be identified regardless of its location in an image, and an attribute can be identified regardless of its position in a body of text.
 
 An example CNN architecture is presented in Figure \ref{fig:cnn}.
 
@@ -74,12 +74,12 @@ Since their inception, CNNs have been proven to achieve state-of-the-art results
 
 \section{Recurrent Neural Networks}
 
-Recurrent neural networks (RNNs) are a sub-class of artificial neural networks that are commonly used for sequence processing. Its units forms a directed graph that operates on a sequence of inputs when unrolled temporally. This makes them a useful tool for extracting features from arbitrary length sequences of input like audio or text. The features extracted from a sequence are given in Equation \ref{eqn:rnn-next}.
+Recurrent neural networks (RNNs) are a sub-class of artificial neural networks that are commonly used for sequence processing. Its units forms a directed graph that operates on a sequence of inputs in a temporally-distributed manner. This makes them a useful tool for extracting features from arbitrary length sequences of input like audio or text. The optimization problem an RNN tries to solve is to predict the next element in a sequence given the historical context, as shown in Equation \ref{eqn:rnn-next}.
 \begin{equation} \label{eqn:rnn-next}
 	P(w_1, \cdots, w_T) = \prod_{i=1}^T P(w_i | w_1, \cdots, w_{i-1})
 \end{equation}
 
-The language model is built in such a way that the features extracted from the sequence at time-step $t$ depend on the features observed during the time-steps $0 \cdots t-1$. A graphical depiction of an unrolled RNN is shown in figure \ref{fig:recurrent-neural-network-unfold}.
+The language model is built in such a way that the features extracted from the sequence at time-step $t$ depend on the features observed during the time-steps $0 \cdots t-1$. A graphical depiction of a temporally-unrolled RNN is shown in Figure \ref{fig:recurrent-neural-network-unfold}.
 
 \begin{figure}[ht]
 	\centering
@@ -88,9 +88,9 @@ The language model is built in such a way that the features extracted from the s
 	\caption{\label{fig:recurrent-neural-network-unfold} Unrolled RNN}
 \end{figure}
 
-The most recent and useful variants of recurrent units provide the ability to retain `memory' of the context in which the current features are to be considered. In the domain of language processing, this typically implies that the recurrent unit has a stored memory of the previously observed words in a sequence, and this property grants it the ability to learn context as part of the feature space. The prominent variants of recurrent units used in neural networks to extract features from sequences using a memory mechanism, are Long Short-Term Memory (LSTM) units \citep{gers2001lstm} and Gated Recurrent Units (GRU) \citep{chung2014empirical}.
+The most recent and useful variants of recurrent units provide the ability to retain `memory' of the context in which the current features are to be extracted. In the domain of language processing, this typically implies that the recurrent unit has a stored memory of the previously observed words in a sequence, and this property grants it the ability to learn context as part of the feature space. The prominent variants of recurrent units used in neural networks to extract features from sequences using a memory mechanism, are Long Short-Term Memory (LSTM) units \citep{gers2001lstm} and Gated Recurrent Units (GRU) \citep{chung2014empirical}.
 
-Recurrent networks in the domain of natural language processing are used frequently for both natural language understanding (NLU) tasks, as well natural language generation (NLG) tasks \citep{mikolov2010recurrent}. Similar to the manner in which recurrent networks can extract features from arbitrarily long sequences of vectorized text, they can also be used to produce text sequences from a unit vector representation of text, as represented in Figure \ref{fig:rnn-nmt}.
+Recurrent networks in the domain of natural language processing are used frequently for both natural language understanding (NLU) tasks, as well natural language generation (NLG) tasks \citep{bengio2003neural,morin2005hierarchical,mikolov2010recurrent}. Similar to the manner in which recurrent networks can extract features from arbitrarily long sequences of vectorized text, they can also be used to produce text sequences from a unit vector representation of text, as represented in Figure \ref{fig:rnn-nmt}.
 
 This is achieved by conditioning the generation of the first word of text either on some latent variable produced by a model, or by sampling from a generative distribution, and conditioning the generation of each subsequently predicted word on the word that was predicted in the previous time-step, until the model predicts an end-of-sentence (EOS) token.
 
@@ -115,22 +115,19 @@ LSTMs, as described first by \cite{hochreiter1997long}, seek to address this iss
 	\caption{\label{fig:lstm} Long Short-Term Memory Unit}
 \end{figure}
 
-The structure of an LSTM is depicted in Figure \ref{fig:lstm}. An LSTM is comprised of four distinct gating layers internally, namely the forget gate, input gate and output gate, that determine its outputs - the new cell state and hidden state. As can be seen in Figure \ref{fig:lstm}, the cell state $C_t$ passes through the LSTM mostly unperturbed, which attempts to address the problem of vanishing gradients \citep{hochreiter1999vanishing}.
+The structure of an LSTM is depicted in Figure \ref{fig:lstm}. An LSTM is comprised of three distinct gating layers internally - namely the forget gate, input gate and output gate - that determine its outputs: the new cell state and hidden state. As can be seen in Figure \ref{fig:lstm}, the cell state $C_t$ passes through the LSTM mostly unperturbed, which attempts to address the problem of vanishing gradients \citep{hochreiter1999vanishing}.
 
 The forget gate uses a sigmoid activation to squash the values of the output of the previous time-step between 0 and 1, which can be understood as semantically equivalent to deciding how much of the previous cell state to forget.
 \begin{equation*}
 	f_t = \sigma(W_f*[h_{t-1}, x_t] + b_f)
 \end{equation*}
 
-The input gate also uses a sigmoid activation on the previous hidden state, which is multiplied by the candidate cell state $\hat{C_t}$.
-\begin{equation*}
-	i_t = \sigma(W_i*[h_{t-1}, x_t] + b_i)
-\end{equation*}
-
-This value is multiplied by the forget-gated previous cell state to form the next cell state.
+The input gate also uses a sigmoid activation on the previous hidden state, which is multiplied by the candidate cell state $\hat{C_t}$. The value thus obtained is then multiplied by the forget-gated previous cell state to form the next cell state.
 \begin{align*}
+	i_t =
+	 & \sigma(W_i*[h_{t-1}, x_t] + b_i) \\
 	\hat{C_t} =
-	 & \tanh(W_c*[h_{t-1}, x_t] + b_c) \\
+	 & \tanh(W_c*[h_{t-1}, x_t] + b_c)  \\
 	C_t =
 	 & f_t * C_{t-1} + i_t * \hat{C_t}
 \end{align*}
@@ -170,17 +167,17 @@ Autoencoders are models that are parameterized to convert arbitrary data into a 
 	\caption{\label{fig:autoencoder-structure} Autoencoder Architecture}
 \end{figure}
 
-By training a model to reconstruct data that a funnelled through a lower dimensional representation, two objectives can be achieved simultaneously:
+By training a model to reconstruct data that is funnelled through a lower dimensional representation, two objectives can be achieved simultaneously:
 \begin{itemize}
 	\item The encoder weights of the model could be used to extract the most salient features of the data in a compressed representation, which is a better input feature format for downstream processing or learning algorithms. \citep{hinton2006reducing}
-	\item The decoder weights of the model could be used as a generator. Given that we can sample from the distribution of the existing latent representations learnt, or from a predefined prior (in a variational autoencoder), we can generate plausible novel data.
+	\item The decoder weights of the model could be used as a generator. Given that we can sample from the distribution of the existing latent representations learned, or from a predefined prior (in a variational autoencoder), we can generate plausible novel data.
 \end{itemize}
 
-In the context of natural language, the encoder can be utilized as a sentence-encoding feature-extractor and the decoder can be utilized as a generative model. Autoencoders are also able to de-noise data given pairs of noisy and regular data, by learning a de-noising function, which can then be used for actual noisy data. These properties make autoencoders a good framework to utilize to implement sequence-to-sequence models, wherein both the encoder and decoder weights of the model are parameterized by neural networks that process and generate text.
+In the context of natural language, the encoder can be utilized as a sentence-encoding feature-extractor and the decoder can be utilized as a generative model. Autoencoders are also able to de-noise data given pairs of noisy and regular data, by learning a de-noising function, which can then be used for actual noisy data. These properties make autoencoders a good framework to utilize to implement sequence-to-sequence models, wherein both the encoder and decoder weights of the model are parameterized by neural networks that process and generate sequences of data.
 
 \subsection{Variational Autoencoders}
 
-Variational autoencoders (VAEs) \citep{kingma2013auto} are a probabilistic variant of autoencoders. The general structure of a VAE is the same as that of a deterministic autoencoder, with an encoder that learns a compressed latent space and a decoder that learns a function to map the latent space into the original data. A simple VAE architecture is depicted in Figure \ref{fig:vae-structure}.
+Variational autoencoders (VAEs) \citep{kingma2013auto} are a probabilistic variant of autoencoders. The general structure of a VAE is the same as that of a deterministic autoencoder, with an encoder that learns a compressed latent space and a decoder that learns a function to map the latent space into the original data. In contrast with the deterministic autoencoder, a variational autoencoder parameterizes representations of the mean and variance as separate latent spaces. The method of variational inference requires placing conjugate priors on the mean and variance of the hitherto unknown latent representation. The encoder is then trained to learn the approximate posterior distribution, and the decoder is trained to generate novel data using samples taken from the prior distribution. This family of distributions used for this purpose are Gaussian. A simple VAE architecture is depicted in Figure \ref{fig:vae-structure}.
 
 \begin{figure}[ht]
 	\centering
@@ -189,11 +186,7 @@ Variational autoencoders (VAEs) \citep{kingma2013auto} are a probabilistic varia
 	\caption{\label{fig:vae-structure} VAE Architecture}
 \end{figure}
 
-In contrast to the deterministic autoencoder we observe that a variational autoencoder learns representations of both the mean and variance latent spaces. The method of variational inference requires placing conjugate priors on the mean and variance of the unknown latent representation. The encoder then tries to learn the approximate posterior distribution. This family of distributions used for this purpose are Gaussian.
-
-In addition to the reconstruction loss that a deterministic autoencoder uses, a metric of distance is used to evaluate how closely the learned representations of mean and variance resemble a Gaussian distribution with mean 0 and unit variance. The Kullback-Leibler (KL) divergence \citep{kullback1951information} is used to penalize learned representations that do not resemble the prior. However, we cannot compute the KL directly. Instead we compute an alternative objective that is equivalent to the KL divergence up until an added constant. This is called the evidence lower-bound (ELBO).
-
-The ELBO objective maximized in a variational autoencoder model is given in Equation \ref{eqn:elbo}:
+In addition to the reconstruction loss that a deterministic autoencoder uses, a metric of distance is used to evaluate how closely the learned representations of mean and variance resemble a Gaussian distribution with mean 0 and unit variance. The Kullback-Leibler (KL) divergence \citep{kullback1951information} is used to penalize learned representations that do not resemble the prior. However, we cannot compute the KL divergence directly. Instead we compute an alternative objective that is equivalent to the KL divergence up until an added constant. This is called the evidence lower-bound (ELBO). The ELBO objective maximized in a variational autoencoder model is given in Equation \ref{eqn:elbo}:
 \begin{equation} \label{eqn:elbo}
 	ELBO(q) = \mathbb{E}_{q(z)} [(\log(p(x|z))] - \mathbb{KL}(q(z)||p(z))
 \end{equation}
@@ -203,11 +196,11 @@ Simultaneously, for the decoding step, we sample from the prior, utilizing the r
 
 \section{Word Embeddings}
 
-Prior to the existence of matrix factorization and neural models, the vectors used for words and documents were one-hot representations, word-ngrams statistics \citep{brown1992class} or tf-idf weighted statistics. Word-ngrams are useful for encoding probability distributions of word occurrences in a corpus. Higher order ngrams (bigrams, trigrams, four-grams etc.) also take into account the context of nearby words, for language models that rely on context to predict future words.
+Prior to the usage of matrix factorization and neural models to learn continuous word representations, the numerical representations used for words and documents were one-hot representations, word-ngrams \citep{brown1992class} or tf-idf weighted statistics. Word-ngrams are useful for expressing probability distributions of word occurrences in a corpus. Higher order ngrams (bigrams, trigrams, four-grams etc.) also take into account the context of nearby words, and can be used to construct language models.
 
-However, these methods use discrete word/character occurrence counts to represent words and documents, and these representations scale with the size of the input corpus vocabulary for word-based models, making them computationally inefficient for large corpora with diverse vocabularies. They are also ineffective at modelling semantic inter-word or inter-character relationships.
+However, these methods use discrete word or character occurrence counts to represent words and documents, and these representations scale with the size of the input corpus vocabulary for word-based models. This makes discrete representation based word language models computationally inefficient for large corpora with diverse vocabularies. Character-based models, on the other hand, are liable to produce invalid words and don't work as well with recurrent memory units as words do \citep{bojanowski2015alternative}. These methods are also ineffective at modelling semantic inter-word relationships.
 
-Word2Vec is a vector space model that embeds words into a continuous space where semantically similar words are embedded in nearby spaces \citep{mikolov2013distributed,mikolov2013linguistic,le2014distributed}. Word2Vec can model the corpus vocabulary in two different ways, namely CBOW and Skip-gram. The CBOW model predicts a target word from context words, whereas the skip-gram model does the opposite and predicts target words from a single context word. Both model types are shown in Figure \ref{fig:efficient-models}
+Word2Vec is a vector space model that embeds words into a continuous space. Also, semantically similar words in Word2Vec are embedded in nearby spaces \citep{mikolov2013distributed,mikolov2013linguistic,le2014distributed}. Word2Vec can model the corpus vocabulary in two different ways, namely CBOW and Skip-gram. The CBOW model predicts a target word from context words, whereas the Skip-gram model does the opposite and predicts target words from a single context word. Both model types are shown in Figure \ref{fig:efficient-models}
 
 \begin{figure}[ht]
 	\centering
@@ -216,7 +209,7 @@ Word2Vec is a vector space model that embeds words into a continuous space where
 	\caption{\label{fig:efficient-models} Word2Vec Model}
 \end{figure}
 
-The Word2Vec model is a simple shallow neural network, with single input, hidden and output layers. The hidden layer is of arbitrary size, called the embedding size. The one-hot encoded input is transformed into its context or target word, depending on whether the algorithm chosen is CBOW or Skip-gram. After the model converges to a good target prediction accuracy, the network weights connecting the input and the hidden layer can be used as parameters to obtain dense, continuous representations of words.
+The Word2Vec model is a simple shallow neural network, with single input, hidden and output layers. The hidden layer is of arbitrary size, called the embedding size. The embedding size is usually much lower that the vocabulary size, which is reminiscent of an autoencoder that learns a compressed salient representation of the words. The one-hot encoded input is transformed into its context or target word, depending on whether the algorithm chosen is CBOW or Skip-gram. This transformation is parameterized by the shallow neural network. After the model converges, the network weights connecting the input and the hidden layer can be used as parameters to obtain dense, continuous representations of words.
 
 A surprising outcome of this embedding model is that translations within the learned vector space seem to emulate semantic (gender, tense) as well as factual relationships (country-capital), as shown in Figure \ref{fig:word2vec-linear-relationships}.
 
