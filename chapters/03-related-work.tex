@@ -49,7 +49,7 @@ The authors describe three objectives that train their model, including the reco
 	\centering
 	\includegraphics[width=\textwidth]{images/tcg-architecture}
 	\imgsrc{\cite{hu2017toward}}
-	\caption{\label{fig:tcg-architecture} Model Architecture - Toward controlled generation of text}
+	\caption{\label{fig:tcg-architecture} Model Architecture: Toward Controlled Generation of Text}
 \end{figure}
 
 \subsection{Variational Autoencoder}
@@ -92,7 +92,7 @@ The model was evaluated on short sentences with length $<15$ words. The encoder-
 
 \cite{shen2017style} also aim to perform style transfer in language using non-parallel corpora by separating content from style. They re-align the latent spaces to perform three tasks: sentiment modification, decipherment of word-substitution ciphers, and recovery of word order. Their method involves learning an encoder that takes a sentence and its original style label as input, and maps it to a content representation devoid of style. This decoding of this representation is then conditioned on this encoded content representation and the target style label.
 
-There are two non-parallel corpora $X_1 = {x_1^{(1)} ... x_1^{(n)}}$, which is drawn from the prior $p(x_1|y_1)$, and $X_2 = {x_2^{(1)} ... x_2^{(n)}}$, which is drawn from the prior $p(x_2|y_2)$. The objective is to estimate the style transferred distributions $p(x_1|x_2;y_1,y_2)$ and $p(x_2|x_1;y_1,y_2)$.
+There are two non-parallel corpora $X_1 = {x_1^{(1)} \cdots x_1^{(n)}}$, which is drawn from the prior $p(x_1|y_1)$, and $X_2 = {x_2^{(1)} \cdots x_2^{(n)}}$, which is drawn from the prior $p(x_2|y_2)$. The objective is to estimate the style transferred distributions $p(x_1|x_2;y_1,y_2)$ and $p(x_2|x_1;y_1,y_2)$.
 
 The authors state a constraint that $x_1$ and $x_2$'s marginal distributions can only be recovered if for any different styles $y, y' \in Y$, distributions $p(x|y)$ and $p(x|y')$ are different. This is a fair assumption to make because if $p(x|y)$ = $p(x|y')$, then the style changes would be indiscernible to a model.
 
@@ -104,7 +104,7 @@ A simplified graphical depiction of their model is shown in Figure \ref{fig:stca
 	\centering
 	\includegraphics[width=\textwidth]{images/stca-architecture}
 	\imgsrc{\cite{shen2017style}}
-	\caption{\label{fig:stca-architecture} Model - Style transfer from non-parallel text by cross-alignment}
+	\caption{\label{fig:stca-architecture} Model: Style Transfer from Non-Parallel Text by Cross-Alignment}
 \end{figure}
 
 The base model used is a variational autoencoder. The reconstruction loss is shown in Equation \ref{eqn:stca-rec}.
@@ -163,7 +163,7 @@ As opposed to the simple feed-forward classifier used in the aligned autoencoder
 	\centering
 	\includegraphics[width=\textwidth]{images/semb-architecture}
 	\imgsrc{\cite{fu2017style}}
-	\caption{\label{fig:semb-architecture} Model Architecture - Style Transfer in Text: Exploration and Evaluation}
+	\caption{\label{fig:semb-architecture} Model Architecture: Style Transfer in Text - Exploration and Evaluation}
 \end{figure}
 
 In contrast with the previous models described, this work uses a deterministic autoencoder in lieu of a variational autoencoder. For our purposes, we focus on the style-embedding model, since it requires explicit disentanglement and uses fewer model parameters per added attribute, compared to the multi-decoder model.

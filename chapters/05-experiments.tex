@@ -88,7 +88,7 @@ where $\text{sentence-embedding}_1$ and $\text{sentence-embedding}_2$ are the se
 		second the service was terribly slow                                                & the sushi was delicious                          \\
 		\hline
 	\end{tabular}
-	\caption{Examples of poor content preservation while transferring sentiment}
+	\caption{Examples of Poor Content Preservation}
 	\label{tab:poor-content-preservation}
 \end{table}
 
@@ -120,7 +120,7 @@ We use a trigram based Kneser–Ney Smoothed language model \citep{kneser1995imp
 After the generation of style transferred sentences, we parse them out into trigrams, and calculate the probabilities of each of the trigrams being from the same corpora as the original model was trained on. The negative log-likelihood scores, as predicted by the Kneser-Ney language model and aggregated over the generated corpus, is reported as the indicator for language fluency.
 
 
-\subsection{A note about Cycle Consistency Loss}
+\subsection{A Note about Cycle Consistency Loss}
 
 The cycle consistency loss is described in the image domain-adaptation work done by \cite{zhu2017unpaired}. Given domains $X$ and $Y$, they aim to learn a mapping similar to ours, $G: X \rightarrow Y$ which transfers attributes of $X$ to $Y$. At the same time, they also learn an inverse mapping $F: Y \rightarrow X$. The cycle consistency loss is the step that pushes $F(G(X)) \approx X$ and $G(F(Y)) \approx Y$, as shown in Figure \ref{fig:cycle-consistency}.
 
@@ -162,7 +162,7 @@ We first analyse how the style (sentiment) and content of the latent space are d
 		Complete latent space ($[\bm s;\bm c]$) & 0.7918                       & 0.7918               \\
 		\hline
 	\end{tabular}
-	\caption{Style classification accuracy}
+	\caption{Results - Style Classification Accuracy}
 	\label{tab:latent-space-classification}
 \end{table}
 
@@ -172,13 +172,13 @@ We show t-SNE plots of both the deterministic autoencoder (DAE) and the variatio
 
 \begin{figure}[ht]
 	\includegraphics[width=\linewidth]{images/dae-latent-spaces}
-	\caption{t-SNE plots of (a) style and (b) content spaces in the DAE model}
+	\caption{T-SNE Plots: (a) Style and (b) Content Spaces - DAE Model}
 	\label{fig:dae-tsne}
 \end{figure}
 
 \begin{figure}[ht]
 	\includegraphics[width=\linewidth]{images/vae-latent-spaces}
-	\caption{t-SNE plots of (a) style and (b) content spaces in the VAE model}
+	\caption{T-SNE Plots: (a) Style and (b) Content Spaces - VAE Model}
 	\label{fig:vae-tsne}
 \end{figure}
 
@@ -210,7 +210,7 @@ We compare our approach with the current state-of-the-art work in automated text
 		  & Ours (VAE)            & 0.8903            & 0.8824                & 0.2105           & 14.4099           \\
 		\hline
 	\end{tabular}
-	\caption{Comparison with previous approaches on the Yelp Dataset}
+	\caption{Results - Yelp Dataset Sentiment Transfer}
 	\label{tab:comparison-previous}
 \end{table}
 
@@ -236,7 +236,7 @@ We compare our approach with the current state-of-the-art work in automated text
 		  & Ours (VAE)            & 0.7259            & 0.9090                & 0.0814           & 28.4953           \\
 		\hline
 	\end{tabular}
-	\caption{Comparison with previous approaches on the Amazon Dataset}
+	\caption{Results - Amazon Dataset Sentiment Transfer}
 	\label{tab:comparison-previous-ama}
 \end{table}
 
@@ -269,7 +269,7 @@ Table \ref{tab:ablation-results} presents the results of ablation tests done by 
 		$\mathcal{L}_\text{rec}$, $\mathcal{L}_\text{adv}$, $\mathcal{L}_\text{mult}$, $\mathcal{L}_\text{badv}$ & 0.8846            & 0.8782                & 0.1970           & \textbf{14.0479}  \\
 		\hline
 	\end{tabular}
-	\caption{Ablation tests}
+	\caption{Results - Ablation Tests}
 	\label{tab:ablation-results}
 \end{table}
 
@@ -316,7 +316,7 @@ Some examples of style-transfer sentence generation are illustrated in Table \re
 		the crust was kinda gooey like                         & the crust is kinda traditional                                 & the crust is soooooo worth it                               \\
 		\hline
 	\end{tabular}
-	\caption{Examples of style-transferred text generation}
+	\caption{Style-Transferred Text Examples}
 	\label{tab:transfer-samples}
 \end{table}
 

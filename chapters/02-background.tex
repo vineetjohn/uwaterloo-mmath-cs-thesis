@@ -46,13 +46,13 @@ The idea of dropout is to randomly ignore a set of neural network weights i.e. r
 	\centering
 	\includegraphics[width=\textwidth]{images/dropout}
 	\imgsrc{\cite{srivastava2014dropout}}
-	\caption{\label{fig:dropout} MLP Dropout}
+	\caption{\label{fig:dropout} Dropout}
 \end{figure}
 
 Each neuron / unit is dropped out with a predefined probability, which can be viewed as a model hyperparameter. This allows for more generalized and robust functions being learned by minimizing the co-dependence of neurons on each other. Dropout has also been empirically shown to improve experiment results on several supervised learning tasks in vision, speech recognition, document classification and computational biology \citep{srivastava2014dropout}.
 
 
-\section{Convolutional Neural Network}
+\section{Convolutional Neural Networks}
 
 A convolutional neural network (CNN) \cite{lecun1995convolutional} is a specialized neural network that is optimized for feature extraction from local regions in data, for instance a specific object in an image, or a specific attribute in a body of text. Using densely connected multi-layer perceptrons would increase the number of parameters and slow down the training process. Instead convolutional networks use shared weights over the source data that are called `filters'.
 
@@ -85,7 +85,7 @@ The language model is built in such a way that the features extracted from the s
 	\centering
 	\includegraphics[width=\textwidth]{images/recurrent-neural-network-unfold}
 	\imgsrc{\url{https://commons.wikimedia.org/wiki/File:Recurrent_neural_network_unfold.svg}}
-	\caption{\label{fig:recurrent-neural-network-unfold} Unrolled RNN}
+	\caption{\label{fig:recurrent-neural-network-unfold} Recurrent Neural Network}
 \end{figure}
 
 The most recent and useful variants of recurrent units provide the ability to retain `memory' of the context in which the current features are to be extracted. In the domain of language processing, this typically implies that the recurrent unit has a stored memory of the previously observed words in a sequence, and this property grants it the ability to learn context as part of the feature space. The prominent variants of recurrent units used in neural networks to extract features from sequences using a memory mechanism, are Long Short-Term Memory (LSTM) units \citep{gers2001lstm} and Gated Recurrent Units (GRU) \citep{chung2014empirical}.
@@ -98,15 +98,15 @@ This is achieved by conditioning the generation of the first word of text either
 	\centering
 	\includegraphics[width=\textwidth]{images/rnn-nmt}
 	\imgsrc{\url{http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns}}
-	\caption{\label{fig:rnn-nmt} Recurrent Network Encoder-Decoder}
+	\caption{\label{fig:rnn-nmt} Recurrent Encoder-Decoder Model}
 \end{figure}
 
 
-\subsection{Long Short-Term Memory (LSTM)}
+\subsection{Long Short-Term Memory}
 
 As described in the above section, recurrent neural networks (RNN) learn representations of the data over temporal sequences, like text or audio features. However, in practice, RNNs don't seem to be able to assign priorities to which of the past data they choose to ascribe a higher importance to. This is detrimental to their usage in tasks that require processing of long sequences of data like in text, audio or video processing. This lack of ability to learn long-term dependencies in the input features is shown in previous work by \cite{bengio1994learning}.
 
-LSTMs, as described first by \cite{hochreiter1997long}, seek to address this issue by explicitly modelling how much to retain and forget at each time-step during the RNN's training procedure.
+Long Short-Term Memory (LSTM) units, as described first by \cite{hochreiter1997long}, seek to address this issue by explicitly modelling how much to retain and forget at each time-step during the RNN's training procedure.
 
 \begin{figure}[ht]
 	\centering
@@ -142,9 +142,9 @@ Now that we have obtained the cell state, we propagate that through to the next 
 
 The efficacy of LSTM-backed RNNs is evident from the prevalence of their usage in language modelling literature \citep{sundermeyer2012lstm,gers2001lstm,graves2005framewise} \footnote{\url{https://karpathy.github.io/2015/05/21/rnn-effectiveness}}.
 
-\subsection{Gated Recurrent Units (GRU)}
+\subsection{Gated Recurrent Units}
 
-Gated Recurrent Units \citep{cho2014learning} are similar to LSTMs in that they possess gating mechanisms to assist with long-term dependency learning. They differ from LSTMs in a few aspects, like the merging of the input and forget gates into a single update gate. They also merge cell state and hidden state, emitting only a single output vector after the computations within the cell. Figure \ref{fig:gru} depicts the internal GRU states and gates.
+Gated Recurrent Units (GRU) \citep{cho2014learning} are similar to LSTMs in that they possess gating mechanisms to assist with long-term dependency learning. They differ from LSTMs in a few aspects, like the merging of the input and forget gates into a single update gate. They also merge cell state and hidden state, emitting only a single output vector after the computations within the cell. Figure \ref{fig:gru} depicts the internal GRU states and gates.
 
 \begin{figure}[ht]
 	\centering
@@ -164,7 +164,7 @@ Autoencoders are models that are parameterized to convert arbitrary data into a 
 	\centering
 	\includegraphics[width=\textwidth]{images/autoencoder-structure}
 	\imgsrc{\url{http://mlexplained.com/2017/12/28/an-intuitive-explanation-of-variational-autoencoders-vaes-part-1}}
-	\caption{\label{fig:autoencoder-structure} Autoencoder Architecture}
+	\caption{\label{fig:autoencoder-structure} Model Architecture: Autoencoder}
 \end{figure}
 
 By training a model to reconstruct data that is funnelled through a lower dimensional representation, two objectives can be achieved simultaneously:
@@ -183,7 +183,7 @@ Variational autoencoders (VAEs) \citep{kingma2013auto} are a probabilistic varia
 	\centering
 	\includegraphics[width=\textwidth]{images/vae-structure}
 	\imgsrc{\url{http://mlexplained.com/2017/12/28/an-intuitive-explanation-of-variational-autoencoders-vaes-part-1}}
-	\caption{\label{fig:vae-structure} VAE Architecture}
+	\caption{\label{fig:vae-structure} Model Architecture: Variational Autoencoder}
 \end{figure}
 
 In addition to the reconstruction loss that a deterministic autoencoder uses, a metric of distance is used to evaluate how closely the learned representations of mean and variance resemble a Gaussian distribution with mean 0 and unit variance. The Kullback-Leibler (KL) divergence \citep{kullback1951information} is used to penalize learned representations that do not resemble the prior. However, we cannot compute the KL divergence directly. Instead we compute an alternative objective that is equivalent to the KL divergence up until an added constant. This is called the evidence lower-bound (ELBO). The ELBO objective maximized in a variational autoencoder model is given in Equation \ref{eqn:elbo}:
@@ -223,7 +223,7 @@ A surprising outcome of this embedding model is that translations within the lea
 Word embedding neural models are also shown to be implicitly factorizing a word-context matrix by subsequent work in this area \citep{levy2014neural}.
 
 
-\section{Sequence to Sequence Modelling}
+\section{Sequence-to-Sequence Modelling}
 
 Also abbreviated in the literature as Seq2Seq, this is a class of models that learns functions to transform from one sequence to another. First introduced by \cite{sutskever2014sequence}, Seq2Seq is flexible framework for modelling transformations made to arbitrary length sequences, typically using a neural encoder-decoder framework. In the field of natural language processing, the main tasks that benefit from such an encoder-decoder framework are those for which there exists two distinct distributions of data, and the model is trained to learn the mapping from one to the other.
 
@@ -233,9 +233,9 @@ Also abbreviated in the literature as Seq2Seq, this is a class of models that le
 	p(y_1, \cdots , y_{T'} | x_1, \cdots , x_T) =	\prod_{t=1}^T p(y_t | h, y_1, \cdots , y_{t-1})
 \end{equation}
 
-This makes the Seq2Seq model an ideal framework using which one can implement solutions to several natural language generation tasks like neural machine translation, dialogue generation, text summarizaton, etc.
+This makes the Seq2Seq model an ideal framework using which one can implement solutions to several natural language generation tasks like neural machine translation, dialogue generation, text summarization, etc.
 
-\section{Adversarial Networks}
+\section{Generative Adversarial Networks}
 
 \cite{goodfellow2014generative} presented a novel generative model that utilizes the idea of a game-theoretic competition between a generative model which is a decoder, and a discriminative model which is a classifier. The general idea is to train the adversary to be able to discriminate between the synthetic distribution that the generator model produces, and a true distribution that the generator trying to mimic. Figure \ref{fig:gans} depicts a sample GAN model architecture.
 
@@ -243,7 +243,7 @@ This makes the Seq2Seq model an ideal framework using which one can implement so
 	\centering
 	\includegraphics[width=\textwidth]{images/gans}
 	\imgsrc{\url{https://deeplearning4j.org/generative-adversarial-network}}
-	\caption{\label{fig:gans} GAN Architecture}
+	\caption{\label{fig:gans} Model Architecture: Generative Adversarial Networks}
 \end{figure}
 
 In the original formulation of adversarial training, which involves using a binary classifier, the generator learns weights to map a randomly initialized latent variable $z$ to a data distribution $x$ that it is unaware of. The discriminator is trained using the true distribution and samples generated by the generative model, with the objective to discriminate the true samples from the generated samples. The generator on the other hand, attempts to maximize the discriminator's classification error, thereby producing plausible samples that mimic the true distribution. In this manner, both the generator and discriminator are simultaneously trained to produce better synthetic samples and differentiate between real and synthetic samples respectively. This min-max game is represented by Equation \ref{eqn:gan-minimaxgame}, where $D$ is the discriminator, $G$ is the generator and $V$ is the value-function or loss-function of the generative model.
@@ -256,7 +256,7 @@ In the original formulation of adversarial training, which involves using a bina
 This property the generator model's parameters possess - of translating random noise into plausible data samples - is used in areas of research within computer vision and natural language processing to produce novel data samples. Also, adversarial learning as a principle is an effective tool to ensure that a feature space is devoid of any arbitrarily chosen set of known attributes. We use this property of adversarial learning in our model to assist with the disentanglement of stylistic attributes.
 
 
-\section{Image Style Transfer}
+\section{Visual Style Transfer}
 
 The idea of neural style transfer was originally proposed by \cite{gatys2016image}. In the task described in the paper, the authors use two distinct images as input. The first image contributes the content, and the second contributes the style. The objective is to generate a final image that contains all of the physical objects visible in the first image, but depicted in the style (hue, brush strokes, texture, etc.) visible in the second.
 
