@@ -186,25 +186,28 @@ We show t-SNE plots of both the deterministic autoencoder (DAE) and the variatio
 
 We apply our model to a style-transfer sentence generation task, where the goal is to generate a sentence with different sentiment (interpreted as style in this task). We use the metrics discussed in Section \ref{sec:evaluation-metrics} to evaluate our models.
 
-We compare our approach with the current state-of-the-art work in automated text attribute style transfer \citep{shen2017style,fu2017style}. We re-conduct the experiments using their publicly available code and the datasets described in Section \ref{sec:datasets-tasks}. The results are shown in Table \ref{tab:comparison-previous} (Yelp Dataset) and Table \ref{tab:comparison-previous-ama} (Amazon Dataset).
+We compare our approach with the current state-of-the-art work in automated text attribute style transfer \citep{shen2017style,fu2017style}. We re-conduct the experiments using their publicly available code and the datasets described in Section \ref{sec:datasets-tasks}. The results are shown in Table \ref{tab:comparison-previous} (Yelp Dataset) and Table \ref{tab:comparison-previous-ama} (Amazon Dataset). The models used evaluating on both datasets are identical.
 
 \begin{table}[ht]
 	\centering
 	\begin{tabular}{| c | l | r | r | r | r |}
 		\hline
-		\multirow{2}{*}{} & \textbf{Model}        & \textbf{Transfer} & \textbf{Content}      & \textbf{Word}    & \textbf{Language} \\
-		                  &                       & \textbf{Strength} & \textbf{Preservation} & \textbf{Overlap} & \textbf{Fluency}  \\
+		\multirow{2}{*}{
+		} & \textbf{Model}        & \textbf{Transfer} & \textbf{Content}      & \textbf{Word}    & \textbf{Language} \\
+		  &                       & \textbf{Strength} & \textbf{Preservation} & \textbf{Overlap} & \textbf{Fluency}  \\
 		\hline
 		\hline
-		\multirow{2}{*}{} & Cross-Alignment       &                   &                       &                  &                   \\
-		                  & \citep{shen2017style} & 0.8087            & 0.8920                & 0.2087           & 23.3886           \\
+		\multirow{2}{*}{
+		} & Cross-Alignment       &                   &                       &                  &                   \\
+		  & \citep{shen2017style} & 0.8087            & 0.8920                & 0.2087           & 23.3886           \\
 		\hline
-		\multirow{2}{*}{} & Style Embedding       &                   &                       &                  &                   \\
-		                  & \citep{fu2017style}   & 0.1819            & 0.9586                & 0.6661           & 16.1711           \\
+		\multirow{2}{*}{
+		} & Style Embedding       &                   &                       &                  &                   \\
+		  & \citep{fu2017style}   & 0.1819            & 0.9586                & 0.6661           & 16.1711           \\
 		\hline
-		                  & Ours (DAE)            & 0.8425            & 0.8924                & 0.2552           & 16.4808           \\
+		  & Ours (DAE)            & 0.8425            & 0.8924                & 0.2552           & 16.4808           \\
 		\hline
-		                  & Ours (VAE)            & 0.8903            & 0.8824                & 0.2105           & 14.4099           \\
+		  & Ours (VAE)            & 0.8903            & 0.8824                & 0.2105           & 14.4099           \\
 		\hline
 	\end{tabular}
 	\caption{Comparison with previous approaches on the Yelp Dataset}
@@ -215,19 +218,22 @@ We compare our approach with the current state-of-the-art work in automated text
 	\centering
 	\begin{tabular}{| c | l | r | r | r | r |}
 		\hline
-		\multirow{2}{*}{} & \textbf{Model}        & \textbf{Transfer} & \textbf{Content}      & \textbf{Word}    & \textbf{Language} \\
-		                  &                       & \textbf{Strength} & \textbf{Preservation} & \textbf{Overlap} & \textbf{Fluency}  \\
+		\multirow{2}{*}{
+		} & \textbf{Model}        & \textbf{Transfer} & \textbf{Content}      & \textbf{Word}    & \textbf{Language} \\
+		  &                       & \textbf{Strength} & \textbf{Preservation} & \textbf{Overlap} & \textbf{Fluency}  \\
 		\hline
 		\hline
-		\multirow{2}{*}{} & Cross-Alignment       &                   &                       &                  &                   \\
-		                  & \citep{shen2017style} & 0.6063            & 0.8933                & 0.0241           & 26.3093           \\
+		\multirow{2}{*}{
+		} & Cross-Alignment       &                   &                       &                  &                   \\
+		  & \citep{shen2017style} & 0.6063            & 0.8933                & 0.0241           & 26.3093           \\
 		\hline
-		\multirow{2}{*}{} & Style Embedding       &                   &                       &                  &                   \\
-		                  & \citep{fu2017style}   & 0.4165            & 0.9332                & 0.3588           & 28.1346           \\
+		\multirow{2}{*}{
+		} & Style Embedding       &                   &                       &                  &                   \\
+		  & \citep{fu2017style}   & 0.4165            & 0.9332                & 0.3588           & 28.1346           \\
 		\hline
-		                  & Ours (DAE)            & 0.7032            & 0.9178                & 0.1305           & 32.4184           \\
+		  & Ours (DAE)            & 0.7032            & 0.9178                & 0.1305           & 32.4184           \\
 		\hline
-		                  & Ours (VAE)            & 0.7259            & 0.9090                & 0.0814           & 28.4953           \\
+		  & Ours (VAE)            & 0.7259            & 0.9090                & 0.0814           & 28.4953           \\
 		\hline
 	\end{tabular}
 	\caption{Comparison with previous approaches on the Amazon Dataset}
@@ -241,7 +247,8 @@ Table \ref{tab:ablation-results} presents the results of ablation tests done by 
 	\centering
 	\begin{tabular}{| l | r | r | r | r |}
 		\hline
-		\multirow{2}{*}{\textbf{Objectives}}                                                                     & \textbf{Transfer} & \textbf{Content}      & \textbf{Word}    & \textbf{Language} \\
+		\multirow{2}{*}{
+		\textbf{Objectives}}                                                                                     & \textbf{Transfer} & \textbf{Content}      & \textbf{Word}    & \textbf{Language} \\
 		                                                                                                         & \textbf{Strength} & \textbf{Preservation} & \textbf{Overlap} & \textbf{Fluency}  \\
 		\hline
 		\hline
@@ -312,3 +319,6 @@ Some examples of style-transfer sentence generation are illustrated in Table \re
 	\caption{Examples of style-transferred text generation}
 	\label{tab:transfer-samples}
 \end{table}
+
+
+In this chapter, we have presented quantitative results for the disentangled space learning and its application to a style (sentiment) transfer task. We also display qualitative results of sentences generated by our model. In the next chapter, we perform a deeper analysis for each result presented here. We also show trade-offs between model scores on different metrics and discuss methods whose results do not fit our original hypotheses.
