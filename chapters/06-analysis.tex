@@ -9,7 +9,7 @@ Our deterministic model is easier to train than a variational model because of t
 
 \section{Disentangled Representation Learning}
 
-As can be seen from the T-SNE plots in Figure \ref{fig:dae-tsne} and Figure \ref{fig:vae-tsne}, sentences with different styles are noticeably separated in a cleaner manner in the style space (LHS), but are indistinguishable in the content space (RHS). It is also evident that the latent space learned by the variational autoencoder is significantly smoother and continuous than the one learned by the deterministic autoencoder.
+As can be seen from the t-SNE plots in Figure \ref{fig:dae-tsne} and Figure \ref{fig:vae-tsne}, sentences with different styles are noticeably separated in a cleaner manner in the style space (LHS), but are indistinguishable in the content space (RHS). It is also evident that the latent space learned by the variational autoencoder is significantly smoother and continuous than the one learned by the deterministic autoencoder.
 
 Since we essentially give the decoder a previously unseen combination of style and latent space at inference time, our hypothesis is that using a variational autoencoder would lead to more fluent generated sentences that are able to preserve content better. In the evaluations performed, the deterministic autoencoder proves equally potent at preserving content, and even exceeds the variational autoencoder's performance in terms of content preservation. However, the fluency of the variational autoencoder is better on average, as measure by a pre-trained language model, and the deterministic autoencoder tends to produce ungrammatical sentences as seen in the Results Table \ref{tab:comparison-previous} and the qualitative examples presented in Table \ref{tab:transfer-samples}.
 

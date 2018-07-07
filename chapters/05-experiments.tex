@@ -148,7 +148,7 @@ Hence, this metric would not be able to tell the difference between a model with
 
 \subsection{Disentangling Latent Space}
 
-We first analyse how the style (sentiment) and content of the latent space are disentangled. We train a softmax classifier from each latent space, style and content, alongside our autoencoder model and train it to predict the true class of an input sample. The results are shown in Table \ref{tab:latent-space-classification}. The results reported here are for the Yelp dataset.
+We first analyse how the style (sentiment) and content of the latent space are disentangled. We train softmax classifiers that use each set of latent space units as features. These classifiers are trained alongside the autoencoder model - without updating the encoder parameters - to predict the true class of an input sample. The results reported here are for the Yelp dataset and are shown in Table \ref{tab:latent-space-classification}.
 
 \begin{table}[ht]
 	\centering
@@ -166,9 +166,9 @@ We first analyse how the style (sentiment) and content of the latent space are d
 	\label{tab:latent-space-classification}
 \end{table}
 
-The latent space can also be visualized with our method since we are able to infer a pair of style and content embeddings for every training data sample. We use t-SNE plots \citep{maaten2008visualizing} and use a random sample from each label to plot both the style and content embeddings inferred for them during a given epoch of the training procedure. Our hypothesis is that while the points for different labels plotted in the content embedding space would be mixed and indistinguishable in terms of plot co-ordinates, the style embedding space would display the opposite characteristic and show a clean separation of samples from each label.
+The latent space can also be visualized with our method since we are able to infer a pair of style and content embeddings for every training data sample. We use t-SNE plots \citep{maaten2008visualizing} and use a set of random samples from each label to plot both the style and content embeddings inferred for them during a given epoch of the training procedure. Our hypothesis is that while the points for different labels plotted in the content embedding space would be mixed and indistinguishable in terms of plot co-ordinates, the style embedding space would display the opposite characteristic and show a clean separation of representative samples for each label.
 
-We show T-SNE plots of both and deterministic autoencoder (DAE) and variational autoencoder (VAE) models in Figure \ref{fig:dae-tsne} and Figure \ref{fig:vae-tsne}, respectively.
+We show t-SNE plots of both the deterministic autoencoder (DAE) and the variational autoencoder (VAE) models in Figure \ref{fig:dae-tsne} and Figure \ref{fig:vae-tsne}, respectively.
 
 \begin{figure}[ht]
 	\includegraphics[width=\linewidth]{images/dae-latent-spaces}
@@ -184,9 +184,9 @@ We show T-SNE plots of both and deterministic autoencoder (DAE) and variational 
 
 \subsection{Style-Transferred Text Generation}
 
-We apply the disentangled latent space to a style-transfer sentence generation task, where the goal is to generate a sentence with different sentiment (style). We use the metrics discussed in \ref{sec:evaluation-metrics} to evaluate our models.
+We apply our model to a style-transfer sentence generation task, where the goal is to generate a sentence with different sentiment (interpreted as style in this task). We use the metrics discussed in Section \ref{sec:evaluation-metrics} to evaluate our models.
 
-We compare our approach with the current state-of-the-art work in automated text attribute style transfer. We re-conducted the experiments with their publicly available code and the datasets described in Section \ref{sec:datasets-tasks}. The results are shown in Table \ref{tab:comparison-previous}.
+We compare our approach with the current state-of-the-art work in automated text attribute style transfer \citep{shen2017style,fu2017style}. We re-conduct the experiments using their publicly available code and the datasets described in Section \ref{sec:datasets-tasks}. The results are shown in Table \ref{tab:comparison-previous} (Yelp Dataset) and Table \ref{tab:comparison-previous-ama} (Amazon Dataset).
 
 \begin{table}[ht]
 	\centering
@@ -235,7 +235,7 @@ We compare our approach with the current state-of-the-art work in automated text
 \end{table}
 
 
-Table \ref{tab:ablation-results} presents the results of an ablation test. We see that both, the adversarial loss and multi-task losses, play a role in the strength of style transfer. It also shows that their usage in a combination can further boost performance of the style-transfer strength.
+Table \ref{tab:ablation-results} presents the results of ablation tests done by evaluating our model all possible combinations of our training objectives. We see that both, the adversarial and multi-task losses, play a role in the strength of style transfer. It also shows that their usage in a combination can further boost performance of the style-transfer strength.
 
 \begin{table}[ht]
 	\centering
