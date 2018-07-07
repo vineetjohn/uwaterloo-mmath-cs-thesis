@@ -62,7 +62,7 @@
 
 % Specify the document class, default style attributes, and page dimensions
 % For hyperlinked PDF, suitable for viewing on a computer, use this:
-\documentclass[letterpaper,12pt,titlepage,oneside,draft]{book}
+\documentclass[letterpaper,12pt,titlepage,oneside,final]{book}
  
 % For PDF, suitable for double-sided printing, change the PrintVersion variable below
 % to "true" and use this \documentclass line instead of the one above:
@@ -93,7 +93,6 @@
 \usepackage{natbib} % For better bibliography formatting
 \usepackage[dvipsnames]{xcolor} % Additional colors
 \usepackage{bm}
-\usepackage{todonotes}
 \usepackage{caption}
 \usepackage[hyphens]{url}
 \usepackage[linesnumbered,lined,boxed]{algorithm2e}
@@ -202,8 +201,6 @@
 % FRONT MATERIAL
 %----------------------------------------------------------------------
 \input{uw-ethesis-frontpgs}
-
-\listoftodos
 
 %----------------------------------------------------------------------
 % MAIN BODY

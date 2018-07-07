@@ -1,6 +1,6 @@
 \section{Natural Language Generation}
 
-Natural Language Generation (NLG) is a sub-field of Natural Language Processing that attempts to generate sequences of words that resemble natural human languages. Traditionally, this was done either by using production rules of a predefined grammar, or by performing statistical analyses of existing human-written texts to predict sequences of words, based on their occurrence probabilities \citep{cambria2014jumping}. Markov-chain text generators are an example of the latter, popularized by their usage in parody text generation \cite{jelinek1985markov}.
+Natural Language Generation (NLG) is a sub-field of Natural Language Processing that attempts to generate sequences of words that resemble natural human languages. Traditionally, this was done either by using production rules of a predefined grammar, or by performing statistical analyses of existing human-written texts to predict sequences of words, based on their occurrence probabilities \citep{cambria2014jumping}. Markov-chain text generators are an example of the latter, popularized by their usage in parody text generation \citep{jelinek1985markov}.
 
 This broad classification of problems has multiple applications including, but not limited to:
 \begin{itemize}
@@ -13,7 +13,7 @@ This broad classification of problems has multiple applications including, but n
 
 \section{Multi-Layer Perceptrons}
 
-Multi-layer perceptrons (MLP) are widely used in the neural network literature as the simplest vanilla artificial neural network. An MLP typically comprises one or more hidden layers that learn intermediate representations before producing an output layer. A simple MLP classification architecture for MNIST digits \citep{lecun2010mnist} \citep{deng2012mnist} is depicted in Figure \ref{fig:mlp-network}. The network is represented as a directed graph containing nodes and edges, where each node represents a neuron and each edge represents a learned weight. Each weight here is a model parameter. In this example, the weight between two successive layers are densely interconnected. Given a layer of $m$ nodes and a subsequent layer of $n$ nodes that are densely connected, we require $m*n$ edges (or weights) to connect these two node layers together. These $m*n$ edges form a matrix representing the model parameters that transform a vector represented in the first layer to a vector represented in the second layer.
+Multi-layer perceptrons (MLP) are widely used in the neural network literature as the simplest vanilla artificial neural network. An MLP typically comprises one or more hidden layers that learn intermediate representations before producing an output layer. A simple MLP classification architecture for MNIST digits \citep{lecun2010mnist,deng2012mnist} is depicted in Figure \ref{fig:mlp-network}. The network is represented as a directed graph containing nodes and edges, where each node represents a neuron and each edge represents a learned weight. Each weight here is a model parameter. In this example, the weight between two successive layers are densely interconnected. Given a layer of $m$ nodes and a subsequent layer of $n$ nodes that are densely connected, we require $m*n$ edges (or weights) to connect these two node layers together. These $m*n$ edges form a matrix representing the model parameters that transform a vector represented in the first layer to a vector represented in the second layer.
 
 \begin{figure}[ht]
 	\centering
@@ -22,7 +22,7 @@ Multi-layer perceptrons (MLP) are widely used in the neural network literature a
 	\caption{\label{fig:mlp-network} Multi-Layer Perceptron}
 \end{figure}
 
-In terms of function approximation, a multilayer perceptron can be thought of as nested function calls on the input $x$. For example, assume that the intermediate layers approximate the functions $f_1$ and $f_2$, and the output layer approximated the function $f_3$ in the example presented in Figure \ref{fig:mlp-network}. We can then say that the relation of the output distribution $y$ compared to the features in the input sample $x$ would be described as $y = f_3(f_2(f_1(x)))$. The back-propagation of the objective loss over the weights of the network is achieved by using the chain-rule to differentiate this nested function. The gradients thus obtained are then used to update the weights, thereby changing how the output layer is computed \citep{lecun1989backpropagation} during the next iteration of computation through the directed graph.
+In terms of function approximation, a multilayer perceptron can be thought of as nested function calls on the input $x$. For example, assume that the intermediate layers approximate the functions $f_1$ and $f_2$, and the output layer approximated the function $f_3$ in the example presented in Figure \ref{fig:mlp-network}. We can then say that the relation of the output distribution $y$ compared to the features in the input sample $x$ would be described as $y = f_3(f_2(f_1(x)))$. The back-propagation of the objective loss over the weights of the network is achieved by using the chain-rule to differentiate this nested function. The gradients thus obtained are then used to update the weights, thereby changing how the output layer is computed during the next iteration of computation through the directed graph \citep{lecun1989backpropagation}.
 
 The activation functions applied at each layer could either be linear or non-linear. The most popularly used non-linear activation functions are sigmoid, tanh, ReLU etc., which are typically used in the intermediate layers of the network. In the case of multi-label prediction problems, the output layer is typically a softmax distribution over the possible output classes. The softmax activation is simply the binary logistic regression classifier that generalizes to multiple classes, since the output of the softmax function can be used to represent a categorical distribution (Equation \ref{eqn:softmax-function}).
 
@@ -38,9 +38,7 @@ An MLP classifier is trained by minimizing a cross-entropy loss between the pred
 
 \subsection{Dropout}
 
-Dropout is a regularization technique used during the training of neural networks. It was proposed by \cite{srivastava2014dropout} as a simple method to prevent a model from over-fitting the approximately learned function on the training data.
-
-The idea of dropout is to randomly ignore a set of neural network weights i.e. randomly set function parameters to 0 during each instance of the forward pass, as shown in Figure \ref{fig:dropout}.
+Dropout is a regularization technique used during the training of neural networks. It was proposed by \cite{srivastava2014dropout} as a simple method to prevent a model from over-fitting the approximately learned function on the training data. The idea of dropout is to randomly ignore a set of neural network weights i.e. randomly set function parameters to 0 during each instance of the forward pass, as shown in Figure \ref{fig:dropout}.
 
 \begin{figure}[ht]
 	\centering
@@ -54,7 +52,7 @@ Each neuron / unit is dropped out with a predefined probability, which can be vi
 
 \section{Convolutional Neural Networks}
 
-A convolutional neural network (CNN) \cite{lecun1995convolutional} is a specialized neural network that is optimized for feature extraction from local regions in data, for instance a specific object in an image, or a specific attribute in a body of text. Using densely connected multi-layer perceptrons would increase the number of parameters and slow down the training process. Instead convolutional networks use shared weights over the source data that are called `filters'.
+A convolutional neural network (CNN) \citep{lecun1995convolutional} is a specialized neural network that is optimized for feature extraction from local regions in data, for instance a specific object in an image, or a specific attribute in a body of text. Using densely connected multi-layer perceptrons would increase the number of parameters and slow down the training process. Instead convolutional networks use shared weights over the source data that are called `filters'.
 
 The `convolution' within a convolutional neural network is implemented using a filter. A filter is a learned function that transfers an arbitrary spatial representation of the image, say $3\text{px} * 3\text{px}$, into a single value and this is done for all the similar spatial zones in the image. 2-dimensional convolutions are used to process features in images and video because of their inherent spatial nature. A 1-dimensional equivalent could be used to extract features from contiguous regions of text, usually 3 to 5 words. These features are then sub-sampled to reduce the dimensionality for subsequent layers. This is typically achieved by max-pooling or average-pooling, which simply requires aggregating the activations of all the region activations produced by the convolutional layer in a continuous region.
 

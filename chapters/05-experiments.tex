@@ -13,7 +13,7 @@ We also use an Amazon product reviews dataset~\footnote{\url{http://jmcauley.ucs
 
 \section{Implementation Details and Hyperparameters}
 
-We implement the neural-network model in Tensorflow \citep{abadi2016tensorflow}, and use Scikit-learn \cite{pedregosa2011scikit}, NumPy and SciPy for evaluation metrics.
+We implement the neural-network model in Tensorflow \citep{abadi2016tensorflow}, and use Scikit-learn \citep{pedregosa2011scikit}, NumPy and SciPy for evaluation metrics.
 
 One of the most challenging aspects of training a variational autoencoder (VAE) is avoiding posterior collapse. In previous work \citep{yang2017improved, bowman2016generating, bahuleyan2017variational}, this has been done using manually crafted annealing schedules for weight of the KL divergence term. We utilize the $\tanh$ annealing schedule proposed by \cite{bahuleyan2017variational}, and also use their technique of appending the latent vector ($[\bm s; \bm c]$) to the hidden state of the recurrent decoder at each time-step of decoding.
 
@@ -30,7 +30,7 @@ We use the the Adam optimizer \citep{kingma2014adam} with a learning rate of $10
 
 Transfer strength can be defined as a measure of how successful the model has been in generating sentences that are consistent with the attribute that needs to be transferred into them. This can be formulated as a Natural Language Understanding (NLU) task that takes in a sentence as input and predicts the presence of an attribute that we train the model to transfer.
 
-Consistent with the approach taken by \cite{hu2017toward}, \cite{shen2017style} and \cite{fu2017style}, we train a separate model that learns to predict the class among the different classes to which transfer is possible. We use an open source implementation of the work presented by \cite{kim2014convolutional}, which is a convolutional neural network (CNN) model used for text classification \footnote{\url{https://github.com/dennybritz/cnn-text-classification-tf}}. This model has frequently been used as a text classification baseline to compare specialized models against \citep{tai2015improved} \citep{kiros2015skip} \citep{zhang2015character}. This CNN classifier is trained on the entire corpus described in the previous section, with a held out validation dataset to assess improvements in accuracy over time. The test dataset for this classifier consists of the style-transferred sentences generated from the autoencoder model.
+Consistent with the approach taken by \cite{hu2017toward,shen2017style,fu2017style}, we train a separate model that learns to predict the class among the different classes to which transfer is possible. We use an open source implementation of the work presented by \cite{kim2014convolutional}, which is a convolutional neural network (CNN) model used for text classification \footnote{\url{https://github.com/dennybritz/cnn-text-classification-tf}}. This model has frequently been used as a text classification baseline to compare specialized models against \citep{tai2015improved,kiros2015skip,zhang2015character}. This CNN classifier is trained on the entire corpus described in the previous section, with a held out validation dataset to assess improvements in accuracy over time. The test dataset for this classifier consists of the style-transferred sentences generated from the autoencoder model.
 
 The style transfer strength is the ratio of sentences successfully transferred to the target style, to the total number of test sentences.
 \begin{equation*}
@@ -92,11 +92,9 @@ where $\text{sentence-embedding}_1$ and $\text{sentence-embedding}_2$ are the se
 	\label{tab:poor-content-preservation}
 \end{table}
 
-As seen in the examples in Table \ref{tab:poor-content-preservation}, it is easy to optimize for a style-transfer objective as long as there are no constraints on the content preservation regularization. However, this results in a disconnect in terms of content and the generated sentence no longer resembles the original. To ensure this does not happen, we typically use a much larger content latent space than style latent space, as well as add the necessary regularizations discussed in the previous chapter.
+As seen in the examples in Table \ref{tab:poor-content-preservation}, it is easy to optimize for a style-transfer objective as long as there are no constraints on the content preservation regularization. However, this results in a disconnect in terms of content and the generated sentence no longer resembles the original. To ensure this does not happen, we typically use a much larger content latent space than style latent space, as well as add the necessary regularizations discussed in the previous chapter. Similar to \cite{fu2017style}, for the sentiment task, we exclude words from a sentiment lexicon \citep{hu2004mining} while evaluating the content preservation score.
 
-Similar to \cite{fu2017style}, for the sentiment task, we exclude words from a sentiment lexicon \citep{hu2004mining} while evaluating the content preservation score.
-
-However, a drawback of this content preservation metric devised by \cite{fu2017style} is that takes a small range of possible values, and is therefore less sensitive to model performance changes. In theory, the maximum content preservation value achievable is 1 and the minimum is 0. However, from experiments performed by matching random pairs of Yelp corpus sentences, the content preservation we observe is $0.7591 \pm 0.0004$. This can be treated as an approximate lower bound on the metric for model assessment.
+However, a slight drawback of this content preservation metric devised by \cite{fu2017style} is that takes a small range of possible values, and is therefore less sensitive to model performance changes. In theory, the maximum content preservation value achievable is 1 and the minimum is 0. However, from experiments performed by matching random pairs of Yelp corpus sentences, the content preservation we observe is $0.7591 \pm 0.0004$. This can be treated as an approximate lower bound on the metric for model assessment.
 
 \subsection{Word Overlap}
 
@@ -113,7 +111,7 @@ Word overlap can be used interchangeably with the 'Content Preservation' metric 
 
 \subsection{Language Fluency}
 
-Previous works in this area have utilized human evaluations \citep{shen2017style,fu2017style} for language fluency and content preservation or do not evaluate it at all \cite{hu2017toward}.
+Previous works in this area have either utilized human evaluations \citep{shen2017style,fu2017style} to evaluate language fluency and content preservation, or do not evaluate it at all \citep{hu2017toward}.
 
 We use a trigram based Kneser–Ney Smoothed language model \citep{kneser1995improved} as a quantifiable and automated scoring metric by which to assess the quality of generated sentences. It calculates the probability distribution of trigrams in a document based on their occurrence statistics to build a language model. We train this language model model on the complete corpus that we evaluate our style transfer models with.
 
