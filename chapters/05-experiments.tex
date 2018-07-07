@@ -15,7 +15,9 @@ The model is trained and tested on an Amazon product reviews dataset~\footnote{\
 
 We implement the neural-network model in Tensorflow \citep{abadi2016tensorflow}, and utilize Scikit-learn \cite{pedregosa2011scikit} for latent-space classification evaluation metrics.
 
-One of the most challenging aspects of training a variational autoencoder (VAE) is avoiding posterior collapse. In previous work \citep{yang2017improved, bowman2016generating, bahuleyan2017variational}, this has been done using manually crafted annealing schedules for weight of the KL-divergence term. We utilize the $\tanh$ annealing schedule proposed by \cite{bahuleyan2017variational}, and also use their technique of appending the latent vector ($[\bm s; \bm c]$) to the hidden state of the recurrent decoder at each time-step of decoding. Greedy decoding is utilized to predict the next word at each time-step.
+One of the most challenging aspects of training a variational autoencoder (VAE) is avoiding posterior collapse. In previous work \citep{yang2017improved, bowman2016generating, bahuleyan2017variational}, this has been done using manually crafted annealing schedules for weight of the KL divergence term. We utilize the $\tanh$ annealing schedule proposed by \cite{bahuleyan2017variational}, and also use their technique of appending the latent vector ($[\bm s; \bm c]$) to the hidden state of the recurrent decoder at each time-step of decoding.
+
+We initialize the word embeddings matrix by pre-trained Word2Vec word embeddings \citep{mikolov2013efficient,mikolov2013distributed,mikolov2013linguistic} on each of the training corpora, which is then used for the autoencoder model. Greedy decoding  is used to predict the next word at each time-step of the decoder RNN \citep{germann2003greedy}.
 
 The model uses style embeddings of size $8$ and content embeddings of size $128$ by default. The encoder and decoder are both GRU-RNNs with a size of $256$. The recurrent dropout probability for units in the encoder and decoder is $0.2$, and the same dropout probability is used for units in fully-connected layers as well.
 

@@ -35,9 +35,9 @@ However, this method does not provide a way of explicitly controlling what attri
 
 \section{Controlled Generation of Text}
 
-\cite{hu2017toward} use a variational autoencoder trained with the reconstruction objective and a KL-divergence minimization objective on the latent space with respect to a prior $p(z)$, as described in the original variational auto-encoding paper by \cite{kingma2013auto}. In addition to the reconstruction objective, the authors use additional discriminative training signals to adapt the desired attributes of the generated text. These training signals need to be propagated back to the encoder.
+\cite{hu2017toward} use a variational autoencoder trained with the reconstruction objective and a KL divergence minimization objective on the latent space with respect to a prior $p(z)$, as described in the original variational auto-encoding paper by \cite{kingma2013auto}. In addition to the reconstruction objective, the authors use additional discriminative training signals to adapt the desired attributes of the generated text. These training signals need to be propagated back to the encoder.
 
-Consider a source corpus $x$ and an encoder that is parameterized to generate a latent code $z$. $z$ is a variational latent space that resembles a Gaussian prior. (This is enforced by a KL-divergence loss). The structured code $c$ is a known label of the text (discrete or continuous). The decoder generator produces the output corpus $\hat{x}$ conditioned on $(z, c)$. It uses greedy decoding, which predicts the word with maximal probability at each step \citep{langlais2007greedy}.
+Consider a source corpus $x$ and an encoder that is parameterized to generate a latent code $z$. $z$ is a variational latent space that resembles a Gaussian prior. (This is enforced by a KL divergence loss). The structured code $c$ is a known label of the text (discrete or continuous). The decoder generator produces the output corpus $\hat{x}$ conditioned on $(z, c)$. It uses greedy decoding, which predicts the word with maximal probability at each step \citep{langlais2007greedy}.
 
 A classifier or regressor discriminator predicts the structured code of the output corpus $\hat{x}$ to ensure that it is the same as the one the generator was conditioned on i.e. $G(z, c)$. The discriminator is pre-trained.
 

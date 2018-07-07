@@ -25,7 +25,7 @@ This result is consistent with our original hypothesis of restricting the style 
 
 \section{Transfer Strength vs. Content Preservation}
 
-We observe over the course of experimentation that there is a visible trade-off between style transfer strength and content preservation metrics. For the VAE model, we tune the KL-divergence weight hyperparameters for both the style and content spaces.
+We observe over the course of experimentation that there is a visible trade-off between style transfer strength and content preservation metrics. For the VAE model, we tune the KL divergence weight hyperparameters for both the style and content spaces.
 
 \begin{table}[ht]
 	\centering
@@ -63,7 +63,7 @@ We observe over the course of experimentation that there is a visible trade-off 
 	\label{tab:kl-hyperparam-opt}
 \end{table}
 
-We observe that as a general rule, imposing heavier KL-divergence constraints on the content embedding space results in improvements in style transfer-strength. However, this also gradually results in posterior collapse the content KL-divergence weight is too high. This results in random noise being encoded in the content space, and the decoder produces random sentence, albeit with a significantly higher transfer strength. Conversely, when the KL-divergence constraints are relaxed and we approach a deterministic autoencoder, the content preservation improves and the style transfer strength drops.
+We observe that as a general rule, imposing heavier KL divergence constraints on the content embedding space results in improvements in style transfer-strength. However, this also gradually results in posterior collapse the content KL divergence weight is too high. This results in random noise being encoded in the content space, and the decoder produces random sentence, albeit with a significantly higher transfer strength. Conversely, when the KL divergence constraints are relaxed and we approach a deterministic autoencoder, the content preservation improves and the style transfer strength drops.
 
 
 \section{Negative Results}
