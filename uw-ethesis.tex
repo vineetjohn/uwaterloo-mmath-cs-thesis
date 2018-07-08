@@ -74,7 +74,11 @@
 \newcommand{\package}[1]{\textbf{#1}} % package names in bold text
 \newcommand{\cmmd}[1]{\textbackslash\texttt{#1}} % command name in tt font 
 \newcommand{\href}[1]{#1} % does nothing, but defines the command so the
-\newcommand{\imgsrc}[1]{\caption*{\scriptsize{Source: #1}}}
+\newcommand{\imgsrc}[1]{\caption*{\scriptsize{Source: #1}}} % used for image captions
+\newcommand{\tabh}[1]{\multicolumn{1}{c|}{\textbf{#1}}}  % used for table headers
+\newcommand{\tabc}[2]{\multicolumn{1}{|c|}{\multirow{#1}{*}{\textbf{#2}}}} % used for the top left cell in a table
+\newcommand{\loss}[1]{\mathcal{L}_\text{#1}} % generic loss symbol
+\newcommand{\clb}[0]{\\} % generic loss symbol
 
 % print-optimized version will ignore \href tags (redefined by hyperref pkg).
 %\newcommand{\texorpdfstring}[2]{#1} % does nothing, but defines the command
@@ -98,6 +102,7 @@
 \usepackage[hyphens]{url}
 \usepackage[linesnumbered,lined,boxed]{algorithm2e}
 \usepackage{multirow}
+\usepackage{makecell}
 \usepackage{indentfirst}
 
 % Hyperlinks make it very easy to navigate an electronic document.

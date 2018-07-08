@@ -56,7 +56,7 @@ The encoder produces the style and content, given that $\theta_{E_s}$ represents
 
 Following which, the decoder attempts to predict the original distribution of $x$ by computing the softmax over the vocabulary size, for as many time-steps as the sequence length, as shown in Equation \ref{eqn:dae-rec}
 \begin{equation} \label{eqn:dae-rec}
-	\mathcal{L}_\text{rec}(\bm\theta_E,\bm\theta_D)= -\mathbb{E}[log p_D(x|\bm s, \bm c)]
+	\loss{rec}(\bm\theta_E,\bm\theta_D)= -\mathbb{E}[log p_D(x|\bm s, \bm c)]
 \end{equation}
 where $\bm\theta_E$ and $\bm\theta_D$ are the parameters of the encoder and decoder, respectively. Since this loss trains the autoencoder to reconstruct $x$, it is also called the reconstruction loss.
 
@@ -68,7 +68,7 @@ In addition to the deterministic auto-encoding objective presented above, we als
 Equation \ref{eqn:vae-rec} shows the reconstruction objective that is minimized by the model in the VAE variant of our model.
 
 \begin{align} \label{eqn:vae-rec}
-	\mathcal{L}_\text{rec}(\theta_D, \theta_E; x) = \nonumber
+	\loss{rec}(\theta_D, \theta_E; x) = \nonumber
 	 & - \mathbb{E}_{q_{E_s}(\bm s|x) q_{E_c}(\bm c|x)} [log p_D(x|\bm s, \bm c)] \nonumber \\
 	 & + \lambda_{\text{skl}} KL(q_{E_s}(\bm s|x)||p(z)) \nonumber                          \\
 	 & + \lambda_{\text{ckl}} KL(q_{E_c}(\bm c|x)||p(z))
@@ -103,7 +103,7 @@ where $\bm\theta_\text{mult}=[\bm w_\text{mult}; b_\text{mult}]$ are the classif
 
 This is trained using a simple cross-entropy loss.
 \begin{equation} \label{eqn:multi-task-loss}
-	\mathcal{L}_\text{mult}(\bm\theta_{E};\bm\theta_\text{mult}) =
+	\loss{mult}(\bm\theta_{E};\bm\theta_\text{mult}) =
 	- \mathbb{E} [\log p(y | \bm s; \bm\theta_\text{mult})]
 \end{equation}
 where $\bm\theta_E$ are the encoder's parameters.
@@ -121,7 +121,7 @@ where $\bm\theta_\text{dis}=[\bm w_\text{dis}; b_\text{dis}]$ are the parameters
 
 It is trained by minimizing the following objective
 \begin{equation} \label{eqn:adv-disc-loss}
-	\mathcal{L}_\text{dis}(\bm\theta_\text{dis}) =
+	\loss{dis}(\bm\theta_\text{dis}) =
 	- \mathbb{E} [\log p(y | \bm c; \bm\theta_\text{dis})]
 \end{equation}
 
@@ -129,7 +129,7 @@ The adversarial loss appears similar to the multi-task loss as in Equation \ref{
 
 Having trained an adversary, we would like the autoencoder to learn latent representations, such that $\bm c$ is not discriminative in terms of the style or attribute we want to transfer. In other words, we penalize the entropy of the adversary's prediction, given by
 \begin{equation}
-	\mathcal{L}_\text{adv}(\bm\theta_E) = \mathcal{H}(p_\text{dis}(y | \bm c))
+	\loss{adv}(\bm\theta_E) = \mathcal{H}(p_\text{dis}(y | \bm c))
 \end{equation}
 where $\mathcal{H}=-\sum_{i\in\text{labels}} p_i\log p_i$ is the empirical Shannon entropy of the distribution. The adversarial objective is maximized, in this phase, with respect to the encoder. The motivation behind this objective is to increase the uncertainty of the discriminative classifier with respect to predicting style from the content vector. The maximum entropy value attainable over the distribution of attributes is the point at which each label is predicted with equal-probability i.e. the highest uncertainty.
 
@@ -145,14 +145,14 @@ The bag-of-words discriminator uses the style vector $\bm s$ produced by the aut
 
 This objective is trained in a similar method to the style adversary, by using a cross-entropy loss
 \begin{equation} \label{eqn:adv-bow-disc-loss}
-	\mathcal{L}_\text{bow}(\bm\theta_\text{bow}) =
+	\loss{bow}(\bm\theta_\text{bow}) =
 	- \mathbb{E} [\log p(b | \bm c; \bm\theta_\text{bow})]
 \end{equation}
-We also refrain from propagating the effects of this discriminator loss $\mathcal{L}_\text{bow}$ to the encoder parameters, ensuring that the parameters that each adversary and the encoder can update are mutually exclusive.
+We also refrain from propagating the effects of this discriminator loss $\loss{bow}$ to the encoder parameters, ensuring that the parameters that each adversary and the encoder can update are mutually exclusive.
 
 Similar to the style adversary, the empirical Shannon entropy of the predicted distribution is provided as a training signal for the autoencoder model to maximize.
 \begin{equation}
-	\mathcal{L}_\text{badv}(\bm\theta_E) = \mathcal{H}(p_\text{bow}(b | \bm s))
+	\loss{badv}(\bm\theta_E) = \mathcal{H}(p_\text{bow}(b | \bm s))
 \end{equation}
 
 The motivation for this adversarial loss is similar to the one used in the context of the style discriminator. We want to encourage the encoder to learn a representation of style that the bag-of-words discriminator cannot predict most of the original words from.
@@ -182,11 +182,11 @@ To address this issue, we propose a customized version of Dropout \citep{srivast
 
 \section{Training Process} \label{sec:training-process}
 
-The overall loss $\mathcal{L}_\text{ovr}$ used for the autoencoder is thus comprised of four different objectives: the reconstruction objective, the multi-task objective and the style and content adversaries.
+The overall loss $\loss{ovr}$ used for the autoencoder is thus comprised of four different objectives: the reconstruction objective, the multi-task objective and the style and content adversaries.
 \begin{align*}
-	\mathcal{L}_\text{ovr} =
-	 & \mathcal{L}_\text{rec}(\bm\theta_E, \bm\theta_D) - \lambda_\text{adv} \mathcal{L}_\text{adv}(\theta_E) +                                \\
-	 & \lambda_\text{mult} \mathcal{L}_\text{mult} (\bm\theta_E,\bm\theta_\text{mult}) - \lambda_\text{badv} \mathcal{L}_\text{badv}(\theta_E)
+	\loss{ovr} =
+	 & \loss{rec}(\bm\theta_E, \bm\theta_D) - \lambda_\text{adv} \loss{adv}(\theta_E) +                                \\
+	 & \lambda_\text{mult} \loss{mult} (\bm\theta_E,\bm\theta_\text{mult}) - \lambda_\text{badv} \loss{badv}(\theta_E)
 \end{align*}
 where $\lambda_\text{mult}$, $\lambda_\text{adv}$ and $\lambda_\text{badv}$ balance the model's auxiliary losses.
 
@@ -194,9 +194,9 @@ To summarize the model training setup, our training process is a loop of the min
 
 \begin{algorithm}[H]
 	\While{epochs remaining}{
-		minimize $\mathcal{L}_\text{dis}$ w.r.t. $\bm\theta_\text{dis}$\;
-		minimize $\mathcal{L}_\text{bow}$ w.r.t. $\bm\theta_\text{bow}$\;
-		minimize $\mathcal{L}_\text{ovr}$ w.r.t. $\bm\theta_E, \bm\theta_D, \bm\theta_\text{mult}$\;
+		minimize $\loss{dis}$ w.r.t. $\bm\theta_\text{dis}$\;
+		minimize $\loss{bow}$ w.r.t. $\bm\theta_\text{bow}$\;
+		minimize $\loss{ovr}$ w.r.t. $\bm\theta_E, \bm\theta_D, \bm\theta_\text{mult}$\;
 	}
 	\caption{\label{alg:training-process} Training Algorithm}
 \end{algorithm}
