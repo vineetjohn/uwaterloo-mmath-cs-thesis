@@ -99,7 +99,7 @@ The class distribution predicted by the discriminative classifier is given by
 \begin{equation} \label{eqn:class-pred}
 	p(y | \bm s; \bm\theta_\text{mult}) = \sigma(\bm w_\text{mult}^\top \bm s + b_\text{mult})
 \end{equation}
-where $\bm\theta_\text{mult}=[\bm w_\text{mult}; b_\text{mult}]$ are the classifier's parameters for multi-task learning.
+where $\bm\theta_\text{mult}=[\bm w_\text{mult}; b_\text{mult}]$ are the classifier's parameters for multi-task learning, and $y$ is the true label distribution.
 
 This is trained using a simple cross-entropy loss.
 \begin{equation} \label{eqn:multi-task-loss}
@@ -117,7 +117,7 @@ The main idea is to introduce an adversary that deliberately attempts to discrim
 \begin{equation}
 	p(y | \bm c; \bm\theta_\text{dis}) = \sigma(\bm w_\text{dis}^\top \bm c + b_\text{dis})
 \end{equation}
-where $\bm\theta_\text{dis}=[\bm w_\text{dis}; b_\text{dis}]$ are the parameters of the adversary.
+where $\bm\theta_\text{dis}=[\bm w_\text{dis}; b_\text{dis}]$ are the parameters of the adversary, and $y$ is the true label distribution.
 
 It is trained by minimizing the following objective
 \begin{equation} \label{eqn:adv-disc-loss}
@@ -142,6 +142,7 @@ The bag-of-words discriminator uses the style vector $\bm s$ produced by the aut
 \begin{equation}
 	p(b | \bm s; \bm\theta_\text{bow}) = \sigma(\bm w_\text{bow}^\top \bm s + b_\text{bow})
 \end{equation}
+where $\bm\theta_\text{bow}=[\bm w_\text{bow}; b_\text{bow}]$ are the classifier's parameters for bag-of-words prediction, and $b$ is the true word distribution.
 
 This objective is trained in a similar method to the style adversary, by using a cross-entropy loss
 \begin{equation} \label{eqn:adv-bow-disc-loss}
