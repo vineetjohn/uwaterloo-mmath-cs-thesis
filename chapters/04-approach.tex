@@ -97,7 +97,7 @@ where $z_j$ denotes an arbitrary label's unweighted probability and $K$ is the t
 
 The class distribution predicted by the discriminative classifier is given by
 \begin{equation} \label{eqn:class-pred}
-	p(y | \bm s; \bm\theta_\text{mult}) = softmax(\bm w_\text{mult}^\top \bm s + b_\text{mult})
+	p(y | \bm s; \bm\theta_\text{mult}) = \sigma(\bm w_\text{mult}^\top \bm s + b_\text{mult})
 \end{equation}
 where $\bm\theta_\text{mult}=[\bm w_\text{mult}; b_\text{mult}]$ are the classifier's parameters for multi-task learning.
 
@@ -115,7 +115,7 @@ The above multi-task loss only operates on the style space, but does not have an
 
 The main idea is to introduce an adversary that deliberately attempts to discriminate the label $y$ of training samples using only the content vector $\bm c$. Then the autoencoder is trained to learn a content vector space from which its adversary cannot predict style information. Concretely, the adversarial discriminator predicts style $y$ by computing a softmax distribution over a multi-layer perceptron's output layer.
 \begin{equation}
-	p(y | \bm c; \bm\theta_\text{dis}) = softmax(\bm w_\text{dis}^\top \bm c + b_\text{dis})
+	p(y | \bm c; \bm\theta_\text{dis}) = \sigma(\bm w_\text{dis}^\top \bm c + b_\text{dis})
 \end{equation}
 where $\bm\theta_\text{dis}=[\bm w_\text{dis}; b_\text{dis}]$ are the parameters of the adversary.
 
