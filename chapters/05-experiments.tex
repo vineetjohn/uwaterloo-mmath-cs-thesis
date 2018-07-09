@@ -113,9 +113,9 @@ Word overlap can be used interchangeably with the 'Content Preservation' metric 
 
 Previous works in this area have either utilized human evaluations \citep{shen2017style,fu2017style} to evaluate language fluency and content preservation, or do not evaluate it at all \citep{hu2017toward}.
 
-We use a trigram based Kneser–Ney Smoothed language model \citep{kneser1995improved} as a quantifiable and automated scoring metric by which to assess the quality of generated sentences. It calculates the probability distribution of trigrams in a document based on their occurrence statistics to build a language model. We train this language model model on the complete corpus that we evaluate our style transfer models with.
+We use a trigram based Kneser–Ney Smoothed language model \citep{kneser1995improved} as a quantifiable and automated scoring metric by which to assess the quality of generated sentences. It calculates the probability distribution of trigrams in a document based on their occurrence statistics to build a language model. We train this language model on the complete corpus that we evaluate our style transfer models with.
 
-After the generation of style transferred sentences, we parse them out into trigrams, and calculate the probabilities of each of the trigrams being from the same corpora as the original model was trained on. The negative log-likelihood scores, as predicted by the Kneser-Ney language model and aggregated over the generated corpus, is reported as the indicator for language fluency. Lower scores indicate better fluency.
+After the generation of style transferred sentences, we parse them out into trigrams, and calculate the probabilities of each of the trigrams being from the same corpora as the original model was trained on. The negative log-likelihood scores, as predicted by the Kneser-Ney language model and aggregated over the generated corpus, are reported as the indicator for language fluency. Lower negative log-likelihood scores indicate better fluency.
 
 
 \subsection{A Note about Cycle Consistency Loss}
@@ -152,12 +152,12 @@ We first analyse how the style (sentiment) and content of the latent space are d
 	\centering
 	\begin{tabular}{| l | r | r |}
 		\hline
-		                                        & \tabh{DAE}                   & \tabh{VAE} \\
+		                                        & \tabh{DAE}                  & \tabh{VAE} \\
 		\hline \hline
 		Random/Majority guess                   & \multicolumn{2}{c|}{0.6018}              \\ \hline \hline
-		Content latent space  ($\bm c$)         & 0.6137                       & 0.6567     \\ \hline
-		Style latent space ($\bm s$)            & 0.7927                       & 0.7911     \\ \hline
-		Complete latent space ($[\bm s;\bm c]$) & 0.7918                       & 0.7918     \\
+		Content latent space  ($\bm c$)         & 0.6137                      & 0.6567     \\ \hline
+		Style latent space ($\bm s$)            & 0.7927                      & 0.7911     \\ \hline
+		Complete latent space ($[\bm s;\bm c]$) & 0.7918                      & 0.7918     \\
 		\hline
 	\end{tabular}
 	\caption{Results - Style Classification Accuracy}
