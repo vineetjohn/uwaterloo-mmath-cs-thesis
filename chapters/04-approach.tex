@@ -119,7 +119,7 @@ The main idea is to introduce an adversary that deliberately attempts to discrim
 \end{equation}
 where $\bm\theta_\text{dis}=[\bm w_\text{dis}; b_\text{dis}]$ are the parameters of the adversary, and $y$ is the true label distribution.
 
-It is trained by minimizing the following objective
+It is trained by minimizing the following objective, using a cross-entropy loss.
 \begin{equation} \label{eqn:adv-disc-loss}
 	\loss{dis}(\bm\theta_\text{dis}) =
 	- \mathbb{E} [\log p(y | \bm c; \bm\theta_\text{dis})]
@@ -144,7 +144,7 @@ The bag-of-words discriminator uses the style vector $\bm s$ produced by the aut
 \end{equation}
 where $\bm\theta_\text{bow}=[\bm w_\text{bow}; b_\text{bow}]$ are the classifier's parameters for bag-of-words prediction, and $b$ is the true word distribution.
 
-This objective is trained in a similar method to the style adversary, by using a cross-entropy loss
+This objective is trained in a similar method to the style adversary, using a cross-entropy loss
 \begin{equation} \label{eqn:adv-bow-disc-loss}
 	\loss{bow}(\bm\theta_\text{bow}) =
 	- \mathbb{E} [\log p(b | \bm c; \bm\theta_\text{bow})]
