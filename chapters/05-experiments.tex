@@ -115,7 +115,7 @@ Previous works in this area have either utilized human evaluations \citep{shen20
 
 We use a trigram based Kneser–Ney Smoothed language model \citep{kneser1995improved} as a quantifiable and automated scoring metric by which to assess the quality of generated sentences. It calculates the probability distribution of trigrams in a document based on their occurrence statistics to build a language model. We train this language model model on the complete corpus that we evaluate our style transfer models with.
 
-After the generation of style transferred sentences, we parse them out into trigrams, and calculate the probabilities of each of the trigrams being from the same corpora as the original model was trained on. The negative log-likelihood scores, as predicted by the Kneser-Ney language model and aggregated over the generated corpus, is reported as the indicator for language fluency.
+After the generation of style transferred sentences, we parse them out into trigrams, and calculate the probabilities of each of the trigrams being from the same corpora as the original model was trained on. The negative log-likelihood scores, as predicted by the Kneser-Ney language model and aggregated over the generated corpus, is reported as the indicator for language fluency. Lower scores indicate better fluency.
 
 
 \subsection{A Note about Cycle Consistency Loss}
