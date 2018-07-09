@@ -29,39 +29,39 @@ This result is consistent with our original hypothesis of restricting the style 
 
 \section{Transfer Strength vs. Content Preservation}
 
-We observe over the course of experimentation that there is a visible trade-off between style transfer strength and content preservation metrics. For the VAE model, we tune the KL divergence weight hyperparameters for both the style and content spaces, and present results from these experiments in Table \ref{tab:kl-hyperparam-opt}.
+We observe over the course of experimentation that there is a visible trade-off between style transfer strength and content preservation metrics. For the VAE model, we tune the KL divergence weight hyperparameters for both the style and content spaces, i.e. $\lambda_{\text{skl}}$ and $\lambda_{\text{ckl}}$ from Equation \ref{eqn:vae-rec}, and present results from these experiments in Table \ref{tab:kl-hyperparam-opt}.
 
 \begin{table}[ht]
 	\centering
-	\begin{tabular}{| r | r | r | r | r |}
-		\hline
-		\tabc{2}{\makecell{
-		Style \clb KL Weight}} & \tabh{Content}   & \tabh{Transfer} & \tabh{Content}      & \tabh{Word}    \\
-		                       & \tabh{KL Weight} & \tabh{Strength} & \tabh{Preservation} & \tabh{Overlap} \\
-		\hline
-		\hline
-		0.01                   & 0.01             & 0.8232          & 0.8696              & 0.2118         \\
-		\hline
-		0.03                   & 0.01             & 0.7646          & 0.8769              & 0.2314         \\
-		\hline
-		0.03                   & 0.03             & 0.8123          & 0.8724              & 0.2150         \\
-		\hline
-		0.1                    & 0.03             & 0.7707          & 0.8817              & 0.2334         \\
-		\hline
-		0.3                    & 0.03             & 0.7254          & 0.8783              & 0.2357         \\
-		\hline
-		0.03                   & 0.1              & 0.9052          & 0.8546              & 0.1617         \\
-		\hline
-		0.1                    & 0.1              & 0.8474          & 0.8609              & 0.1941         \\
-		\hline
-		0.3                    & 0.1              & 0.7682          & 0.8645              & 0.2166         \\
-		\hline
-		0.03                   & 0.3              & 0.9434          & 0.7538              & 0.0516         \\
-		\hline
-		0.1                    & 0.3              & 0.9523          & 0.7533              & 0.0707         \\
-		\hline
-		0.3                    & 0.3              & 0.9122          & 0.8069              & 0.1326         \\
-		\hline
+	\begin{tabular}{c | r | r | r | r | r |}
+		\cline{2-6}
+		\multirow{2}{*}{
+		} & \tabh{$\lambda_{\text{skl}}$} & \tabh{$\lambda_{\text{ckl}}$} & \tabh{Transfer} & \tabh{Content}      & \tabh{Word}    \\
+		  &                               &                               & \tabh{Strength} & \tabh{Preservation} & \tabh{Overlap} \\
+		\cline{2-6}
+		\cline{2-6}
+		  & 0.01                          & 0.01                          & 0.8232          & 0.8696              & 0.2118         \\
+		\cline{2-6}
+		  & 0.03                          & 0.01                          & 0.7646          & 0.8769              & 0.2314         \\
+		\cline{2-6}
+		  & 0.03                          & 0.03                          & 0.8123          & 0.8724              & 0.2150         \\
+		\cline{2-6}
+		  & 0.1                           & 0.03                          & 0.7707          & 0.8817              & 0.2334         \\
+		\cline{2-6}
+		  & 0.3                           & 0.03                          & 0.7254          & 0.8783              & 0.2357         \\
+		\cline{2-6}
+		  & 0.03                          & 0.1                           & 0.9052          & 0.8546              & 0.1617         \\
+		\cline{2-6}
+		  & 0.1                           & 0.1                           & 0.8474          & 0.8609              & 0.1941         \\
+		\cline{2-6}
+		  & 0.3                           & 0.1                           & 0.7682          & 0.8645              & 0.2166         \\
+		\cline{2-6}
+		  & 0.03                          & 0.3                           & 0.9434          & 0.7538              & 0.0516         \\
+		\cline{2-6}
+		  & 0.1                           & 0.3                           & 0.9523          & 0.7533              & 0.0707         \\
+		\cline{2-6}
+		  & 0.3                           & 0.3                           & 0.9122          & 0.8069              & 0.1326         \\
+		\cline{2-6}
 	\end{tabular}
 	\caption{Results - KL Divergence Weight Hyperparameter Optimisation}
 	\label{tab:kl-hyperparam-opt}
