@@ -56,7 +56,7 @@ The encoder produces the style and content, given that $\theta_{E_s}$ represents
 
 Following which, the decoder attempts to predict the original distribution of $x$ by computing the softmax over the vocabulary size, for as many time-steps as the sequence length, as shown in Equation \ref{eqn:dae-rec}
 \begin{equation} \label{eqn:dae-rec}
-	\loss{rec}(\bm\theta_E,\bm\theta_D)= -\mathbb{E}[log p_D(x|\bm s, \bm c)]
+	\loss{rec}(\bm\theta_E,\bm\theta_D)= -\mathbb{E}[\log p_D(x|\bm s, \bm c)]
 \end{equation}
 where $\bm\theta_E$ and $\bm\theta_D$ are the parameters of the encoder and decoder, respectively. Since this loss trains the autoencoder to reconstruct $x$, it is also called the reconstruction loss.
 
@@ -69,8 +69,8 @@ Equation \ref{eqn:vae-rec} shows the reconstruction objective that is minimized 
 
 \begin{align} \label{eqn:vae-rec}
 	\loss{rec}(\theta_D, \theta_E; x) = \nonumber
-	 & - \mathbb{E}_{q_{E_s}(\bm s|x) q_{E_c}(\bm c|x)} [log p_D(x|\bm s, \bm c)] \nonumber \\
-	 & + \lambda_{\text{skl}} KL(q_{E_s}(\bm s|x)||p(z)) \nonumber                          \\
+	 & - \mathbb{E}_{q_{E_s}(\bm s|x) q_{E_c}(\bm c|x)} [\log p_D(x|\bm s, \bm c)] \nonumber \\
+	 & + \lambda_{\text{skl}} KL(q_{E_s}(\bm s|x)||p(z)) \nonumber                           \\
 	 & + \lambda_{\text{ckl}} KL(q_{E_c}(\bm c|x)||p(z))
 \end{align}
 where $\lambda_{\text{skl}}$ and $\lambda_{\text{ckl}}$ are the weights for each of the KL divergence terms.
