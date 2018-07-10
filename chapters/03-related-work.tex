@@ -5,7 +5,7 @@ Further work presented by \cite{shen2017style} and \cite{fu2017style} propose th
 
 \section{Disentangling Factors of Variation}
 
-\cite{mathieu2016disentangling} propose the idea of a generative model that learns to separate the factors of variation in the learned representations by splitting the latent space into two codes: one that is relevant to solving a specialized task, and one that is not.
+\cite{mathieu2016disentangling} propose the idea of a generative model that learns to separate the factors of variation by splitting the latent space into two codes: one that is relevant to solving a specialized task, and one that is not.
 
 They use a variational autoencoder to learn the generative model, and utilize adversarial training to disentangle the latent space of specific attributes. In their evaluations, they use image datasets like MNIST \citep{lecun2004learning,lecun2010mnist}, Sprites \citep{reed2015deep} and Extended-YaleB \citep{georghiades2001few}.
 
@@ -14,14 +14,14 @@ Handwriting style, body type, hair, position, illumination, etc. are some of the
 
 \section{Information Maximizing Generative Adversarial Nets}
 
-InfoGAN \citep{chen2016infogan} is another work that attempts increasing the interpretability of latent representations by utilizing regularizations on the latent space to maximize the information retention of attributes in subsets of the overall latent space.
+InfoGAN \citep{chen2016infogan} is another work that attempts to increase the interpretability of latent representations by utilizing regularizations on the latent space. They propose doing this by maximizing the mutual information between the generated distribution and a subset of variables in the latent space.
 
 The authors present a modification to the GAN objective \citep{goodfellow2014generative}, to encourage the learning of interpretable representations. This is done by maximizing the
 mutual information between a fixed small subset of the GAN's noise variables and the observations. This approach attempts to learn a disentangled latent representation in an unsupervised manner. In addition to the regular noise variables that a GAN generates novel samples from, the authors use additional categorical and continuous variables under certain sampling constraints. For example, on the MNIST dataset \citep{lecun2010mnist}, the authors use a categorical latent variable of size 10, with the probability of sampling each of those variables discretely as 0.1. These categorical variables are used to represent the 10 distinct digits (labels) present in the MNIST dataset. In addition, they sample two continuous variables sampled from the uniform distribution $\mathcal{U}(-1, 1)$, intended to model the angle and shape of the handwriting style.
 
-In the vanilla formulation of the GAN, the decoder might well chose to ignore these additional latent variables provided by minimizing the magnitude of the parameters learned between the additional latent variables and a generated sample. To avoid this, the authors propose an information maximization objective as an auxiliary training objective to the GAN objective. This can be viewed as a regularization intended to force usage of these additional variables.
+In the vanilla formulation of the GAN, the decoder might well chose to ignore these additional latent variables by minimizing the magnitude of the parameters learned between these variables and generated samples. To avoid this, the authors propose the usage of an information maximization objective as an auxiliary training objective. This can be viewed as a regularization intended to force the usage of these additional variables during sample generation.
 
-Using this approach, the authors are able to generate MNIST digits in various handwriting styles by changing the continuous variables, and change the numerical value represented in the generated image by changing the categorical variable, as shown in Figure \ref{fig:infogan-digits}. Here $c_1$ represents the categorical variable discussed above and $c_2, c_3$ represent continuous variables. They also test this method on faces \citep{liu2015deep,paysan20093d} and chairs \citep{aubry2014seeing}.
+Using this approach, the authors are able to generate MNIST digits in various handwriting styles by changing the continuous variables, and alter the numerical value represented in the generated image by changing the categorical variable, as shown in Figure \ref{fig:infogan-digits}. Here $c_1$ represents the categorical variable discussed above and $c_2, c_3$ represent continuous variables. They also test this method on faces \citep{liu2015deep,paysan20093d} and chairs \citep{aubry2014seeing}.
 
 \begin{figure}[ht]
 	\centering
@@ -35,13 +35,13 @@ However, this method does not provide a way of explicitly controlling what attri
 
 \section{Controlled Generation of Text}
 
-\cite{hu2017toward} use a variational autoencoder trained with the reconstruction objective and a KL divergence minimization objective on the latent space with respect to a prior $p(z)$, as described in the original variational auto-encoding paper by \cite{kingma2013auto}. In addition to the reconstruction objective, the authors use additional discriminative training signals to adapt the desired attributes of the generated text. These training signals need to be propagated back to the encoder.
+\cite{hu2017toward} use a variational autoencoder trained with the reconstruction objective and a KL divergence minimization objective on the latent space with respect to a prior $p(z)$, as described in the original variational auto-encoding paper by \cite{kingma2013auto}. In addition to the reconstruction objective, the authors use additional discriminative training signals to adapt the desired attributes of the generated text. These training signals are propagated back to the encoder.
 
-Consider a source corpus $x$ and an encoder that is parameterized to generate a latent code $z$. $z$ is a variational latent space that resembles a Gaussian prior. (This is enforced by a KL divergence loss). The structured code $c$ is a known label of the text (discrete or continuous). The decoder generator produces the output corpus $\hat{x}$ conditioned on $(z, c)$. It uses greedy decoding, which predicts the word with maximal probability at each step \citep{langlais2007greedy}.
+Consider a source corpus $x$ and an encoder that is parameterized to generate a latent code $z$. $z$ is a variational latent space that resembles a Gaussian prior. (This is enforced by a KL divergence loss). The structured code $c$ is a known label of the text (discrete or continuous). The decoder / generator produces the output corpus $\hat{x}$ conditioned on $[z; c]$. It uses greedy decoding, which predicts the word with maximal probability at each step \citep{langlais2007greedy}.
 
-A classifier or regressor discriminator predicts the structured code of the output corpus $\hat{x}$ to ensure that it is the same as the one the generator was conditioned on i.e. $G(z, c)$. The discriminator is pre-trained.
+A classifier or regressor discriminator predicts the structured code $c$ of the generated output $\hat{x}$ to ensure that it is the same as the one the generator was conditioned on i.e. $G(z, c)$. This discriminator is pre-trained on a labelled corpus.
 
-Each decoder step used to predict $\hat{x}$ is a softmax distribution over the corpus vocabulary, scaled by a temperature $\tau$. Higher temperatures flatten the softmax distribution for each word prediction and increase word diversity. Conversely, setting $\tau = 0$ will resemble a discrete probability distribution over the corpus vocabulary. For their experiments, the authors gradually anneal $\tau \rightarrow 0$
+Each decoder step used to predict $\hat{x}$ is a softmax distribution over the corpus vocabulary, scaled by a temperature $\tau$. Higher temperatures flatten the softmax distribution for each word prediction, thereby increasing word diversity. Conversely, setting $\tau = 0$ will resemble a discrete probability distribution over the corpus vocabulary. For their experiments, the authors gradually anneal $\tau \rightarrow 0$
 
 The authors describe three objectives that train their model, including the reconstruction objective of a variational autoencoder. The auxiliary objectives are discrete label prediction and content vector prediction by two discriminators. The overall architecture is depicted in Figure \ref{fig:tcg-architecture}.
 
@@ -64,7 +64,7 @@ A reconstruction loss that ensures that the generated sentence $\hat{x}$ is the 
 
 \subsection{Style Discriminator}
 
-A discriminator validates if the predicted class/value for $\hat{x}$ is the same as the corresponding class / label for $x$. This is a cross-entropy loss over the probability distribution of the labels. This discriminator loss can be further subdivided into 2 terms, one that maximizes the log likelihood of predicting the correct class as in Equation \ref{eqn:tcg-disc-class}, and one that minimizes the empirically observed Shannon entropy of the predicted distribution, thereby incentivizing confident predictions, as in Equation \ref{eqn:tcg-disc-ent}.
+A discriminator validates if the predicted label for $\hat{x}$ is the same as the corresponding label for $x$. This is a cross-entropy loss over the probability distribution of the labels. This discriminator loss can be further subdivided into two terms, one that maximizes the log likelihood of predicting the correct class as in Equation \ref{eqn:tcg-disc-class}, and one that minimizes the empirically observed Shannon entropy of the predicted distribution, thereby incentivizing confident predictions, as in Equation \ref{eqn:tcg-disc-ent}.
 \begin{align}
 	\label{eqn:tcg-disc-class}
 	\mathcal{L}_s(\theta_D) = & - \mathbb{E}_{X_L}[\log q_D(c_L|x_L)]   \\
@@ -79,24 +79,24 @@ During the training phase for the generative model, the expected log likelihood 
 
 \subsection{Content Discriminator}
 
-The encoder from the loss equation \ref{eqn:tcg-rec}, is used to regenerate the latent distribution $z$ devoid of the structured code from the output distribution $\hat{x}$. The authors call this an \textbf{independence constraint}, which means that regardless of the structured code $c$ that is currently present in either $x$ or $\hat{x}$, processing either through the generator should produce a consistent $z$. This allows the encoder to encode only latent factors that are independent of the structured code. This is shown in Equation \ref{eqn:tcg-ind-con}.
+The encoder from the loss equation \ref{eqn:tcg-rec}, is used to regenerate the latent distribution $z$ devoid of the structured code from the output distribution $\hat{x}$. The authors call this an `independence constraint'. Regardless of the structured code $c$ that is currently present in either $x$ or $\hat{x}$, processing either through the generator should produce a consistent $z$. This allows the encoder to encode only latent factors that are independent of the structured code. This is shown in Equation \ref{eqn:tcg-ind-con}.
 \begin{equation} \label{eqn:tcg-ind-con}
 	\mathcal{L}_{attr, z}(\theta_G) = - \mathbb{E}_{p(z)p(c)}
 	[\log q_E(z|\tilde{G_{\tau}}(z,c))]
 \end{equation}
 
-The model was evaluated on short sentences with length $<15$ words. The encoder-decoder setup is implemented using single layer LSTMs and the discriminator is implemented using a convolutional neural network (CNN) \citep{hu2016harnessing}. The KL divergence loss weight is annealed from 0 to 1 during training. Style transfer strength is evaluated using a pre-trained classifier. However, they do not evaluate language using a quantitative metric.
+The model was evaluated on short sentences with length $<15$ words from the Stanford Sentiment Treebank \citep{socher2013recursive}. The encoder-decoder setup is implemented using single layer LSTMs and the discriminator is implemented using a convolutional neural network (CNN) \citep{hu2016harnessing}. The KL divergence loss weight is annealed from 0 to 1 during training. Style transfer strength is evaluated using a pre-trained classifier. However, they do not evaluate language quality and content preservation using a quantitative metric.
 
 
 \section{Aligned and Cross-Aligned Autoencoders}
 
-\cite{shen2017style} also aim to perform style transfer in language using non-parallel corpora by separating content from style. They re-align the latent spaces to perform three tasks: sentiment modification, decipherment of word-substitution ciphers, and recovery of word order. Their method involves learning an encoder that takes a sentence and its original style label as input, and maps it to a content representation devoid of style. This decoding of this representation is then conditioned on this encoded content representation and the target style label.
+\cite{shen2017style} also aim to perform style transfer in language using non-parallel corpora by separating content from style. They re-align the latent spaces to perform three tasks: sentiment modification, decipherment of word-substitution ciphers, and recovery of word order. Their method involves learning an encoder that takes a sentence and maps it to a content representation devoid of style. The decoding is then conditioned on the concatenation of the encoded content representation and the target style label.
 
-There are two non-parallel corpora $X_1 = {x_1^{(1)} \cdots x_1^{(n)}}$, which is drawn from the prior $p(x_1|y_1)$, and $X_2 = {x_2^{(1)} \cdots x_2^{(n)}}$, which is drawn from the prior $p(x_2|y_2)$. The objective is to estimate the style transferred distributions $p(x_1|x_2;y_1,y_2)$ and $p(x_2|x_1;y_1,y_2)$.
+There are two non-parallel corpora $X_1 = {x_1^{(1)} \cdots x_1^{(n)}}$, which is drawn from the prior $p(x_1|y_1)$, and $X_2 = {x_2^{(1)} \cdots x_2^{(n)}}$, which is drawn from the prior $p(x_2|y_2)$. The objective is to estimate the style transferred distributions $p(x_1|x_2;y_1,y_2)$ and $p(x_2|x_1;y_1,y_2)$. Here, $y_1$ and $y_2$ are class labels.
 
 The authors state a constraint that $x_1$ and $x_2$'s marginal distributions can only be recovered if for any different styles $y, y' \in Y$, distributions $p(x|y)$ and $p(x|y')$ are different. This is a fair assumption to make because if $p(x|y)$ = $p(x|y')$, then the style changes would be indiscernible to a model.
 
-They also prove that if the content $z$ is sampled from a centred isotropic distribution, the styles cannot be recovered from $x$, but in the case of $z$ being a more complex distribution like a Gaussian mixture, then the affine transformation that converts $(y, z)$ into $x$ can be recovered.
+They also prove that if the content $z$ is sampled from a centred isotropic distribution, the styles cannot be recovered from $x$, but in the case of $z$ being a more complex distribution like a Gaussian mixture, then the affine transformation that converts $[y; z]$ into $x$ can be recovered.
 
 A simplified graphical depiction of their model is shown in Figure \ref{fig:stca-architecture}.
 
@@ -118,7 +118,7 @@ The base model used is a variational autoencoder. The reconstruction loss is sho
 
 The authors propose aligning the distributions $P_E(z|x_1)$ and $P_E(z|x_2)$ where $E$ is the encoder function. This is done by training an adversarial discriminator to distinguish between the two distributions.
 
-The adversarial objective is expressed as shown in Equation \ref{eqn:stca-align-adv} where $D(\cdot)$ outputs 0 if it predicts the source distribution to be $X_1$ and 1 if it predicts the source distribution to be $X_2$.
+The adversarial objective is shown in Equation \ref{eqn:stca-align-adv} where $D(\cdot)$ outputs 0 if it predicts the source distribution to be $X_1$ and 1 if it predicts the source distribution to be $X_2$.
 \begin{align} \label{eqn:stca-align-adv}
 	\mathcal{L}_{adv}(\theta_E,\theta_D) =
 	 & \mathbb{E}_{x_1 \sim X_1}[-\log D(E(x_1,y_1))] + \nonumber \\
@@ -133,9 +133,9 @@ where $\lambda$ is a balancing weight for the adversarial term.
 
 \subsection{Cross-aligned Autoencoder}
 
-This is similar to the aligned autoencoder approach, but instead of trying to align $P_E(z|x_1)$ and $P_E(z|x_2)$ using an adversarial discriminator, two distinct adversarial discriminators are used to align a sequence of real and transferred generator hidden states. i.e. $D_1$ is used to align the distributions $G(y_1, z_1)$ and $G(y_1, z_2)$. Similarly, $D_2$ is used to align the distributions $G(y_2, z_2)$ and $G(y_2, z_1)$. These discriminators are trained with the objective of being unable to identify the content distributions $P(z_1)$ and $P(z_2)$ from the generated sequences.
+This is similar to the aligned autoencoder approach, but instead of trying to align $P_E(z|x_1)$ and $P_E(z|x_2)$ using an adversarial discriminator, two distinct adversarial discriminators are used to align a sequence of real and transferred generator hidden states. i.e. $D_1$ is used to align the distributions $G(y_1, z_1)$ and $G(y_1, z_2)$. Similarly, $D_2$ is used to align the distributions $G(y_2, z_2)$ and $G(y_2, z_1)$. These discriminators are trained with the objective of identifying the underlying content distributions $P(z_1)$ and $P(z_2)$ from the generated sequences. Professor-forcing \citep{lamb2016professor} is used to train both of these discriminators. Professor forcing uses a discriminator to distinguish if the decoder hidden states are a result of training-time teacher-forcing or inference-time scheduled sampling.
 
-Professor-forcing \citep{lamb2016professor} is used to train both of these discriminators. Professor forcing uses a discriminator to distinguish if the decoder hidden states are a result of training-time teacher forcing or inference-time scheduled sampling. This is a generalized version of simply using a final encoder state, as was the case in the Aligned Autoencoder solution, and is depicted in Figure \ref{fig:stca-cross-align}.
+This model is a generalized version of one that simply uses the final encoder state for adversarial discrimination, as was the case in the Aligned Autoencoder approach, and is depicted in Figure \ref{fig:stca-cross-align}.
 
 \begin{figure}[ht]
 	\centering
@@ -144,12 +144,12 @@ Professor-forcing \citep{lamb2016professor} is used to train both of these discr
 	\caption{\label{fig:stca-cross-align} Cross-Aligning Decoder}
 \end{figure}
 
-The overall optimization objective combining equation \ref{eqn:stca-rec} and two discriminator variants of equation \ref{eqn:stca-align-adv} can be written as:
+The overall optimization objective combining the autoencoding loss in equation \ref{eqn:stca-rec} and the two independent discriminators, the losses of which are given in equation \ref{eqn:stca-align-adv}, can be written as:
 \begin{equation}
 	\mathcal{L} = \operatorname*{min}_{E,G} \operatorname*{max}_{D} \mathcal{L}_{rec} - \lambda (\mathcal{L}_{adv_1} + \mathcal{L}_{adv_2})
 \end{equation}
 
-As opposed to the simple feed-forward classifier used in the aligned autoencoder, the cross-aligned autoencoder uses convolutional nets for text classification \citep{kim2014convolutional}. They use Yelp reviews as the data set with rating $>3$ as positive and rating $<3$ as negative examples. Reviews with a sentence count $>10$ and sentences with a word count $>10$ are filtered out. The vocabulary size used is $10000$. Style transfer is evaluated using a pre-trained classifier whereas language fluency and content preservation are qualitatively evaluated using human assessments.
+As opposed to the simple feed-forward classifier used in the aligned autoencoder, the cross-aligned autoencoder uses convolutional nets for text classification \citep{kim2014convolutional}. They use Yelp reviews as the dataset with rating $>3$ as positive and rating $<3$ as negative examples. Reviews with a sentence count $>10$ and sentences with a word count $>10$ are filtered out. The vocabulary size used is $10000$. Style transfer is evaluated using a pre-trained classifier, whereas language fluency and content preservation are qualitatively evaluated using human assessments.
 
 \section{Style Embedding Autoencoder}
 
@@ -168,7 +168,7 @@ As opposed to the simple feed-forward classifier used in the aligned autoencoder
 
 In contrast with the previous models described, this work uses a deterministic autoencoder in lieu of a variational autoencoder. For our purposes, we focus on the style-embedding model, since it requires explicit disentanglement and uses fewer model parameters per added attribute, compared to the multi-decoder model.
 
-The training objectives used for this model include the reconstruction objective for the autoencoder, the style label discriminative objective for a classifier on the latent space, and the adversarial loss propagated back to the autoencoder from the representation learned in the content space. The autoencoder is trained to produce only the salient features that represent the content of the sentences i.e. the content space, and the style embedding vector is trained via back-propagation of the reconstruction loss.
+The training objectives used for this model include the reconstruction objective for the autoencoder, the style label discriminative objective for a classifier on the latent space, and the adversarial loss propagated back to the autoencoder from the representation learned in the content space. The autoencoder is trained to produce only the salient features that represent the content of the sentences i.e. the content space, and the style embedding matrix is trained via back-propagation of the reconstruction loss.
 
 The reconstruction loss is the same as that of a standard deterministic autoencoder.
 \begin{equation}
@@ -182,18 +182,18 @@ A discriminative classifier is trained on the latent content space learned by th
 \end{equation}
 where $M$ is the number of training examples and $\theta_e$ and $\theta_c$ are the encoder and discriminative classifier parameters respectively.
 
-An adversarial objective is applied to the content representation. This objective aims to maximize entropy of the predicted label from the content representation by minimizing the following objective:
+An adversarial objective is applied to the content representation. This objective aims to maximize entropy of the predicted label distribution from the content representation by minimizing the following objective:
 \begin{equation}
 	\mathcal{L}_{adv} = -\sum_{i=1}^M\sum_{j=1}^N \mathcal{H}(P(j|Encoder(x_i; \theta_e); \theta_c))
 \end{equation}
-where $M$ is the size of the training data and $N$ is the number of distinct styles. Using this adversarial entropy objective, the encoder is penalized and therefore trained to produce a latent content representation which is independent of style.
+where $M$ is the size of the training data and $N$ is the number of distinct styles. Using this adversarial entropy objective, the encoder is penalized if the adversarial discriminator predicts style with a high confidence (low entropy), and is therefore trained to produce a latent content representation which is independent of style.
 
-Similar to the persona-based neural conversation model \citep{li2016persona}, a style embedding is learned for each different style. The conditional generation is done using recurrent neural networks with the inputs being the recurrent network's current state, and the style embedding to apply. The style embeddings matrix is not directly parameterized by the encoder, but the learning algorithm propagates changes based on how well it combines with the content representation to reconstruct the original text.
+Similar to the persona-based neural conversation model \citep{li2016persona}, a style embedding is learned for each different style. The conditional generation (decoding) is done using a GRU recurrent neural network. The input to the decoder is a concatenated vector of the hidden state of the encoder and the embedding for the style to apply. The style embeddings matrix is not directly parameterized by the encoder, but the learning algorithm updates its parameters based on how well it combines with the content representation to reconstruct the original text.
 
-The transfer strength is evaluated using a simple LSTM classifier. Content preservation is evaluated by computing the cosine distance between the original and the generated text embeddings. We use their content preservation metric in our own work. This is discussed further in Section \ref{sec:evaluation-metrics}.
+The transfer strength is evaluated using a simple LSTM classifier. Content preservation is evaluated by computing the cosine similarity between sentence embeddings of the original and the generated text. We use their content preservation metric in our own work. This is discussed further in Section \ref{sec:evaluation-metrics}.
 
 
-Several other works have also been published in this domain recently including: using cyclical translation to strip style as a pre-processing step, followed by a multi-decoder model to generate style-transferred sentences \citep{prabhumoye2018style}, conditioned RNN decoding with a set of tunable attributes \citep{ficler2017controlling}, using maximum-mean discrepancy metrics to separate common and discriminative factors in distinct source corpora \citep{larsson2017disentangled}, etc.
+Several other works have also been published in this domain recently including: using cyclical translation to strip style as a pre-processing step, followed by a multi-decoder model to generate style-transferred sentences \citep{prabhumoye2018style}, conditioned RNN decoding with a set of tunable attributes \citep{ficler2017controlling}, using maximum-mean discrepancy metrics to separate common and discriminative factors \citep{larsson2017disentangled}, etc.
 
 
 
