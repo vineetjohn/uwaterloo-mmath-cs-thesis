@@ -4,7 +4,7 @@ We conduct experiments on two datasets, the details for which are given below.
 
 \subsection{Yelp Service Reviews}
 
-We use a subset of the Yelp review dataset \citep{challenge2013yelp}, which has been sourced from the code repository accompanying the implementation of the paper by \cite{shen2017style} open-sourced by the authors~\footnote{\url{https://github.com/shentianxiao/language-style-transfer}}. It contains 444101, 126670 and 63483 sentences for train, validation, and test, respectively, each sampling accompanied by binary sentiment labels. The maximum sentence length is 15, and the vocabulary size is about 9200.
+We use a Yelp review dataset \citep{challenge2013yelp}, which has been sourced from the code repository accompanying the implementation of the paper by \cite{shen2017style}, open-sourced by the authors~\footnote{\url{https://github.com/shentianxiao/language-style-transfer}}. It contains 444101, 126670 and 63483 sentences for train, validation, and test, respectively, each sampling accompanied by binary sentiment labels. The maximum sentence length is 15, and the vocabulary size is about 9200.
 
 \subsection{Amazon Product Reviews}
 
@@ -28,9 +28,9 @@ We use the the Adam optimizer \citep{kingma2014adam} with a learning rate of $10
 
 \subsection{Transfer Strength}
 
-Transfer strength can be defined as a measure of how successful the model has been in generating sentences that are consistent with the attribute that needs to be transferred into them. This can be formulated as a Natural Language Understanding (NLU) task that takes in a sentence as input and predicts the presence of an attribute that we train the model to transfer.
+Transfer strength can be defined as a measure of how successful the model has been in generating sentences that are consistent with the attribute that needs to be transferred into them. This can be formulated as a Natural Language Understanding (NLU) task that takes in a sentence as input and predicts the probability of the presence of an attribute that we wish to evaluate the presence of.
 
-Consistent with the approach taken by \cite{hu2017toward,shen2017style,fu2017style}, we train a separate model that learns to predict the class among the different classes to which transfer is possible. We use an open source implementation of the work presented by \cite{kim2014convolutional}, which is a convolutional neural network (CNN) model used for text classification \footnote{\url{https://github.com/dennybritz/cnn-text-classification-tf}}. This model has frequently been used as a text classification baseline to compare specialized models against \citep{tai2015improved,kiros2015skip,zhang2015character}. This CNN classifier is trained on the entire corpus described in the previous section, with a held out validation dataset to assess improvements in accuracy over time. The test dataset for this classifier consists of the style-transferred sentences generated from the autoencoder model.
+Consistent with the approach taken by \cite{hu2017toward,shen2017style,fu2017style}, we train a separate model that learns to predict the label among the different labels to which transfer is possible. We use an open source implementation of the work presented by \cite{kim2014convolutional}, which is a convolutional neural network (CNN) model used for text classification \footnote{\url{https://github.com/dennybritz/cnn-text-classification-tf}}. This model has frequently been used as a text classification baseline to compare specialized models against \citep{tai2015improved,kiros2015skip,zhang2015character}. This CNN classifier is trained on the entire corpus described in the previous section, with a held out validation dataset to assess improvements in accuracy over time. The test dataset for this classifier consists of the style-transferred sentences generated from the autoencoder model.
 
 The style transfer strength is the ratio of sentences successfully transferred to the target style, to the total number of test sentences.
 \begin{equation*}
@@ -94,7 +94,7 @@ where $\text{sentence-embedding}_1$ and $\text{sentence-embedding}_2$ are the se
 
 As seen in the examples in Table \ref{tab:poor-content-preservation}, it is easy to optimize for a style-transfer objective as long as there are no constraints on the content preservation regularization. However, this results in a disconnect in terms of content and the generated sentence no longer resembles the original. To ensure this does not happen, we typically use a much larger content latent space than style latent space, as well as add the necessary regularizations discussed in the previous chapter. Similar to \cite{fu2017style}, for the sentiment task, we exclude words from a sentiment lexicon \citep{hu2004mining} while evaluating the content preservation score.
 
-However, a slight drawback of this content preservation metric devised by \cite{fu2017style} is that takes a small range of possible values, and is therefore less sensitive to model performance changes. In theory, the maximum content preservation value achievable is 1 and the minimum is 0. However, from experiments performed by matching random pairs of Yelp corpus sentences, the content preservation we observe is $0.7591 \pm 0.0004$. This can be treated as an approximate lower bound on the metric for model assessment.
+However, a slight drawback of this content preservation metric devised by \cite{fu2017style} is that it takes a small range of possible values, and is therefore less sensitive to model performance changes. In theory, the maximum content preservation value achievable is 1 and the minimum is 0. However, from experiments performed by matching random pairs of Yelp corpus sentences, the content preservation we observe is $0.7591 \pm 0.0004$. This can be treated as an approximate lower bound on the metric for model assessment.
 
 \subsection{Word Overlap}
 
@@ -106,7 +106,7 @@ which is simply a normalized measure of overlapping unigrams in the source and t
 
 Theoretically, the word overlap score ranges from 0 to 1. However, in practice, since the expectation is that some words will be changed due to the style-transfer process, we wish to strike a good balance with respect to the style transfer strength and original content preservation. Using experiments on random pairs of sentences, the word overlap score computed is $0.0098 \pm 0.0006$, which can again be treated as a more realistic approximate lower-bound on this metric.
 
-Word overlap can be used interchangeably with the 'Content Preservation' metric described above. For the experiments in this work, we report both.
+Word overlap can be used interchangeably with the `Content Preservation' metric described above. For the experiments in this work, we report both.
 
 
 \subsection{Language Fluency}
@@ -131,13 +131,13 @@ The cycle consistency loss is described in the image domain-adaptation work done
 
 This training routine could also be used as an evaluation metric for other domain adaptation tasks, like text attribute style transfer. The advantage of using a cycle consistency loss is that no other content preservation metric is needed, and no domain or style specific lexicons would be needed.
 
-In the case of our model, assume that, for a sample sentence $x$ from the domain $X$ and the ideal equivalent sentence transferred to the domain $Y$ is $y$. The transferred sentence generated by our model is $\hat{y}$. In the above approaches we compare $\hat{y}$ with the original $x$ using a content similarity metric. However, if the cycle consistency loss were to be used, we can further transfer the style of the sentence $\hat{y}$ back to the domain $X$, obtaining $\hat{x}$. Now that we have two sentences in the same domain $x$ and $\hat{x}$, it is a lot simpler to compare them, and this can be achieved by traditional parallel corpora evaluation metrics like BLEU \citep{papineni2002bleu}.
+In the case of our model, assume that, for a sample sentence $x$ from the domain $X$ and the ideal equivalent sentence transferred to the domain $Y$ is $y$. The transferred sentence generated by our model is $\hat{y}$. In the previous approaches, we compare $\hat{y}$ with the original $x$ using a content similarity metric. However, if the cycle consistency loss were to be used, we can further transfer the style of the sentence $\hat{y}$ back to the domain $X$, obtaining $\hat{x}$. Now that we have two sentences in the same domain i.e. $x$ and $\hat{x}$, it is a lot simpler to compare them, and this can be achieved by traditional parallel corpora evaluation metrics like BLEU \citep{papineni2002bleu}.
 
-However, in our problem, a scenario in which both functions $F$ and $G$ do not successfully disentangle style and content, and transfer content as well as style at inference time, like the examples presented in Table \ref{tab:poor-content-preservation}, is a possibility. In this case, the transformation could look like
+However, in our problem, a scenario in which both functions $F$ and $G$ do not successfully disentangle style and content, like the examples presented in Table \ref{tab:poor-content-preservation}, is a possibility. This results in the undesirable transfer of content, in addition to the desired transfer of style at inference time. In this case, the transformation could look like
 \begin{equation*}
 	x \xrightarrow{G} y^* \xrightarrow{F} x
 \end{equation*}
-where $y^*$ is a sentence with the requisite transferred style, as well as undesirable transferred content. Such examples would score highly on both the style transfer strength metric and the cycle consistency metric, while still obtaining undesirable generated sentences i.e. generated sentence with changed content.
+where $y^*$ is a sentence with the requisite transferred style, as well as undesirable transferred content. Such examples would score highly on both the style transfer strength metric and the cycle consistency metric, while still producing generated sentences of poor quality i.e. generated sentences with changed content.
 
 Hence, this metric would not be able to tell the difference between a model with poor content preservation and a good model, and we refrain from using it in our evaluation.
 
@@ -184,7 +184,7 @@ We show t-SNE plots of both the deterministic autoencoder (DAE) and the variatio
 
 We apply our model to a style-transfer sentence generation task, where the goal is to generate a sentence with different sentiment (interpreted as style in this task). We use the metrics discussed in Section \ref{sec:evaluation-metrics} to evaluate our models.
 
-We compare our approach with the current state-of-the-art work in automated text attribute style transfer \citep{shen2017style,fu2017style}. We re-conduct the experiments using their publicly available code and the datasets described in Section \ref{sec:datasets-tasks}. The results are shown in Table \ref{tab:comparison-previous} (Yelp Dataset) and Table \ref{tab:comparison-previous-ama} (Amazon Dataset). The models used evaluating on both datasets are identical.
+We compare our approach with the current state-of-the-art work in automated text attribute style transfer \citep{shen2017style,fu2017style}. We re-conduct the experiments using their publicly available code and the datasets described in Section \ref{sec:datasets-tasks}. The results are shown in Table \ref{tab:comparison-previous} (Yelp Dataset) and Table \ref{tab:comparison-previous-ama} (Amazon Dataset). The models used for evaluations on both datasets are identical.
 
 \begin{table}[ht]
 	\centering
@@ -229,7 +229,7 @@ We compare our approach with the current state-of-the-art work in automated text
 \end{table}
 
 
-Table \ref{tab:ablation-results} presents the results of ablation tests done by evaluating our model all possible combinations of our training objectives. We see that both, the adversarial and multi-task losses, play a role in the strength of style transfer. It also shows that their usage in a combination can further boost performance of the style-transfer strength.
+Table \ref{tab:ablation-results} presents the results of ablation tests done by evaluating our model using all possible combinations of our training objectives. We see that both, the adversarial and multi-task losses, play a role in the strength of style transfer. It also shows that their usage in a combination can further boost performance of the style-transfer strength.
 
 \begin{table}[ht]
 	\centering
@@ -260,7 +260,7 @@ Table \ref{tab:ablation-results} presents the results of ablation tests done by 
 	\label{tab:ablation-results}
 \end{table}
 
-Some examples of style-transfer sentence generation are illustrated in Table \ref{tab:transfer-samples}. We see that, with the empirically estimated style vector, we can flexibly control the sentiment of generated sentences.
+Some qualitative examples of style-transferred sentence generation are presented in Table \ref{tab:transfer-samples}. We see that, with the empirically estimated style vector, we can flexibly control the sentiment of generated sentences.
 
 \begin{table}[ht]
 	\centering
@@ -308,4 +308,4 @@ Some examples of style-transfer sentence generation are illustrated in Table \re
 \end{table}
 
 
-In this chapter, we have presented quantitative results for the disentangled space learning and its application to a style (sentiment) transfer task. We also display qualitative results of sentences generated by our model. In the next chapter, we perform a deeper analysis for each result presented here. We also show trade-offs between model scores on different metrics and discuss methods whose results do not fit our original hypotheses.
+In this chapter, we have described the datasets and task, and presented quantitative results for the disentangled space learning and its application to a style (sentiment) transfer task. We also display qualitative results of sentences generated by our model. In the next chapter, we perform a deeper analysis for each result presented here. We also show trade-offs between model scores on different metrics and discuss methods whose results do not fit our original hypotheses.
