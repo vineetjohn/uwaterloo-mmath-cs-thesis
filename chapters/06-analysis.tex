@@ -1,6 +1,6 @@
 \section{Comparison to State-of-the-Art Approaches}
 
-The results in Table \ref{tab:comparison-previous} show that, our approach achieves a comparable content-preservation score to previous work, but a significantly better style-transfer strength.
+The results in Table \ref{tab:comparison-previous} show that, our approach achieves comparable content-preservation scores to previous work, but significantly better style-transfer strength.
 
 In comparison to \cite{shen2017style}, our models obtain better scores in all the evaluation metrics on the Yelp dataset, and on all metrics except language fluency on the Amazon dataset.
 
@@ -22,14 +22,14 @@ Since we essentially give the decoder a previously unseen combination of style a
 
 As observed in the results in Table \ref{tab:latent-space-classification}, the 128-dimensional content vector is not particularly discriminative for style. It achieves a classification accuracy that is slightly better than random/majority guess.
 
-However, the 8-dimensional style vector $\bm s$, despite its low dimensionality, achieves significantly higher style classification accuracy. When combining content and style vectors, we achieve no further improvement. These results verify the effectiveness of our disentangling approach, because the content space doesn't contain style information, opposed to the style space.
+However, the 8-dimensional style vector $\bm s$, despite its low dimensionality, achieves significantly higher style classification accuracy. On combining content and style vectors, we achieve no further improvement. These results verify the effectiveness of our disentangling approach, because the content space doesn't contain style information, opposed to the style space.
 
 This result is consistent with our original hypothesis of restricting the style signal of each encoded sentence into a contained sub-space of the latent representation.
 
 
 \section{Transfer Strength vs. Content Preservation}
 
-We observe over the course of experimentation that there is a visible trade-off between style transfer strength and content preservation metrics. For the VAE model, we tune the KL divergence weight hyperparameters for both the style and content spaces, i.e. $\lambda_{\text{skl}}$ and $\lambda_{\text{ckl}}$ from Equation \ref{eqn:vae-rec}, and present results from these experiments in Table \ref{tab:kl-hyperparam-opt}.
+We observe, over the course of experimentation, that there is a visible trade-off between style transfer strength and content preservation produced by our model. For the VAE model, we tune the KL divergence weight hyperparameters for both the style and content spaces, i.e. $\lambda_{\text{skl}}$ and $\lambda_{\text{ckl}}$ from Equation \ref{eqn:vae-rec}, and present results from these experiments in Table \ref{tab:kl-hyperparam-opt}.
 
 \begin{table}[ht]
 	\centering
@@ -67,7 +67,7 @@ We observe over the course of experimentation that there is a visible trade-off 
 	\label{tab:kl-hyperparam-opt}
 \end{table}
 
-We observe that as a general rule, imposing heavier KL divergence constraints on the content embedding space results in improvements in style transfer-strength. However, this also gradually results in posterior when collapse the content KL divergence weight is too high. This results in random noise being encoded in the content space, and the decoder produces random sentences, albeit with a significantly higher transfer strength. For the content KL-weight value 0.3, we obtain content preservation scores of $\approx 0.75$, which, as shown in Section \ref{sec:evaluation-metrics} is close to our approximate lower bound for the content preservation metric. This implies that the content of generated sentences for that model is vastly different from the original sentences. Conversely, when the KL divergence constraints are relaxed and we approach a deterministic autoencoder, the content preservation improves and the style transfer strength drops.
+We observe that as a general rule, imposing heavier KL divergence constraints on the content embedding space results in improvements in style transfer-strength. However, this also gradually results in posterior collapse when the content KL divergence weight is too high. This results in random noise being encoded in the content space, and the decoder produces random sentences, albeit with a significantly higher transfer strength. For the content KL-weight value 0.3, we obtain content preservation scores $\approx 0.75$, which, as shown in Section \ref{sec:evaluation-metrics}, is close to our approximate lower bound for the content preservation metric. This implies that the content of generated sentences for that model is vastly different from the original sentences. Conversely, when the KL divergence constraints are relaxed and we approach a deterministic autoencoder, the content preservation improves and the style transfer strength drops.
 
 In our final VAE model, we set both style and content KL-weights to $0.03$, but also append the latent vector $[\bm s; \bm c]$ to the hidden state of the decoder at each time step, which improves the performance of both the style transfer strength and content preservation to better scores than those reported in Table \ref{tab:kl-hyperparam-opt}.
 
@@ -105,7 +105,7 @@ A possible reason for this is that the spaces are already well regularized by th
 
 We also test the VAE model using the nearest neighbour inference algorithm described in Section \ref{ssec:nearest-neighbour-inference}. We utilize a VAE model with style KL-weight as $0.03$ and content KL-weight as $0.03$ for these tests, in which we vary the number of neighbour embeddings considered while selecting a style embedding with which to generate the new sentence. We use a VAE model in which the latent vector is used only for the initial state of the decoder.
 
-The results are presented in Table \ref{tab:nearest-neighbour-inference-results}, where $N$ is the number of neighbours considered. `All' neighbours just means the empirical mean style embedding is used as in the results described in the previous result tables.
+The results are presented in Table \ref{tab:nearest-neighbour-inference-results}, where $N$ is the number of neighbours considered. `All' neighbours simply means the empirical mean style embedding is used, as in the results shown in the previous tables.
 
 \begin{table}[ht]
 	\centering
@@ -128,7 +128,7 @@ The results are presented in Table \ref{tab:nearest-neighbour-inference-results}
 	\label{tab:nearest-neighbour-inference-results}
 \end{table}
 
-We observe that the empirical mean embedding that considers all training examples performs even marginally better than a specialized nearest-neighbour algorithm. In addition, it is easier to implement and more computationally efficient as neighbour similarity need not be computed at inference time.
+We observe that the empirical mean embedding that considers all training examples performs marginally better than even a specialized nearest-neighbour algorithm. In addition, it is easier to implement and more computationally efficient, as it does not require neighbour similarity to be computed at inference time.
 
 
 In this chapter, we have presented an analysis of our experimental results. In the next chapter, we summarize our contributions and conclude this work by presenting avenues for extension and improvement on the current model.
