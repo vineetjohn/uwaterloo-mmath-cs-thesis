@@ -113,16 +113,16 @@ where $\bm\theta_E$ are the encoder's parameters.
 
 The above multi-task loss only operates on the style space, but does not have an effect on the content space $\bm c$. With only the multi-task loss, we cannot guarantee that the encoder would not also encode stylistic features within the content space. We therefore apply an adversarial loss to disentangle the content space from style information, inspired by adversarial generation \citep{goodfellow2014generative}, adversarial domain adaptation \citep{liu2017adversarial}, and adversarial style transfer \citep{fu2017style}.
 
-The main idea is to introduce an adversary that deliberately attempts to discriminate the label $y$ of training samples using only the content vector $\bm c$. Then the autoencoder is trained to learn a content vector space from which its adversary cannot predict style information. Concretely, the adversarial discriminator predicts style $y$ by computing a softmax distribution over a multi-layer perceptron's output layer.
+The main idea is to introduce an adversary that deliberately attempts to discriminate the label $y'$ of training samples using only the content vector $\bm c$. Then the autoencoder is trained to learn a content vector space from which its adversary cannot predict style information. Concretely, the adversarial discriminator predicts style $y'$ by computing a softmax distribution over a multi-layer perceptron's output layer.
 \begin{equation}
-	p(y | \bm c; \bm\theta_\text{dis}) = \sigma(\bm w_\text{dis}^\top \bm c + b_\text{dis})
+	p(y' | \bm c; \bm\theta_\text{dis}) = \sigma(\bm w_\text{dis}^\top \bm c + b_\text{dis})
 \end{equation}
-where $\bm\theta_\text{dis}=[\bm w_\text{dis}; b_\text{dis}]$ are the parameters of the adversary, and $y$ is the true label distribution.
+where $\bm\theta_\text{dis}=[\bm w_\text{dis}; b_\text{dis}]$ are the parameters of the adversary, and $y'$ is the true label distribution.
 
 It is trained by minimizing the following objective, using a cross-entropy loss.
 \begin{equation} \label{eqn:adv-disc-loss}
 	\loss{dis}(\bm\theta_\text{dis}) =
-	- \mathbb{E} [\log p(y | \bm c; \bm\theta_\text{dis})]
+	- \mathbb{E} [\log p(y' | \bm c; \bm\theta_\text{dis})]
 \end{equation}
 
 The adversarial loss appears similar to the multi-task loss as in Equation \ref{eqn:multi-task-loss}. However, it should be emphasized that, for the adversary, the gradient is not propagated back to the autoencoder, i.e. the contents of $\bm c$ are treated as shallow features, as is evident from the omission of $\theta_{E}$ from the training parameters. The network parameters are mutually exclusive for the autoencoder and the adversarial discriminator.
@@ -131,7 +131,7 @@ Having trained an adversary, we would like the autoencoder to learn latent repre
 \begin{equation}
 	\loss{adv}(\bm\theta_E) = \mathcal{H}(p_\text{dis}(y | \bm c))
 \end{equation}
-where $\mathcal{H}=-\sum_{i\in\text{labels}} p_i\log p_i$ is the empirical Shannon entropy of the distribution. The adversarial objective is maximized, in this phase, with respect to the encoder. The motivation behind this objective is to increase the uncertainty of the discriminative classifier with respect to predicting style from the content vector. The maximum entropy value attainable over the distribution of attributes is the point at which each label is predicted with equal probability i.e. the highest uncertainty.
+where $\mathcal{H}=-\sum_{i\in\text{labels}} p_i\log p_i$ is the empirical Shannon entropy of the distribution and $y$ is the predicted distribution of style. The adversarial objective is maximized, in this phase, with respect to the encoder. The motivation behind this objective is to increase the uncertainty of the discriminative classifier with respect to predicting style from the content vector. The maximum entropy value attainable over the distribution of attributes is the point at which each label is predicted with equal probability i.e. the highest uncertainty.
 
 
 \section{Adversarial Bag-of-Words Discriminator} \label{sec:adversarial-bow-objective}
@@ -140,14 +140,14 @@ In addition to the auxiliary losses used above, we also propose a novel bag-of-w
 
 The bag-of-words discriminator uses the style vector $\bm s$ produced by the autoencoder model and tries to predict the true bag-of-words distribution using a set of parameters that are mutually exclusive from those of the autoencoder. The discriminator uses a logistic regression to predict a probability of each word's occurrence in the original sentence, between 0 and 1.
 \begin{equation}
-	p(b | \bm s; \bm\theta_\text{bow}) = \sigma(\bm w_\text{bow}^\top \bm s + b_\text{bow})
+	p(b' | \bm s; \bm\theta_\text{bow}) = \sigma(\bm w_\text{bow}^\top \bm s + b_\text{bow})
 \end{equation}
-where $\bm\theta_\text{bow}=[\bm w_\text{bow}; b_\text{bow}]$ are the classifier's parameters for bag-of-words prediction, and $b$ is the true word distribution.
+where $\bm\theta_\text{bow}=[\bm w_\text{bow}; b_\text{bow}]$ are the classifier's parameters for bag-of-words prediction, and $b'$ is the true word distribution.
 
 This objective is trained in a similar method to the style adversary, using a cross-entropy loss
 \begin{equation} \label{eqn:adv-bow-disc-loss}
 	\loss{bow}(\bm\theta_\text{bow}) =
-	- \mathbb{E} [\log p(b | \bm c; \bm\theta_\text{bow})]
+	- \mathbb{E} [\log p(b' | \bm c; \bm\theta_\text{bow})]
 \end{equation}
 We also refrain from propagating any updates of this discriminator loss $\loss{bow}$ to the encoder parameters.
 
@@ -155,6 +155,7 @@ Similar to the style adversary, the empirical Shannon entropy of the predicted d
 \begin{equation}
 	\loss{badv}(\bm\theta_E) = \mathcal{H}(p_\text{bow}(b | \bm s))
 \end{equation}
+where $b$ is the predicted word distribution.
 
 The motivation for this adversarial loss is similar to the one used in the context of the style discriminator. We want to encourage the encoder to learn a representation of style that the bag-of-words discriminator cannot predict most of the original words from.
 
