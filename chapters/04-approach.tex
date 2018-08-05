@@ -147,7 +147,7 @@ where $\bm\theta_\text{bow}=[\bm w_\text{bow}; b_\text{bow}]$ are the classifier
 This objective is trained in a similar method to the style adversary, using a cross-entropy loss
 \begin{equation} \label{eqn:adv-bow-disc-loss}
 	\loss{bow}(\bm\theta_\text{bow}) =
-	- \mathbb{E} [\log p(b' | \bm c; \bm\theta_\text{bow})]
+	- \mathbb{E} [\log p(b' | \bm s; \bm\theta_\text{bow})]
 \end{equation}
 We also refrain from propagating any updates of this discriminator loss $\loss{bow}$ to the encoder parameters.
 
