@@ -2,7 +2,7 @@ Natural Language Processing (NLP) is a sub-field of Artificial Intelligence (AI)
 
 Recently many of the tasks traditionally addressed by statistical NLP methods have been moving towards the adoption of neural networks to parameterize more expressive models of language. This includes tasks like machine translation, dialogue modelling, abstract summarization, document classification, etc.
 
-In this thesis, we address the problem of neural disentanglement of style and content in text. We build a unified model that learns separately regularized latent spaces, thereby isolating both style and content. The main benefit of doing this is that the separate latent representations are now interpretable on a macro-level with respect to the style, as we control the flow of style-related information in the model.
+In this work, we address the problem of neural disentanglement of style and content in text. We build a unified model that learns separately regularized latent spaces, thereby isolating both style and content. The main benefit of doing this is that the separate latent representations are now interpretable on a macro-level with respect to the style, as we control the flow of style-related information in the model.
 
 As an added benefit, this disentangling model can also be directly applied to the problem of text style transfer. This is analogous to style transfer in computer vision \citep{gatys2016image}. The requirement of the style transfer task in the vision domain is to transfer the visual style from one image to the other, as illustrated in Figure \ref{fig:style-transfer-vision}. Stylistic transfer in text is based on a similar premise, wherein, given an arbitrary body of text and a predefined style - governed by a set of one or more attributes like sentiment, emotion, tense, authorship, etc. - a new body of text can be generated such that it incorporates the predefined style its generation is being conditioned on. We evaluate the efficacy of our method by generating text conditioned on any of a given set of discrete `labels' (used interchangeably with `attribute' or `style' henceforth).
 
@@ -47,12 +47,12 @@ The task of style transfer in context of text was first introduced by \cite{xu20
 
 \section{Problem Statement}
 
-The objective of this thesis is to perform an exploratory analysis of previous methods and test novel hypotheses that tackle the problem of the disentanglement of latent spaces of artificial neural networks and its applications to linguistic style transfer.
+The objective of this work is to perform an exploratory analysis of previous methods and test novel hypotheses that tackle the problem of the disentanglement of latent spaces of artificial neural networks and its applications to linguistic style transfer.
 
 We operate under the following constraints and assumptions in our formulation of the problem:
 
 \begin{itemize}
-	\item The model is singular, with no conditional execution branch based on desired attribute. i.e. there is only one decoder and the number of decoders does not scale with the number of distinct transferable attributes.
+	\item The model is singular, with no conditional execution branch based on desired attribute i.e. there is only one decoder and the number of decoders does not scale with the number of distinct transferable attributes.
 	\item The corpus of labelled text is non-parallel i.e. for instance, there are no predefined pairs of $(document_1, document_2)$ for style labels $\in (1, 2)$, as would be commonly seen in neural machine translation corpora.
 	\item The corpus is annotated with the current attribute each document possesses e.g. each document has a corresponding `positive' or `negative' label if the task is to perform sentiment transfer.
 	\item Optionally, a lexicon of words that are statistically likely to be associated with each distinct class label would be useful, but is not required. If present, it could be used primarily to evaluate how well content has been preserved in a generated sentence, without penalizing a potential change in vocabulary caused by the transferring of style.
@@ -74,4 +74,4 @@ Our main contributions in this work can be stated as follows:
 \end{itemize}
 
 
-In this chapter, we motivate the problem being addressed and stated our contributions. The next chapter will delve deeper into the background required for an understanding of the models we implement and evaluate.
+In this chapter, we have provided the motivation for the problem being addressed, and stated our contributions. The next chapter will delve deeper into the background required for an understanding of the models we implement and evaluate.
