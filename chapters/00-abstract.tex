@@ -1,8 +1,7 @@
-The neural network has proven to be an effective learning paradigm over the past decade, prompting its usage for modelling language, among several other domains. However, the latent representations learned by these neural network function approximators remain uninterpretable, resulting in a new wave of research efforts to improve their explainability, without compromising on their predictive power.
+The neural network has proven to be an effective machine learning method over the past decade, prompting its usage for modelling language, among several other domains. However, the latent representations learned by these neural network function approximators remain un-interpretable, resulting in a new wave of research efforts to improve their explainability, without compromising on their predictive power.
 
 In this work, we tackle the problem of disentangling the latent style and content variables in a language modelling context. This involves splitting the latent representations of documents, by learning which features of a document are discriminative of its style and content, and encoding these features separately using neural network models. To achieve this, we propose a simple, yet effective approach, which incorporates auxiliary objectives: a multi-task classification objective, and dual adversarial objectives for label prediction and bag-of-words prediction, respectively. We show, both qualitatively and quantitatively, that the style and content are indeed disentangled in the latent space, using this approach.
 
-We apply this disentangled latent representation learning method to attribute / label / style transfer in natural language generation. We achieve similar content preservation scores compared to previous state-of-the-art approaches, and significantly better style-transfer strength scores.
+We apply this disentangled latent representation learning method to attribute / label / style transfer in natural language generation. We achieve similar content preservation scores compared to previous state-of-the-art approaches, and considerably better style-transfer strength scores.
 
-Our code is made publicly available for experiment reproducibility and extensibility.
-
+Our code is made publicly available for experiment replicability and extensibility.

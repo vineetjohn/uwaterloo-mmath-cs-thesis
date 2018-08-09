@@ -1,6 +1,6 @@
 \section{Comparison to State-of-the-Art Approaches}
 
-The results in Table \ref{tab:comparison-previous} show that, our approach achieves comparable content-preservation scores to previous work, but significantly better style-transfer strength.
+The results in Table \ref{tab:comparison-previous} show that, our approach achieves comparable content-preservation scores to previous work, but considerably better style-transfer strength.
 
 In comparison to \cite{shen2017style}, our models obtain better scores in all the evaluation metrics on the Yelp dataset, and on all metrics except language fluency on the Amazon dataset.
 
@@ -13,7 +13,7 @@ This indicates that the disentangled latent space approach we describe can be us
 
 \section{Disentangled Representation Learning}
 
-As can be seen from the t-SNE plots in Figure \ref{fig:dae-tsne} and Figure \ref{fig:vae-tsne}, sentences with different styles are noticeably separated in a cleaner manner in the style space (LHS), but are indistinguishable in the content space (RHS). It is also evident that the latent space learned by the variational autoencoder is significantly smoother and continuous than the one learned by the deterministic autoencoder.
+As can be seen from the t-SNE plots in Figure \ref{fig:dae-tsne} and Figure \ref{fig:vae-tsne}, sentences with different styles are noticeably separated in a cleaner manner in the style space (LHS), but are indistinguishable in the content space (RHS). It is also evident that the latent space learned by the variational autoencoder is considerably smoother and continuous than the one learned by the deterministic autoencoder.
 
 Since we essentially give the decoder a previously unseen combination of style and latent space at inference time, our hypothesis is that using a variational autoencoder would lead to more fluent generated sentences that are able to preserve content better. In the evaluations performed, the deterministic autoencoder proves equally potent at preserving content, and even exceeds the variational autoencoder's performance in terms of content preservation. However, the fluency of the variational autoencoder is better on average, as measure by a pre-trained language model, and the deterministic autoencoder tends to produce ungrammatical sentences as seen in the Results Table \ref{tab:comparison-previous} and the qualitative examples presented in Table \ref{tab:transfer-samples}.
 
@@ -22,7 +22,7 @@ Since we essentially give the decoder a previously unseen combination of style a
 
 As observed in the results in Table \ref{tab:latent-space-classification}, the 128-dimensional content vector is not particularly discriminative for style. It achieves a classification accuracy that is slightly better than random/majority guess.
 
-However, the 8-dimensional style vector $\bm s$, despite its low dimensionality, achieves significantly higher style classification accuracy. On combining content and style vectors, we achieve no further improvement. These results verify the effectiveness of our disentangling approach, because the content space doesn't contain style information, opposed to the style space.
+However, the 8-dimensional style vector $\bm s$, despite its low dimensionality, achieves considerably higher style classification accuracy. On combining content and style vectors, we achieve no further improvement. These results verify the effectiveness of our disentangling approach, because the content space doesn't contain style information, opposed to the style space.
 
 This result is consistent with our original hypothesis of restricting the style signal of each encoded sentence into a contained sub-space of the latent representation.
 
@@ -67,7 +67,7 @@ We observe, over the course of experimentation, that there is a visible trade-of
 	\label{tab:kl-hyperparam-opt}
 \end{table}
 
-We observe that as a general rule, imposing heavier KL divergence constraints on the content embedding space results in improvements in style transfer-strength. However, this also gradually results in posterior collapse when the content KL divergence weight is too high. This results in random noise being encoded in the content space, and the decoder produces random sentences, albeit with a significantly higher transfer strength. For the content KL-weight value 0.3, we obtain content preservation scores $\approx 0.75$, which, as shown in Section \ref{sec:evaluation-metrics}, is close to our approximate lower bound for the content preservation metric. This implies that the content of generated sentences for that model is vastly different from the original sentences. Conversely, when the KL divergence constraints are relaxed and we approach a deterministic autoencoder, the content preservation improves and the style transfer strength drops.
+We observe that as a general rule, imposing heavier KL divergence constraints on the content embedding space results in improvements in style transfer-strength. However, this also gradually results in posterior collapse when the content KL divergence weight is too high. This results in random noise being encoded in the content space, and the decoder produces random sentences, albeit with a considerably higher transfer strength. For the content KL-weight value 0.3, we obtain content preservation scores $\approx 0.75$, which, as shown in Section \ref{sec:evaluation-metrics}, is close to our approximate lower bound for the content preservation metric. This implies that the content of generated sentences for that model is vastly different from the original sentences. Conversely, when the KL divergence constraints are relaxed and we approach a deterministic autoencoder, the content preservation improves and the style transfer strength drops.
 
 In our final VAE model, we set both style and content KL-weights to $0.03$, but also append the latent vector $[\bm s; \bm c]$ to the hidden state of the decoder at each time step, which improves the performance of both the style transfer strength and content preservation to better scores than those reported in Table \ref{tab:kl-hyperparam-opt}.
 
@@ -76,7 +76,7 @@ In our final VAE model, we set both style and content KL-weights to $0.03$, but 
 
 \subsection{Style Dropout}
 
-Although the idea of regularization by dropout \citep{srivastava2014dropout} has been effectively used across neural network models and time-distributed word dropout has been used similarly for text generation tasks \citep{dai2015semi, bowman2016generating}, the empirical results for style dropout prove significantly less effective than expected, in comparison to the other model variants tested in this work.
+Although the idea of regularization by dropout \citep{srivastava2014dropout} has been effectively used across neural network models and time-distributed word dropout has been used similarly for text generation tasks \citep{dai2015semi, bowman2016generating}, the empirical results for style dropout prove considerably less effective than expected, in comparison to the other model variants tested in this work.
 
 We perform a simple ablation test on the VAE model with style KL-weight as $0.1$ and content KL-weight as $0.03$ to test the effect of the addition of the style-dropout regularization, and the results are presented in Table \ref{tab:style-dropout-results}.
 
@@ -97,7 +97,7 @@ We perform a simple ablation test on the VAE model with style KL-weight as $0.1$
 	\label{tab:style-dropout-results}
 \end{table}
 
-As is clear from the results, style dropout only offers a marginally better word overlap score and is comparable on the content preservation metric. However, it performs significantly worse in terms of style transfer strength.
+As is clear from the results, style dropout only offers a marginally better word overlap score and is comparable on the content preservation metric. However, it performs considerably worse in terms of style transfer strength.
 
 A possible reason for this is that the spaces are already well regularized by the existing objectives and the fact that the content vector is an order of magnitude larger in size compared to the style vector makes it difficult for the model to ignore the content vector and encode garbage into it. Hence, this negates the need for additional regularization to ensure that the content vector is used by the autoencoding model.
 
