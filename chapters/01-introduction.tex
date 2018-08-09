@@ -6,6 +6,13 @@ In this work, we address the problem of neural disentanglement of style and cont
 
 As an added benefit, this disentangling model can also be directly applied to the problem of text style transfer. This is analogous to style transfer in computer vision \citep{gatys2016image}. The requirement of the style transfer task in the vision domain is to transfer the visual style from one image to the other, as illustrated in Figure \ref{fig:style-transfer-vision}. Stylistic transfer in text is based on a similar premise, wherein, given an arbitrary body of text and a predefined style - governed by a set of one or more attributes like sentiment, emotion, tense, authorship, etc. - a new body of text can be generated such that it incorporates the predefined style its generation is being conditioned on. We evaluate the efficacy of our method by generating text conditioned on any of a given set of discrete `labels' (used interchangeably with `attribute' or `style' henceforth).
 
+Novel text synthesis in multiple styles can be used in application areas including:
+\begin{itemize}
+	\item Lead generation using different styles in automated conversational agents.
+	\item Converting involved pieces of text into a lucid format.
+	\item Generation of additional high-quality plausible source sentences to augment an existing dataset.
+\end{itemize}
+
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=\textwidth]{images/style-transfer-vision}
