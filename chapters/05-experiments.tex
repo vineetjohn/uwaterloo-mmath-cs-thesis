@@ -37,13 +37,13 @@ The style transfer strength is the ratio of sentences successfully transferred t
 	\text{transfer-strength} = \frac{count(\text{generated sentences with target style attribute})}{count(\text{generated sentences})}
 \end{equation*}
 
-Therefore, the optimal style transfer strength score is 1 and the worst is 0. Here, we choose to ignore the classification errors by our automated classification model, since a good model (with a high classification accuracy) would mis-classify an approximately equal number of samples for each label, and a biased classifier would negatively impact the style transfer strength score.
+Therefore, the optimal style transfer strength score is 1 and the worst is 0. Here, we choose to ignore the classification errors by our automated classification model, since a good model (with a high classification accuracy) would mis-classify an approximately equal number of samples for each label, and a biased classifier would negatively impact the style transfer strength score. This metric measures the sentence-level style transfer i.e. if 90 sentences are transferred out of 100, the transfer strength is 0.9.
 
 The classifier we train achieves a classification accuracy of approximately $0.97$ on the Yelp validation data, and $0.84$ on the Amazon validation data.
 
 \subsection{Content Preservation} \label{ssec:content-preservation-metric}
 
-The content preservation metric used by \cite{fu2017style} is also used in our work to judge content preservation of the generated sentences compared to the original. This metric is required to ensure that the generated sentences don't contain content, subjects or topics entirely different compared to the original sentences.
+The content preservation metric used by \cite{fu2017style} is also used in our work to judge content preservation of the generated sentences compared to the original. This metric is required to ensure that the generated sentences don't contain content, subjects or topics entirely different compared to the original sentences. It measures the sentence-level content preservation.
 
 This method uses 100-dimensional GloVe embeddings \citep{pennington2014glove} pre-trained on the Wikipedia + GigaWord corpora~\footnote{\url{https://nlp.stanford.edu/projects/glove/}}. The min, mean and max GloVe word embeddings for each sentence are concatenated together to create a sentence representation. The cosine similarity between the source sentence and target sentence is used as a measure of content preservation.
 
@@ -102,7 +102,7 @@ In addition to the content preservation metric described above, we also utilize 
 \begin{equation*}
 	\text{word-overlap} = \frac{count(w_x \cap w_y)}{count(w_x \cup w_y)}
 \end{equation*}
-which is simply a normalized measure of overlapping unigrams in the source and target.
+which is simply a normalized measure of overlapping unigrams in the source and target sentences, aggregated over all the sentences being evaluated.
 
 Theoretically, the word overlap score ranges from 0 to 1. However, in practice, since the expectation is that some words will be changed due to the style-transfer process, we wish to strike a good balance with respect to the style transfer strength and original content preservation. Using experiments on random pairs of sentences, the word overlap score computed is $0.0098 \pm 0.0006$, which can again be treated as a more realistic approximate lower-bound on this metric.
 
@@ -113,7 +113,7 @@ Word overlap can be used interchangeably with the `Content Preservation' metric 
 
 Previous works in this area have either utilized human evaluations \citep{shen2017style,fu2017style} to evaluate language fluency and content preservation, or do not evaluate it at all \citep{hu2017toward}.
 
-We use a trigram based Kneser–Ney Smoothed language model \citep{kneser1995improved} as a quantifiable and automated scoring metric by which to assess the quality of generated sentences. It calculates the probability distribution of trigrams in a document based on their occurrence statistics to build a language model. We train this language model on the complete corpus that we evaluate our style transfer models with.
+We use a trigram based Kneser–Ney Smoothed language model \citep{kneser1995improved} as a quantifiable and automated scoring metric by which to assess the quality of generated sentences. It calculates the probability distribution of trigrams in a document based on their occurrence statistics to build a language model. We train this language model on the complete corpus that we evaluate our style transfer models with. This metric is a word-level evaluator of the fluency of the generated sentences, aggregated over all the sentences.
 
 After the generation of style transferred sentences, we parse them out into trigrams, and calculate the probabilities of each of the trigrams being from the same corpora as the original model was trained on. The log-likelihood scores, as predicted by the Kneser-Ney language model and aggregated over the generated corpus, are reported as the indicator for language fluency.
 
