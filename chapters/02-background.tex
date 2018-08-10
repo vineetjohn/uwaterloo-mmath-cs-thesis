@@ -30,10 +30,11 @@ The activation functions applied at each layer could either be linear or non-lin
 	P(y=j \mid \mathbf{x}) = \frac{e^{\mathbf{x}^\mathsf{T}\mathbf{w}_j}}{\sum_{k=1}^K e^{\mathbf{x}^\mathsf{T}\mathbf{w}_k}}
 \end{equation}
 
-An MLP classifier is trained by minimizing a cross-entropy loss between the predicted softmax distribution $y$ and the true distribution $y'$.
+An MLP classifier is trained by minimizing a cross-entropy loss between the predicted softmax distribution $y$ and the true distribution $y'$
 \begin{equation}
 	\mathcal{H}_{y'} (y) := - \sum_{i}^K y_{i}' \log (y_i)
 \end{equation}
+where $K$ is the total number of classes.
 
 
 \subsection{Dropout}
@@ -115,7 +116,7 @@ Long Short-Term Memory (LSTM) units, as described first by \cite{hochreiter1997l
 
 The structure of an LSTM is depicted in Figure \ref{fig:lstm}. An LSTM is comprised of three distinct gating layers internally - namely the forget gate, input gate and output gate - that determine its outputs: the new cell state and hidden state. As can be seen in Figure \ref{fig:lstm}, the cell state $C_t$ passes through the LSTM mostly unperturbed, which is intended to address the problem of vanishing gradients \citep{hochreiter1999vanishing}.
 
-The forget gate uses a sigmoid activation to squash the values of the output of the previous time-step between 0 and 1, which can be understood as semantically equivalent to deciding how much of the previous cell state to forget.
+The forget gate uses a sigmoid activation to squash the values of the output of the previous time-step between 0 and 1, which can be understood as being semantically equivalent to deciding how much of the previous cell state to forget.
 \begin{equation*}
 	f_t = \sigma(W_f*[h_{t-1}, x_t] + b_f)
 \end{equation*}
@@ -223,7 +224,7 @@ Word embedding neural models are also shown to be implicitly factorizing a word-
 
 \section{Sequence-to-Sequence Modelling}
 
-Also abbreviated in the literature as Seq2Seq, this is a class of models that learns functions to transform one sequence into another. First introduced by \cite{sutskever2014sequence}, Seq2Seq is flexible framework for modelling transformations made to arbitrary length sequences, typically using a neural encoder-decoder framework. In the field of natural language processing, the main tasks that benefit from such an encoder-decoder framework are those for which there exists two distinct distributions of text, and the model is trained to learn the mapping from one to the other.
+Also abbreviated in the literature as Seq2Seq, this is a class of models that learns functions to transform one sequence into another. First introduced by \cite{sutskever2014sequence}, Seq2Seq is a flexible framework for modelling transformations made to arbitrary length sequences, typically using a neural encoder-decoder framework. In the field of natural language processing, the main tasks that benefit from such an encoder-decoder framework are those for which there exists two distinct distributions of text, and the model is trained to learn the mapping from one to the other.
 
 \cite{sutskever2014sequence} define a sequence-to-sequence model that learns a function (Equation \ref{eqn:seq2seq}) to map a sequence of inputs $x_1, \cdots , x_T$ to a sequence of outputs $y_1, \cdots , y_{T'}$, where the initial state $h$ is set to the hidden LSTM representation of $x_1, \cdots , x_T$.
 
@@ -235,7 +236,7 @@ This makes the Seq2Seq model an ideal framework using which one can implement so
 
 \section{Generative Adversarial Networks}
 
-\cite{goodfellow2014generative} presented a novel generative model that utilizes the idea of a game-theoretic competition between a generative model which is a decoder, and a discriminative model which is a classifier. The general idea is to train the discriminate model, also known as the adversary, to be able to discriminate between the synthetic distribution that the generator model produces, and a true distribution that the generator trying to mimic. Figure \ref{fig:gans} depicts a sample GAN model architecture.
+\cite{goodfellow2014generative} presented a novel generative model that utilizes the idea of a game-theoretic competition between a generative model which is a decoder, and a discriminative model which is a classifier. The general idea is to train the discriminative model, also known as the adversary, to be able to discriminate between the synthetic distribution that the generator model produces, and a true distribution that the generator trying to mimic. Figure \ref{fig:gans} depicts a sample GAN model architecture.
 
 \begin{figure}[ht]
 	\centering

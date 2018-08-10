@@ -6,12 +6,6 @@ In this work, we address the problem of neural disentanglement of style and cont
 
 As an added benefit, this disentangling model can also be directly applied to the problem of text style transfer. This is analogous to style transfer in computer vision \citep{gatys2016image}. The requirement of the style transfer task in the vision domain is to transfer the visual style from one image to the other, as illustrated in Figure \ref{fig:style-transfer-vision}. Stylistic transfer in text is based on a similar premise, wherein, given an arbitrary body of text and a predefined style - governed by a set of one or more attributes like sentiment, emotion, tense, authorship, etc. - a new body of text can be generated such that it incorporates the predefined style its generation is being conditioned on. We evaluate the efficacy of our method by generating text conditioned on any of a given set of discrete `labels' (used interchangeably with `attribute' or `style' henceforth).
 
-Novel text synthesis in multiple styles can be used in application areas including:
-\begin{itemize}
-	\item Lead generation using different styles in automated conversational agents.
-	\item Converting involved pieces of text into a lucid format.
-	\item Generation of additional high-quality plausible source sentences to augment an existing dataset.
-\end{itemize}
 
 \begin{figure}[ht]
 	\centering
@@ -20,6 +14,15 @@ Novel text synthesis in multiple styles can be used in application areas includi
 	\caption{\label{fig:style-transfer-vision}Visual Style Transfer: (a) Content, (b) Style and (c) Synthesized Images}
 \end{figure}
 
+
+Novel text synthesis in multiple styles can be used in application areas including:
+\begin{itemize}
+	\item Personalized styles in conversational agents.
+	\item Converting involved pieces of text into a lucid format.
+	\item Generation of additional high-quality plausible source sentences to augment an existing dataset.
+\end{itemize}
+
+The task of style transfer in context of text was first introduced by \cite{xu2012paraphrasing} as a statistical model that attempted to paraphrase bodies of text in a different style using a simple phrase replacement strategy. A few examples from this paper are shown in Table \ref{tab:paraphrasing-for-style-results}. Although fairly crude, this retrieve and replacement strategy is effective, given a large dataset with enough phrase context overlap. Since the overwhelming adoption of neural network based models in the NLP community, there have been several recent bodies of work that break new ground in this area. These are discussed in the chapter dedicated to related work.
 
 \begin{table}[ht]
 	\centering
@@ -49,8 +52,6 @@ Novel text synthesis in multiple styles can be used in application areas includi
 	\label{tab:paraphrasing-for-style-results}
 \end{table}
 
-The task of style transfer in context of text was first introduced by \cite{xu2012paraphrasing} as a statistical model that attempted to paraphrase bodies of text in a different style using a simple phrase replacement strategy. A few examples from this paper are shown in Table \ref{tab:paraphrasing-for-style-results}. Although fairly crude, this retrieve and replacement strategy is effective, given a large dataset with enough phrase context overlap. Since the overwhelming adoption of neural network based models in the NLP community, there have been several recent bodies of work that break new ground in this area. These are discussed in the chapter dedicated to related work.
-
 
 \section{Problem Statement}
 
@@ -71,12 +72,12 @@ We operate under the following constraints and assumptions in our formulation of
 Our main contributions in this work can be stated as follows:
 
 \begin{itemize}
-	\item We present a comprehensive review of the current literature in linguistic style transfer. It is a quickly evolving sub-area in NLP and a considerable amount of work has been done in the last year itself.
+	\item We present a comprehensive review of the current literature on linguistic style transfer. It is a quickly evolving sub-area in NLP and a considerable amount of work has been done in the last year itself.
 	\item We propose a combination of methods that have worked well independently, including the use of adversarial learning and multi-task learning objectives as regularizations on the latent space of neural models.
 	\item We propose the usage of a novel bag-of-words adversary and a style dropout regularization that are aimed at further increasing the potency of latent space disentanglement and auto-encoding accuracy. Our model is novel in the aspect of a dual-adversary regularization as well.
 	\item We empirically show that embeddings in the latent space are regularized like we intend them to be, by training auxiliary classification tasks and plotting embedding samples, a feature that is absent in contemporary approaches that use discrete labels or embedding matrices to represent style. Our model is able to disentangle latent representations of style and content, and also obtains a good separation of classes in the style latent space.
 	\item We show that our model outperforms current state-of-the-art models in neural text attribute style transfer, despite not explicitly training a style transfer objective.
-	\item We devise new metrics to evaluate text content preservation quantitatively, which is still an open research problem, since the corpora used is non-parallel. Most of the contemporary work either do not measure text content preservation or use human evaluation, which is time consuming and doesn't scale to large corpora.
+	\item We devise new metrics to evaluate text content preservation quantitatively, which is still an open research problem, since the corpora used is non-parallel. Most of the contemporary works either do not measure text content preservation, or use human evaluation, which is time consuming and doesn't scale to large corpora.
 	\item Our implementation is open-sourced for inspection, improvements, extensions and replicability.
 \end{itemize}
 
