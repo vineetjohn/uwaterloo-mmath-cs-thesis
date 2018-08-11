@@ -152,7 +152,7 @@ Gated Recurrent Units (GRU) \citep{cho2014learning} are similar to LSTMs in that
 	\caption{\label{fig:gru} Gated Recurrent Unit}
 \end{figure}
 
-GRUs are a lot simpler to work with in practice due to their having only a single output. They have been used interchangeably with LSTMs as memory units for recurrent neural networks \citep{chung2015gated,fu2017style}.
+GRUs are simpler to work with in practice due to their having only a single output. They have been used interchangeably with LSTMs as memory units for recurrent neural networks \citep{chung2015gated,fu2017style}.
 
 
 \section{Autoencoders}
@@ -176,7 +176,7 @@ In the context of natural language, the encoder can be utilized as a sentence-en
 
 \subsection{Variational Autoencoders}
 
-Variational autoencoders (VAEs) \citep{kingma2013auto} are a probabilistic variant of autoencoders. The general structure of a VAE is the same as that of a deterministic autoencoder, with an encoder that learns a compressed latent space and a decoder that learns a function to map the latent space into the original data. In contrast with the deterministic autoencoder, a variational autoencoder parameterizes representations of the latent mean and variance as separate spaces. The method of variational inference requires placing conjugate priors on the mean and variance of the hitherto unknown latent representation. The encoder is then trained to learn the approximate posterior distribution, and the decoder is trained to generate novel data using samples taken from the prior distribution. The family of distributions used for this purpose are Gaussian. A simple VAE architecture is depicted in Figure \ref{fig:vae-structure}.
+Variational autoencoders (VAEs) \citep{kingma2013auto} are a probabilistic variant of autoencoders. The general structure of a VAE is the same as that of a deterministic autoencoder, with an encoder that learns a compressed latent space and a decoder that learns a function to map the latent space into the original data. In contrast with the deterministic autoencoder, a variational autoencoder parameterizes representations of the latent mean and variance as separate spaces. The method of variational inference requires placing conjugate priors on the mean and variance of the hitherto unknown latent representation. The encoder is then trained to learn the approximate posterior distribution, and the decoder is trained to generate novel data using samples taken from the prior distribution. The family of distributions used for this purpose is Gaussian. A simple VAE architecture is depicted in Figure \ref{fig:vae-structure}.
 
 \begin{figure}[ht]
 	\centering
@@ -185,7 +185,7 @@ Variational autoencoders (VAEs) \citep{kingma2013auto} are a probabilistic varia
 	\caption{\label{fig:vae-structure} Model Architecture: Variational Autoencoder}
 \end{figure}
 
-In addition to the reconstruction loss that a deterministic autoencoder uses, a metric of distance is used to evaluate how closely the learned representations of mean and variance resemble a Gaussian distribution with mean 0 and unit variance. The Kullback-Leibler (KL) divergence \citep{kullback1951information} is used to penalize learned representations that do not resemble the prior. However, we cannot compute the KL divergence directly. Instead we compute an alternative objective that is equivalent to the KL divergence up until an added constant. This is called the evidence lower-bound (ELBO). The ELBO objective maximized in a variational autoencoder model is given in Equation \ref{eqn:elbo}:
+In addition to the reconstruction loss that a deterministic autoencoder uses, a metric of distance is used to evaluate how closely the learned representations of mean and variance resemble a Gaussian distribution with mean 0 and unit variance i.e. $\mathcal{N}(0,I)$. The co-variance matrix is treated as an identity matrix for the sake of simplicity. The Kullback-Leibler (KL) divergence \citep{kullback1951information} is used to penalize learned representations that do not resemble the prior. However, we cannot compute the KL divergence directly. Instead we compute an alternative objective that is equivalent to the KL divergence up until an added constant. This is called the evidence lower-bound (ELBO). The ELBO objective maximized in a variational autoencoder model is given in Equation \ref{eqn:elbo}:
 \begin{equation} \label{eqn:elbo}
 	ELBO(q) = \mathbb{E}_{q(z)} [(\log(p(x|z))] - \mathbb{KL}(q(z)||p(z))
 \end{equation}
@@ -224,7 +224,7 @@ Word embedding neural models are also shown to be implicitly factorizing a word-
 
 \section{Sequence-to-Sequence Modelling}
 
-Also abbreviated in the literature as Seq2Seq, this is a class of models that learns functions to transform one sequence into another. First introduced by \cite{sutskever2014sequence}, Seq2Seq is a flexible framework for modelling transformations made to arbitrary length sequences, typically using a neural encoder-decoder framework. In the field of natural language processing, the main tasks that benefit from such an encoder-decoder framework are those for which there exists two distinct distributions of text, and the model is trained to learn the mapping from one to the other.
+Also abbreviated in the literature as Seq2Seq, this is a class of models that learns functions to transform one sequence into another. First introduced by \cite{sutskever2014sequence}, Seq2Seq is a flexible framework for modelling transformations made to arbitrary length sequences, typically using a neural encoder-decoder framework. In the field of natural language processing, the main tasks that benefit from such an encoder-decoder framework are those for which there exists two distinct distributions of text, and the model is trained to learn the mapping from one to the other. Similarly it can also be used for sequence autoencoding tasks, by learning to reconstruct sequences.
 
 \cite{sutskever2014sequence} define a sequence-to-sequence model that learns a function (Equation \ref{eqn:seq2seq}) to map a sequence of inputs $x_1, \cdots , x_T$ to a sequence of outputs $y_1, \cdots , y_{T'}$, where the initial state $h$ is set to the hidden LSTM representation of $x_1, \cdots , x_T$.
 
